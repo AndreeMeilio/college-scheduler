@@ -1,4 +1,5 @@
 import 'package:college_scheduler/config/color_config.dart';
+import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextFormField extends StatelessWidget {
@@ -42,9 +43,7 @@ class CustomTextFormField extends StatelessWidget {
           margin: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Text(
             _label,
-            style: const TextStyle(
-              fontSize: 16.0,
-            ),
+            style: TextStyleConfig.body1
           ),
         ),
         const SizedBox(height: 8.0,),
@@ -70,8 +69,10 @@ class CustomTextFormField extends StatelessWidget {
               ),
               fillColor: ColorConfig.mainColor,
               hintText: _hint,
-              hintStyle: const TextStyle(
-                color: Colors.grey
+              hintStyle: TextStyleConfig.body2.copyWith(
+                color: Colors.black.withAlpha(
+                  125
+                )
               ),
               suffixIcon: _isPassword 
                 ? IconButton(

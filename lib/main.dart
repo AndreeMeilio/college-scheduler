@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: ColorConfig.mainColor),
         useMaterial3: true,
+        fontFamily: "LibreBaskerville",
         scaffoldBackgroundColor: ColorConfig.backgroundColor
       ),
       home: LoginPage()

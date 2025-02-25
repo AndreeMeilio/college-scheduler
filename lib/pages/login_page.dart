@@ -2,8 +2,10 @@ import 'package:college_scheduler/components/primary_button.dart';
 import 'package:college_scheduler/components/text_button_component.dart';
 import 'package:college_scheduler/components/text_form_field.dart';
 import 'package:college_scheduler/config/color_config.dart';
+import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:college_scheduler/pages/register_page.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:toastification/toastification.dart';
 
 class LoginPage extends StatefulWidget {
@@ -60,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
                     children: [
                       Container(
                         padding: const EdgeInsets.all(24.0),
-                        height: MediaQuery.sizeOf(context).height * 0.4,
+                        height: MediaQuery.sizeOf(context).height * 0.25,
                         decoration: const BoxDecoration(
                           color: ColorConfig.mainColor,
                           borderRadius: BorderRadius.only(
@@ -68,19 +70,33 @@ class _LoginPageState extends State<LoginPage> {
                             bottomRight: Radius.circular(24.0)
                           )
                         ),
-                        child: Image.asset(
-                          "assets/appointment.png",
-                          fit: BoxFit.contain,
-                        ),
+                        child: Column(
+                          spacing: 16.0,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "\"THE PATH TO PARADISE BEGINS IN HELL\"",
+                              style: TextStyle(
+                                fontSize: 24.0,
+                                fontWeight: FontWeight.w700,
+                                fontStyle: FontStyle.italic
+                              ),
+                            ),
+                            Text(
+                              "~ Dante Alighieri",
+                              style: TextStyleConfig.heading1.copyWith(
+                                fontStyle: FontStyle.italic
+                              ),
+                            ),
+                          ],
+                        )
                       ),
                       Container(
                         margin: const EdgeInsets.symmetric(horizontal: 24.0),
-                        child: const Text(
+                        child: Text(
                           "COLLEGE SCHEDULER",
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold
-                          ),
+                          style: TextStyleConfig.heading1bold
                         ),
                       ),
                       CustomTextFormField(
@@ -120,6 +136,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
+                spacing: 16.0,
                 children: [
                   PrimaryButtonComponent(
                     onTap: (){
@@ -147,17 +164,37 @@ class _LoginPageState extends State<LoginPage> {
                     },
                     label: "Login",
                   ),
-                  TextButtonComponent(
-                    label: "Or Register Here!",
+                  GestureDetector(
                     onTap: (){
-                      Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => const RegisterPage()
+                      Navigator.push(context, PageTransition(
+                        type: PageTransitionType.rightToLeft,
+                        duration: const Duration(milliseconds: 250),
+                        child: RegisterPage()
                       ));
                     },
-                  ),
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: RichText(
+                        text: TextSpan(
+                          text: "Don't Have Account? ",
+                          style: TextStyleConfig.body1.copyWith(
+                            color: Colors.black
+                          ),
+                          children: [
+                            TextSpan(
+                              text: "Register Here",
+                              style: TextStyleConfig.body1.copyWith(
+                                color: ColorConfig.mainColor
+                              )
+                            )
+                          ]
+                        ),
+                      ),
+                    ),
+                  )
                 ]
               ),
-              const SizedBox()
+              const SizedBox(height: 24.0,),
             ],
           ),
         ),

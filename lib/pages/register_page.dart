@@ -2,6 +2,7 @@ import 'package:college_scheduler/components/primary_button.dart';
 import 'package:college_scheduler/components/text_button_component.dart';
 import 'package:college_scheduler/components/text_form_field.dart';
 import 'package:college_scheduler/config/color_config.dart';
+import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:toastification/toastification.dart';
 import 'package:flutter/material.dart';
 
@@ -53,6 +54,7 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
+        spacing: 16.0,
         children: [
           Expanded(
             child: SingleChildScrollView(
@@ -130,7 +132,6 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
           ),
-          const SizedBox(height: 24.0,),
           PrimaryButtonComponent(
             onTap: (){
               if (_formRegister.currentState?.validate() ?? false){
@@ -158,11 +159,29 @@ class _RegisterPageState extends State<RegisterPage> {
             },
             label: "Register Account",
           ), 
-          TextButtonComponent(
-            label: "Already Have Account? Login Here!",
+          GestureDetector(
             onTap: (){
               Navigator.pop(context);
             },
+            child: Container(
+              alignment: Alignment.center,
+              child: RichText(
+                text: TextSpan(
+                  text: "Already Have Account? ",
+                  style: TextStyleConfig.body1.copyWith(
+                    color: Colors.black
+                  ),
+                  children: [
+                    TextSpan(
+                      text: "Login Here!",
+                      style: TextStyleConfig.body1.copyWith(
+                        color: ColorConfig.mainColor
+                      )
+                    )
+                  ]
+                ),
+              ),
+            ),
           ),
           const SizedBox(height: 24.0,),
         ],
@@ -215,11 +234,13 @@ class PasswordRuleChecker extends StatelessWidget {
               children: [
                 Icon(Icons.check_circle_outline, color: _passwordRule[key]["activate"] ? ColorConfig.mainColor : Colors.grey,),
                 const SizedBox(width: 16.0,),
-                Text(
-                  _passwordRule[key]["label"],
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: _passwordRule[key]["activate"] ? ColorConfig.mainColor : Colors.grey,
+                Expanded(
+                  child: Text(
+                    _passwordRule[key]["label"],
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: _passwordRule[key]["activate"] ? ColorConfig.mainColor : Colors.grey,
+                    ),
                   ),
                 )
               ],
