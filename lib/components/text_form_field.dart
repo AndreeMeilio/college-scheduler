@@ -14,6 +14,9 @@ class CustomTextFormField extends StatelessWidget {
     bool isPassword = false,
     void Function()? suffixIconOnPressed,
     void Function(String?)? onChanged,
+    int maxLines = 1,
+    bool readonly = false,
+    void Function()? onTap
   }) : _controller = controller,
        _label = label, 
        _hint = hint,
@@ -22,7 +25,10 @@ class CustomTextFormField extends StatelessWidget {
        _validator = validator,
        _isPassword = isPassword,
        _suffixIconOnPressed = suffixIconOnPressed,
-       _onChanged = onChanged;
+       _onChanged = onChanged,
+       _maxLines = maxLines,
+       _readOnly = readonly,
+       _onTap = onTap;
 
   final TextEditingController _controller;
   final String _label;
@@ -33,20 +39,23 @@ class CustomTextFormField extends StatelessWidget {
   final void Function()? _suffixIconOnPressed;
   final String? Function(String?)? _validator;
   final void Function(String?)? _onChanged;
+  final int _maxLines;
+  final bool _readOnly;
+  final void Function()? _onTap;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
+        _label == "" || _label.isEmpty ? const SizedBox.shrink() : Container(
           margin: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Text(
             _label,
             style: TextStyleConfig.body1
           ),
         ),
-        const SizedBox(height: 8.0,),
+        _label == "" || _label.isEmpty ? const SizedBox.shrink() : const SizedBox(height: 8.0,),
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 24.0),
           child: TextFormField(
@@ -86,6 +95,9 @@ class CustomTextFormField extends StatelessWidget {
             controller: _controller,
             obscureText: _obsureText,
             onChanged: _onChanged,
+            maxLines: _maxLines,
+            readOnly: _readOnly,
+            onTap: _onTap,
           ),
         )
       ],

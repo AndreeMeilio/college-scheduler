@@ -3,6 +3,7 @@ import 'package:college_scheduler/components/text_button_component.dart';
 import 'package:college_scheduler/components/text_form_field.dart';
 import 'package:college_scheduler/config/color_config.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
+import 'package:college_scheduler/pages/base_page.dart';
 import 'package:college_scheduler/pages/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -150,6 +151,11 @@ class _LoginPageState extends State<LoginPage> {
                           description: Text("Welcome home Sir!"),
                           primaryColor: Colors.green
                         );
+
+                        Navigator.pushReplacement(context, PageTransition(
+                          type: PageTransitionType.rightToLeft,
+                          child: BasePage()
+                        ));
                       } else {
                         toastification.show(
                           context: context,

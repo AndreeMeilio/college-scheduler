@@ -6,16 +6,28 @@ class PrimaryButtonComponent extends StatelessWidget {
   PrimaryButtonComponent({
     super.key,
     required Function()? onTap,
-    required String label
+    required String label,
+    double? height,
+    double? width,
+    Alignment? alignment
   }) : _onTap = onTap,
-       _label = label;
+       _label = label,
+       _height = height,
+       _width = width,
+       _alignment = alignment;
 
   final Function()? _onTap;
   final String _label;
+  final double? _height;
+  final double? _width;
+  final Alignment? _alignment;
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: _height,
+      width: _width,
+      alignment: _alignment,
       decoration: BoxDecoration(
         color: ColorConfig.mainColor,
         borderRadius: BorderRadius.all(Radius.circular(8.0)),

@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   toastification: ^2.3.0
   page_transition: ^2.2.1
+  intl: ^0.20.2
 
 dev_dependencies:
   flutter_test:
