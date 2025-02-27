@@ -19,6 +19,7 @@ class InputDataPage extends StatelessWidget {
           children: [
             QuoteWidget(),
             Container(
+              alignment: Alignment.centerLeft,
               margin: const EdgeInsets.symmetric(horizontal: 24.0),
               child: Text(
                 "Create Event Schedule",
