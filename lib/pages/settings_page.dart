@@ -63,6 +63,15 @@ class _SettingsListWidgetState extends State<SettingsListWidget> {
           "Reminder Input"
         ])
       },
+      {
+        "label" : "Account",
+        "item" : List.from(<String>[
+          "Change Password",
+          "Login History",
+          "Change Fullname Or Username",
+          "Logout"
+        ])
+      }
     ]);
   }
 
