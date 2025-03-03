@@ -3,6 +3,8 @@ import 'package:college_scheduler/components/text_button_component.dart';
 import 'package:college_scheduler/components/text_form_field.dart';
 import 'package:college_scheduler/config/color_config.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
+import 'package:college_scheduler/cubit/users_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toastification/toastification.dart';
 import 'package:flutter/material.dart';
 
@@ -132,33 +134,42 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
           ),
-          PrimaryButtonComponent(
-            onTap: (){
-              if (_formRegister.currentState?.validate() ?? false){
-                toastification.show(
-                  context: context,
-                  autoCloseDuration: const Duration(seconds: 3),
-                  style: ToastificationStyle.fillColored,
-                  type: ToastificationType.success,
-                  primaryColor: Colors.green,
-                  title: Text("Register Successed"),
-                  description: Text("Continue login using your account!")
-                );
-                Navigator.pop(context);
-              } else {
-                toastification.show(
-                  context: context,
-                  autoCloseDuration: const Duration(seconds: 3),
-                  style: ToastificationStyle.fillColored,
-                  type: ToastificationType.error,
-                  title: Text("Register Failed"),
-                  description: Text("Please fill the required data"),
-                  primaryColor: Colors.red
-                );
-              }
+          BlocConsumer<UsersCubit, UserState>(
+            builder: (context, state) {
+              return PrimaryButtonComponent(
+                isLoading: state is UserLoadingState,
+                onTap: (){
+                  if (_formRegister.currentState?.validate() ?? false){
+
+                    toastification.show(
+                      context: context,
+                      autoCloseDuration: const Duration(seconds: 3),
+                      style: ToastificationStyle.fillColored,
+                      type: ToastificationType.success,
+                      primaryColor: Colors.green,
+                      title: Text("Register Successed"),
+                      description: Text("Continue login using your account!")
+                    );
+                    Navigator.pop(context);
+                  } else {
+                    toastification.show(
+                      context: context,
+                      autoCloseDuration: const Duration(seconds: 3),
+                      style: ToastificationStyle.fillColored,
+                      type: ToastificationType.error,
+                      title: Text("Register Failed"),
+                      description: Text("Please fill the required data"),
+                      primaryColor: Colors.red
+                    );
+                  }
+                },
+                label: "Register Account",
+              );
             },
-            label: "Register Account",
-          ), 
+            listener: (context, state) {
+              
+            },
+          ),
           GestureDetector(
             onTap: (){
               Navigator.pop(context);

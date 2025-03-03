@@ -9,18 +9,21 @@ class PrimaryButtonComponent extends StatelessWidget {
     required String label,
     double? height,
     double? width,
-    Alignment? alignment
+    Alignment? alignment,
+    bool? isLoading
   }) : _onTap = onTap,
        _label = label,
        _height = height,
        _width = width,
-       _alignment = alignment;
+       _alignment = alignment,
+       _isLoading = isLoading;
 
   final Function()? _onTap;
   final String _label;
   final double? _height;
   final double? _width;
   final Alignment? _alignment;
+  final bool? _isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -43,22 +46,34 @@ class PrimaryButtonComponent extends StatelessWidget {
         ]
       ),
       margin: const EdgeInsets.symmetric(horizontal: 24.0),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: _onTap,
-          borderRadius: BorderRadius.all(Radius.circular(8.0)),
-          splashColor: Colors.white24,
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 14.0),
-            alignment: Alignment.center,
-            child: Text(
-              _label,
-              style: TextStyleConfig.body1bold
+      child: _isLoading ?? false
+        ? Container(
+          alignment: Alignment.center,
+          padding: const EdgeInsets.symmetric(vertical: 11.0),
+          child: SizedBox(
+            height: 24.0,
+            width: 24.0,
+            child: CircularProgressIndicator(
+              
+            ),
+          )
+        )
+        : Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: _onTap,
+              borderRadius: BorderRadius.all(Radius.circular(8.0)),
+              splashColor: Colors.white24,
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 14.0),
+                alignment: Alignment.center,
+                child: Text(
+                  _label,
+                  style: TextStyleConfig.body1bold
+                ),
+              ),
             ),
           ),
-        ),
-      ),
     );
   }
 }

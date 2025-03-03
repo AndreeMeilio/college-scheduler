@@ -3,9 +3,11 @@ import 'package:college_scheduler/components/text_button_component.dart';
 import 'package:college_scheduler/components/text_form_field.dart';
 import 'package:college_scheduler/config/color_config.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
+import 'package:college_scheduler/cubit/users_cubit.dart';
 import 'package:college_scheduler/pages/base_page.dart';
 import 'package:college_scheduler/pages/register_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:toastification/toastification.dart';
 
@@ -25,6 +27,8 @@ class _LoginPageState extends State<LoginPage> {
   late bool _isPassword;
   late bool _obsureText;
 
+  late UsersCubit _cubit;
+
   @override
   void initState() {
     super.initState();
@@ -35,6 +39,8 @@ class _LoginPageState extends State<LoginPage> {
 
     _isPassword = true;
     _obsureText = true;
+
+    _cubit = BlocProvider.of<UsersCubit>(context, listen: false);
   }
 
   @override
@@ -131,6 +137,16 @@ class _LoginPageState extends State<LoginPage> {
                           });
                         },
                       ),
+                      BlocConsumer<UsersCubit, UserState>(
+                        builder: (context, state) {
+                          return Container();
+                        },
+                        listener: (context, state) {
+                          if (state is UserFailedState){
+                            print(state.message);
+                          }
+                        },
+                      )
                     ],
                   ),
                 ),
@@ -140,7 +156,7 @@ class _LoginPageState extends State<LoginPage> {
                 spacing: 16.0,
                 children: [
                   PrimaryButtonComponent(
-                    onTap: (){
+                    onTap: () async{
                       if (_formKey.currentState?.validate() ?? false){
                         toastification.show(
                           context: context,
@@ -152,10 +168,12 @@ class _LoginPageState extends State<LoginPage> {
                           primaryColor: Colors.green
                         );
 
-                        Navigator.pushReplacement(context, PageTransition(
-                          type: PageTransitionType.rightToLeft,
-                          child: BasePage()
-                        ));
+                        // Navigator.pushReplacement(context, PageTransition(
+                        //   type: PageTransitionType.rightToLeft,
+                        //   child: BasePage()
+                        // ));
+                        
+                        await _cubit.getAllData();
                       } else {
                         toastification.show(
                           context: context,
@@ -197,7 +215,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     ),
-                  )
+                  ),
                 ]
               ),
               const SizedBox(height: 24.0,),
