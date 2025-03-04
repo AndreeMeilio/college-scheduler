@@ -9,9 +9,10 @@ class DatabaseConfig {
   Database? _database;
 
   Future<Database> getDB() async{
-    if (_database != null) return Future.value(_database);
+    if (_database != null) return _database!;
 
-    _databasePath = join(await getDatabasesPath(), ConstansValue.databaseFilename);
+    String pathDatabase = await getDatabasesPath();
+    _databasePath = join(pathDatabase, ConstansValue.databaseFilename);
     _database = await openDatabase(
       _databasePath!,
       version: ConstansValue.databaseVersion,

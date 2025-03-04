@@ -2,8 +2,10 @@ import 'package:college_scheduler/components/primary_button.dart';
 import 'package:college_scheduler/components/text_button_component.dart';
 import 'package:college_scheduler/components/text_form_field.dart';
 import 'package:college_scheduler/config/color_config.dart';
+import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
-import 'package:college_scheduler/cubit/users_cubit.dart';
+import 'package:college_scheduler/cubit/users/login_cubit.dart';
+import 'package:college_scheduler/cubit/users/register_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toastification/toastification.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +25,8 @@ class _RegisterPageState extends State<RegisterPage> {
   late TextEditingController _passwordController;
   late bool _isObscure;
 
+  late RegisterCubit _cubit;
+
   @override
   void initState() {
     super.initState();
@@ -33,6 +37,8 @@ class _RegisterPageState extends State<RegisterPage> {
     _passwordController = TextEditingController();
 
     _isObscure = true;
+
+    _cubit = BlocProvider.of<RegisterCubit>(context, listen: false);
   }
 
   @override
@@ -134,23 +140,18 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
           ),
-          BlocConsumer<UsersCubit, UserState>(
+          BlocConsumer<RegisterCubit, StateGeneral>(
             builder: (context, state) {
               return PrimaryButtonComponent(
-                isLoading: state is UserLoadingState,
-                onTap: (){
+                isLoading: state.state is RegisterLoadingState,
+                onTap: () async{
                   if (_formRegister.currentState?.validate() ?? false){
 
-                    toastification.show(
-                      context: context,
-                      autoCloseDuration: const Duration(seconds: 3),
-                      style: ToastificationStyle.fillColored,
-                      type: ToastificationType.success,
-                      primaryColor: Colors.green,
-                      title: Text("Register Successed"),
-                      description: Text("Continue login using your account!")
+                    await _cubit.registerAccount(
+                      fullname: _fullnameController.text,
+                      username: _usernameController.text,
+                      password: _passwordController.text
                     );
-                    Navigator.pop(context);
                   } else {
                     toastification.show(
                       context: context,
@@ -167,7 +168,29 @@ class _RegisterPageState extends State<RegisterPage> {
               );
             },
             listener: (context, state) {
-              
+              if (state.state is RegisterSuccessState){
+                toastification.show(
+                  context: context,
+                  autoCloseDuration: const Duration(seconds: 3),
+                  style: ToastificationStyle.fillColored,
+                  type: ToastificationType.success,
+                  title: Text("Register Success"),
+                  description: Text(_cubit.registerState.message.toString()),
+                  primaryColor: Colors.green
+                );
+
+                Navigator.pop(context);
+              } else if (state.state is RegisterFailedState){
+                toastification.show(
+                  context: context,
+                  autoCloseDuration: const Duration(seconds: 3),
+                  style: ToastificationStyle.fillColored,
+                  type: ToastificationType.error,
+                  title: Text("Register Failed"),
+                  description: Text("${_cubit.registerState.message.toString()}"),
+                  primaryColor: Colors.red
+                ); 
+              }
             },
           ),
           GestureDetector(

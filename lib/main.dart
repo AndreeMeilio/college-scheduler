@@ -1,6 +1,7 @@
 import 'package:college_scheduler/config/color_config.dart';
 import 'package:college_scheduler/config/di_config.dart';
-import 'package:college_scheduler/cubit/users_cubit.dart';
+import 'package:college_scheduler/cubit/users/login_cubit.dart';
+import 'package:college_scheduler/cubit/users/register_cubit.dart';
 import 'package:college_scheduler/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,8 +19,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<UsersCubit>(
-          create: (context) => UsersCubit(usersLocalData: sl()),
+        BlocProvider<LoginCubit>(
+          create: (context) => LoginCubit(usersLocalData: sl()),
+        ),
+        BlocProvider<RegisterCubit>(
+          create: (context) => RegisterCubit(usersLocalData: sl()),
         )
       ],
       child: MaterialApp(

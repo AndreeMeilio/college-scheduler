@@ -2,8 +2,9 @@ import 'package:college_scheduler/components/primary_button.dart';
 import 'package:college_scheduler/components/text_button_component.dart';
 import 'package:college_scheduler/components/text_form_field.dart';
 import 'package:college_scheduler/config/color_config.dart';
+import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
-import 'package:college_scheduler/cubit/users_cubit.dart';
+import 'package:college_scheduler/cubit/users/login_cubit.dart';
 import 'package:college_scheduler/pages/base_page.dart';
 import 'package:college_scheduler/pages/register_page.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
   late bool _isPassword;
   late bool _obsureText;
 
-  late UsersCubit _cubit;
+  late LoginCubit _cubit;
 
   @override
   void initState() {
@@ -40,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
     _isPassword = true;
     _obsureText = true;
 
-    _cubit = BlocProvider.of<UsersCubit>(context, listen: false);
+    _cubit = BlocProvider.of<LoginCubit>(context, listen: false);
   }
 
   @override
@@ -137,16 +138,6 @@ class _LoginPageState extends State<LoginPage> {
                           });
                         },
                       ),
-                      BlocConsumer<UsersCubit, UserState>(
-                        builder: (context, state) {
-                          return Container();
-                        },
-                        listener: (context, state) {
-                          if (state is UserFailedState){
-                            print(state.message);
-                          }
-                        },
-                      )
                     ],
                   ),
                 ),
@@ -155,38 +146,59 @@ class _LoginPageState extends State<LoginPage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 spacing: 16.0,
                 children: [
-                  PrimaryButtonComponent(
-                    onTap: () async{
-                      if (_formKey.currentState?.validate() ?? false){
+                  BlocConsumer<LoginCubit, StateGeneral>(
+                    builder: (context, state) {
+                      return PrimaryButtonComponent(
+                        isLoading: state.state is LoginLoadingState,
+                        onTap: () async{
+                          if (_formKey.currentState?.validate() ?? false){
+                            await _cubit.login(
+                              username: _usernameController.text, 
+                              password: _passwordController.text
+                            );                        
+                          } else {
+                            toastification.show(
+                              context: context,
+                              autoCloseDuration: const Duration(seconds: 3),
+                              style: ToastificationStyle.fillColored,
+                              type: ToastificationType.error,
+                              title: Text("Login Failed"),
+                              description: Text("Please input your credentials"),
+                              primaryColor: Colors.red
+                            );
+                          }
+                        },
+                        label: "Login",
+                      );
+                    },
+                    listener: (context, state){
+                      if (state.state is LoginSuccessState){
                         toastification.show(
                           context: context,
                           autoCloseDuration: const Duration(seconds: 3),
                           style: ToastificationStyle.fillColored,
                           type: ToastificationType.success,
-                          title: Text("Login Successed"),
-                          description: Text("Welcome home Sir!"),
+                          title: Text("Login Successfully"),
+                          description: Text(state.message.toString()),
                           primaryColor: Colors.green
                         );
 
-                        // Navigator.pushReplacement(context, PageTransition(
-                        //   type: PageTransitionType.rightToLeft,
-                        //   child: BasePage()
-                        // ));
-                        
-                        await _cubit.getAllData();
-                      } else {
+                        Navigator.pushReplacement(context, PageTransition(
+                          type: PageTransitionType.rightToLeft,
+                          child: BasePage()
+                        ));
+                      } else if (state.state is LoginFailedState){
                         toastification.show(
                           context: context,
                           autoCloseDuration: const Duration(seconds: 3),
                           style: ToastificationStyle.fillColored,
                           type: ToastificationType.error,
                           title: Text("Login Failed"),
-                          description: Text("Account doesn't exist"),
+                          description: Text(state.message.toString()),
                           primaryColor: Colors.red
                         );
                       }
                     },
-                    label: "Login",
                   ),
                   GestureDetector(
                     onTap: (){

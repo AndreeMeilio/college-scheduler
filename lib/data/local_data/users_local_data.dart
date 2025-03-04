@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:college_scheduler/config/database.dart';
+import 'package:college_scheduler/config/response_general.dart';
 import 'package:college_scheduler/data/models/users_model.dart';
 import 'package:college_scheduler/utils/random_string.dart';
 import 'package:crypto/crypto.dart';
@@ -14,31 +15,69 @@ class UsersLocalData {
     required DatabaseConfig database
   }) : _database = database;
 
-  Future<UsersModelResponse> getAllData() async{
+  Future<UsersModelResponse> login({
+    required String username,
+    required String password,
+  }) async{
     final db = await _database.getDB();
 
     try {
-      final result = await db.rawQuery(
-        "SELECT * FROM users"
-      );
+      final dataLocalByUsername = await db.transaction<List>((trx) async{
+        List<Map> resultQuery = List.from(await trx.query('users', where: 'username like ?', whereArgs: [username]));
 
-      print("FROM USER LOCAL DATA : $result");
+        List<Map> result = List.from(resultQuery);
 
-      return UsersModelResponse(
-        code: "00",
-        message: "Berhasil get data",
-        data: []
-      );
+        print(result);
+
+        return result;
+      });
+
+      if (dataLocalByUsername.isNotEmpty){
+
+        final dataUser = dataLocalByUsername.first;
+        final hashPassword = utf8.encode(password + dataUser["salt"]);
+
+        if (sha512256.convert(hashPassword).toString() == dataUser["password"]){
+          return UsersModelResponse(
+            code: "00",
+            message: "Welcome back bro, it's nice seeing you again (:",
+            data: List.from([
+              UsersModel(
+                id: dataUser["id"],
+                fullname: dataUser["fullname"],
+                password: sha512256.convert(hashPassword).toString(),
+                salt: dataUser["salt"],
+                username: dataUser["username"],
+                createdAt: DateTime.parse(dataUser["created_at"]),
+                updatedAt: DateTime.parse(dataUser["updated_at"])
+              )
+            ])
+          );
+        } else {
+          return UsersModelResponse(
+            code: "01",
+            message: "Credentials not found in our database",
+            data: []
+          );
+        }
+      } else {
+        return UsersModelResponse(
+          code: "01",
+          message: "Credentials not found in our database",
+          data: []
+        );
+      }
     } catch (e){
+      print(e);
       return UsersModelResponse(
         code: "01",
-        message: "${e}",
+        message: "There's a problem trying to login your account i am sorry );",
         data: []
       );
     }
   }
 
-  Future<UsersModelResponse> registerAccount({
+  Future<ResponseGeneral<int>> registerAccount({
     required String fullname,
     required String username,
     required String password
@@ -46,33 +85,43 @@ class UsersLocalData {
 
     final saltPassword = RandomStringUtils.generateString(length: 64);
     final hashPassword = utf8.encode(password + saltPassword);
-    final digest = sha512256.convert(hashPassword);
+    final digest = sha512256.convert(hashPassword.toList());
 
     final db = await _database.getDB();
 
     try {
-      await db.transaction((txn) async{
-        await txn.insert('users', {
+      final result = await db.transaction<int>((txn) async{
+        final resultInsert = await txn.insert('users', {
           "fullname" : fullname,
           "username": username,
-          "password": digest,
+          "password": digest.toString(),
           "salt": saltPassword,
           "created_at": DateTime.now().toString(),
           "updated_at": DateTime.now().toString()
         });
+
+        return resultInsert;
       });
 
-      return UsersModelResponse(
-        code: "00",
-        message: "Berhasil Menambah Data Baru",
-        data: []
-      );
+      if (result >= 1){
+        return ResponseGeneral(
+          code: "00",
+          message: "Your account has been successfully created",
+          data: result
+        );
+      } else {
+        return ResponseGeneral(
+          code: "01",
+          message: "There's a problem creating your account i am sorry );",
+          data: result
+        );
+      }
     } catch (e){
       print(e);
-      return UsersModelResponse(
+      return ResponseGeneral(
         code: "01",
-        message: e.toString(),
-        data: []
+        message: "There's a problem creating your account i am sorry );",
+        data: 0
       );
     }
   }
