@@ -2,9 +2,14 @@ import 'package:college_scheduler/components/dropdown_menu_component.dart';
 import 'package:college_scheduler/components/primary_button.dart';
 import 'package:college_scheduler/components/quote_widget.dart';
 import 'package:college_scheduler/components/text_form_field.dart';
+import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
+import 'package:college_scheduler/cubit/event/create_event_cubit.dart';
+import 'package:college_scheduler/data/models/event_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:toastification/toastification.dart';
 
 class InputDataPage extends StatelessWidget {
   const InputDataPage({super.key});
@@ -57,8 +62,10 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
   late TextEditingController _priorityController;
   late TextEditingController _statusController;
 
-  late String _priority;
-  late String _status;
+  late PRIORITY _priority;
+  late STATUS _status;
+
+  late CreateEventCubit _cubit;
 
   @override
   void initState() {
@@ -76,8 +83,10 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
     _priorityController = TextEditingController();
     _statusController = TextEditingController();
 
-    _priority = "LOW";
-    _status = "IDLE";
+    _priority = PRIORITY.low;
+    _status = STATUS.idle;
+
+    _cubit = BlocProvider.of<CreateEventCubit>(context, listen: false);
   }
 
   @override
@@ -171,21 +180,20 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
             label: "Priority",
             menu: [
               DropdownMenuEntry(
-                value: "LOW",
+                value: PRIORITY.low,
                 label: "LOW",
               ),
               DropdownMenuEntry(
-                value: "MEDIUM",
+                value: PRIORITY.medium,
                 label: "MEDIUM",
               ),
               DropdownMenuEntry(
-                value: "HIGH",
+                value: PRIORITY.high,
                 label: "HIGH",
               ),
             ],
             value: _priority, 
             onSelected: (value){
-              _priorityController.text = value;
               _priority = value;
             },
           ),
@@ -194,33 +202,93 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
             label: "Status",
             menu: [
               DropdownMenuEntry(
-                value: "IDLE",
+                value: STATUS.idle,
                 label: "IDLE",
               ),
               DropdownMenuEntry(
-                value: "PROGRESS",
+                value: STATUS.progress,
                 label: "PROGRESS",
               ),
               DropdownMenuEntry(
-                value: "DONE",
+                value: STATUS.done,
                 label: "DONE",
               ),
             ],
             value: _status, 
             onSelected: (value){
-              _statusController.text = value;
               _status = value;
             },
           ),
           Align(
             alignment: Alignment.centerRight,
-            child: PrimaryButtonComponent(
-              onTap: (){
+            child: BlocConsumer<CreateEventCubit, StateGeneral>(
+              builder: (context, state){
+                return PrimaryButtonComponent(
+                  isLoading: state.state is CreateEventLoadingState,
+                  onTap: () async{
+                    if (_formKey.currentState?.validate() ?? false){
+                      await _cubit.insertEvent(
+                        dateOfEvent: _dateEvent,
+                        title: _titleEventController.text,
+                        startHour: _startHour ?? TimeOfDay(hour: 0, minute: 0),
+                        endHour: _endHour,
+                        description: _descriptionController.text,
+                        priority: _priority,
+                        status: _status
+                      );
+                    } else {
+                      toastification.show(
+                        context: context,
+                        autoCloseDuration: const Duration(seconds: 3),
+                        style: ToastificationStyle.fillColored,
+                        type: ToastificationType.error,
+                        title: Text("Create Event Schedule Failed"),
+                        description: Text("Please fill the required data"),
+                        primaryColor: Colors.red
+                      );
+                    }
+                  },
+                  label: "Submit",
+                  width: MediaQuery.sizeOf(context).width * 0.25,
+                );
+              }, 
+              listener: (context, state){
+                if (state.state is CreateEventSuccessState){
+                  toastification.show(
+                    context: context,
+                    autoCloseDuration: const Duration(seconds: 3),
+                    style: ToastificationStyle.fillColored,
+                    type: ToastificationType.success,
+                    title: Text("Create Event Schedule Successfully"),
+                    description: Text(state.message.toString()),
+                    primaryColor: Colors.green
+                  );
 
-              },
-              label: "Submit",
-              width: MediaQuery.sizeOf(context).width * 0.25,
-            ),
+                  _priority = PRIORITY.low;
+                  _status = STATUS.idle;
+                  _dateEvent = DateTime.now();
+
+                  _dateEventController.clear();
+                  _titleEventController.clear();
+                  _descriptionController.clear();
+                  _startHourController.clear();
+                  _endHourController.clear();
+                  _priorityController.clear();
+                  _statusController.clear();
+                  
+                } else if (state.state is CreateEventFailedState){
+                  toastification.show(
+                    context: context,
+                    autoCloseDuration: const Duration(seconds: 3),
+                    style: ToastificationStyle.fillColored,
+                    type: ToastificationType.error,
+                    title: Text("Create Event Schedule Failed"),
+                    description: Text(state.message.toString()),
+                    primaryColor: Colors.red
+                  );
+                }
+              }
+            )
           ),
           const SizedBox()
         ],

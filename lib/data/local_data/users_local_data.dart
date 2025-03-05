@@ -2,8 +2,10 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:college_scheduler/config/constants_value.dart';
 import 'package:college_scheduler/config/database.dart';
 import 'package:college_scheduler/config/response_general.dart';
+import 'package:college_scheduler/config/shared_preference.dart';
 import 'package:college_scheduler/data/models/users_model.dart';
 import 'package:college_scheduler/utils/random_string.dart';
 import 'package:crypto/crypto.dart';
@@ -38,6 +40,12 @@ class UsersLocalData {
         final hashPassword = utf8.encode(password + dataUser["salt"]);
 
         if (sha512256.convert(hashPassword).toString() == dataUser["password"]){
+          final shared = SharedPreferenceConfig();
+          await shared.setInt(
+            key: ConstansValue.user_id,
+            value: dataUser["id"]
+          );
+
           return UsersModelResponse(
             code: "00",
             message: "Welcome back bro, it's nice seeing you again (:",

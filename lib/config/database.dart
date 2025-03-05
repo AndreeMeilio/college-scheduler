@@ -1,6 +1,5 @@
 import 'package:college_scheduler/config/constants_value.dart';
 import 'package:path/path.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseConfig {
@@ -33,6 +32,8 @@ class DatabaseConfig {
         await db.execute(
           """
             create table events(
+              id integer primary key autoincrement,
+              user_id integer,
               date_of_event date,
               title varchar(50),
               start_hour time,
@@ -45,7 +46,22 @@ class DatabaseConfig {
             )
           """
         );
-      }
+        await db.execute(
+          """
+            create table class(
+              id integer primary key autoincrement,
+              user_id integer,
+              name text,
+              start_hour text,
+              end_hour text,
+              day text,
+              lecturer_name text,
+              created_at text,
+              updated_at text
+            )
+          """
+        );
+      },
     );
 
     return _database!;

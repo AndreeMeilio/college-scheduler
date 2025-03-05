@@ -2,13 +2,15 @@ import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/data/local_data/users_local_data.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+typedef StateRegisterType = StateGeneral<RegisterState, int>;
+
 class RegisterState {}
 class RegisterInitialState extends RegisterState{}
 class RegisterSuccessState extends RegisterState{}
 class RegisterFailedState extends RegisterState{}
 class RegisterLoadingState extends RegisterState{}
 
-class RegisterCubit extends Cubit<StateGeneral<RegisterState, int>> {
+class RegisterCubit extends Cubit<StateRegisterType> {
   final UsersLocalData _usersLocalData;
 
   RegisterCubit({
@@ -17,7 +19,7 @@ class RegisterCubit extends Cubit<StateGeneral<RegisterState, int>> {
        super(StateGeneral(state: RegisterInitialState()));
 
   
-  StateGeneral<RegisterState, int> registerState = StateGeneral(
+  StateRegisterType registerState = StateGeneral(
     state: RegisterInitialState()
   );
 
@@ -27,20 +29,20 @@ class RegisterCubit extends Cubit<StateGeneral<RegisterState, int>> {
     required String password
   }) async{
     try {
-      registerState = StateGeneral(state: RegisterLoadingState());
+      registerState = StateRegisterType(state: RegisterLoadingState());
       emit(registerState);
 
       final result = await _usersLocalData.registerAccount(fullname: fullname, username: username, password: password);
 
       if (result.data >= 1){
-        registerState = StateGeneral(
+        registerState = StateRegisterType(
           state: RegisterSuccessState(),
           code: result.code,
           message: result.message,
           data: result.data
         );
       } else {
-        registerState = StateGeneral(
+        registerState = StateRegisterType(
           state: RegisterFailedState(),
           code: result.code,
           message: result.message,
@@ -49,7 +51,7 @@ class RegisterCubit extends Cubit<StateGeneral<RegisterState, int>> {
       }
       emit(registerState);
     } catch (e){
-      registerState = StateGeneral(
+      registerState = StateRegisterType(
         state: RegisterFailedState(),
         code: "",
         message: "There's a problem creating your account i am sorry );",

@@ -3,9 +3,14 @@ import 'dart:async';
 import 'package:college_scheduler/components/quote_widget.dart';
 import 'package:college_scheduler/components/text_form_field.dart';
 import 'package:college_scheduler/config/color_config.dart';
+import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
+import 'package:college_scheduler/cubit/event/list_event_cubit.dart';
+import 'package:college_scheduler/data/models/event_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
@@ -188,12 +193,16 @@ class ListItemEventWidget extends StatefulWidget {
 class _ListItemEventWidgetState extends State<ListItemEventWidget> {
 
   late TextEditingController _searchController;
+  late ListEventCubit _cubit;
 
   @override
   void initState() {
     super.initState();
 
     _searchController = TextEditingController();
+    _cubit = BlocProvider.of<ListEventCubit>(context, listen:false);
+
+    _cubit.getAllEvent();
   }
 
   @override
@@ -243,19 +252,52 @@ class _ListItemEventWidgetState extends State<ListItemEventWidget> {
             )
           ],
         ),
-        ListView.separated(
-          separatorBuilder: (context, index) {
-            return Divider(
-              height: 0.0,
-              thickness: 8.0,
-              color: ColorConfig.mainColor,
-            );
-          },
-          itemCount: 5,
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) {
-            return ListItemEventDataWidget();
+        BlocBuilder<ListEventCubit, StateGeneral>(
+          builder: (context, state){
+            if (state.state is ListEventLoadedState){
+              return ListView.separated(
+                separatorBuilder: (context, index) {
+                  return Divider(
+                    height: 0.0,
+                    thickness: 8.0,
+                    color: ColorConfig.mainColor,
+                  );
+                },
+                itemCount: state.data.length,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return ListItemEventDataWidget(
+                    data: state.data[index],
+                  );
+                },
+              );
+            } else if (state.state is ListEventFailedState){
+              return Container(
+                margin: const EdgeInsets.only(top: 24.0),
+                alignment: Alignment.center,
+                child: Text(
+                  state.message.toString(),
+                  style: TextStyleConfig.body1bold,
+                ),
+              );
+            } else {
+              return ListView.separated(
+                separatorBuilder: (context, index) {
+                  return Divider(
+                    height: 0.0,
+                    thickness: 8.0,
+                    color: ColorConfig.mainColor,
+                  );
+                },
+                itemCount: 5,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return ListItemEventDataLoadingWidget();
+                },
+              );
+            }
           },
         )
       ],
@@ -264,7 +306,12 @@ class _ListItemEventWidgetState extends State<ListItemEventWidget> {
 }
 
 class ListItemEventDataWidget extends StatelessWidget {
-  const ListItemEventDataWidget({super.key});
+  ListItemEventDataWidget({
+    super.key,
+    required this.data
+  });
+
+  EventModel data;
 
   @override
   Widget build(BuildContext context) {
@@ -285,19 +332,89 @@ class ListItemEventDataWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  "Tugas Pembuatan Kalkulator Java",
+                  data.title.toString(),
                   style: TextStyleConfig.body1bold,
                 ),
                 const SizedBox(height: 8.0,),
                 Text(
-                  "Deadline : 30 Februari 2025",
+                  "Deadline : ${DateFormat("d MMMM y").format(data.dateOfEvent ?? DateTime.parse("0000-00-00"))}",
                   style: TextStyleConfig.body2,
                 ),
                 const SizedBox(height: 32.0,),
                 Text(
-                  "Priority : HIGH",
+                  "Priority : ${
+                    data.priority == PRIORITY.low
+                      ? "LOW"
+                      : data.priority == PRIORITY.medium
+                        ? "MEDIUM"
+                        : "HIGH"
+                  }",
                   style: TextStyleConfig.body2,
                 ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ListItemEventDataLoadingWidget extends StatelessWidget {
+  const ListItemEventDataLoadingWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          splashColor: Colors.black.withAlpha(25),
+          onTap: (){
+
+          },
+          child: Container(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Shimmer(
+                  child: Text(
+                    "Tugas Pembuatan Kalkulator Java",
+                    style: TextStyleConfig.body1bold,
+                  ),
+                  gradient: LinearGradient(colors: [
+                    Colors.grey,
+                    Colors.black
+                  ]),
+                ),
+                const SizedBox(height: 8.0,),
+                Shimmer(
+                  child: Text(
+                    "Deadline : 30 Februari 2025",
+                    style: TextStyleConfig.body2,
+                  ),
+                  gradient: LinearGradient(colors: [
+                    Colors.grey,
+                    Colors.black
+
+                  ]),
+                ),
+                const SizedBox(height: 32.0,),
+                Shimmer(
+                  child: Text(
+                    "Priority : HIGH",
+                    style: TextStyleConfig.body2,
+                  ),
+                  gradient: LinearGradient(colors: [
+                    Colors.grey,
+                    Colors.black
+
+                  ]),
+                )
               ],
             ),
           ),

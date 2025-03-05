@@ -1,5 +1,7 @@
 import 'package:college_scheduler/config/color_config.dart';
 import 'package:college_scheduler/config/di_config.dart';
+import 'package:college_scheduler/cubit/event/create_event_cubit.dart';
+import 'package:college_scheduler/cubit/event/list_event_cubit.dart';
 import 'package:college_scheduler/cubit/users/login_cubit.dart';
 import 'package:college_scheduler/cubit/users/register_cubit.dart';
 import 'package:college_scheduler/pages/login_page.dart';
@@ -24,6 +26,12 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<RegisterCubit>(
           create: (context) => RegisterCubit(usersLocalData: sl()),
+        ),
+        BlocProvider<CreateEventCubit>(
+          create: (context) => CreateEventCubit(eventLocalData: sl()),
+        ),
+        BlocProvider<ListEventCubit>(
+          create: (context) => ListEventCubit(eventLocalData: sl()),
         )
       ],
       child: MaterialApp(

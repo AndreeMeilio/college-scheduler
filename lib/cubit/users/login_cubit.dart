@@ -4,15 +4,16 @@ import 'package:college_scheduler/data/local_data/users_local_data.dart';
 import 'package:college_scheduler/data/models/users_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class LoginState{}
+typedef LoginStateType = StateGeneral<LoginState, UsersModel?>;
 
+class LoginState{}
 class LoginInitialState extends LoginState{}
 class LoginLoadingState extends LoginState{}
 class LoginSuccessState extends LoginState{}
 class LoginFailedState extends LoginState{}
 
 
-class LoginCubit extends Cubit<StateGeneral<LoginState, UsersModel?>>{
+class LoginCubit extends Cubit<LoginStateType>{
 
   final UsersLocalData _usersLocalData;
 
@@ -21,14 +22,14 @@ class LoginCubit extends Cubit<StateGeneral<LoginState, UsersModel?>>{
   }) : _usersLocalData = usersLocalData,
        super(StateGeneral(state: LoginInitialState()));
 
-  StateGeneral<LoginState, UsersModel?> loginState = StateGeneral(state: LoginInitialState());
+  LoginStateType loginState = StateGeneral(state: LoginInitialState());
 
   Future<void> login({
     required String username,
     required String password
   }) async{
     try {
-      loginState = StateGeneral(state: LoginLoadingState());
+      loginState = LoginStateType(state: LoginLoadingState());
       emit(loginState);
 
       final result = await _usersLocalData.login(
@@ -37,14 +38,14 @@ class LoginCubit extends Cubit<StateGeneral<LoginState, UsersModel?>>{
       );
 
       if (result.code == "00"){
-        loginState = StateGeneral(
+        loginState = LoginStateType(
           state: LoginSuccessState(),
           code: result.code,
           message: result.message,
           data: result.data?.first
         );
       } else {
-        loginState = StateGeneral(
+        loginState = LoginStateType(
           state: LoginFailedState(),
           code: result.code,
           message: result.message,
@@ -54,7 +55,7 @@ class LoginCubit extends Cubit<StateGeneral<LoginState, UsersModel?>>{
 
       emit(loginState);
     } catch (e){
-      loginState = StateGeneral(
+      loginState = LoginStateType(
         state: LoginFailedState(),
         code: "01",
         message: "There's a problem creating your account i am sorry );",
