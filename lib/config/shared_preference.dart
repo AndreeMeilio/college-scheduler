@@ -40,4 +40,10 @@ class SharedPreferenceConfig {
 
     return pref.getString(key);
   }
+
+  Future<void> clearShared() async{
+    final SharedPreferences pref = await get();
+
+    await pref.clear();
+  }
 }

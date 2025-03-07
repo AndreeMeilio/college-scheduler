@@ -1,7 +1,11 @@
 import 'package:college_scheduler/components/quote_widget.dart';
 import 'package:college_scheduler/config/color_config.dart';
+import 'package:college_scheduler/config/shared_preference.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
+import 'package:college_scheduler/pages/data_class_page.dart';
+import 'package:college_scheduler/pages/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -24,6 +28,7 @@ class SettingsPage extends StatelessWidget {
               ),
             ),
             SettingsListWidget(),
+            const SizedBox()
           ],
         ),
       ),
@@ -132,6 +137,27 @@ class SettingsDataSectionWidget extends StatelessWidget {
             physics: NeverScrollableScrollPhysics(),
             itemBuilder: (context, index){
               return SettingsDataListItem(
+                onTap: () async{
+                  if (_dataMenu[index] == "Logout"){
+                    final prefs = SharedPreferenceConfig();
+
+                    await prefs.clearShared();
+
+                    if (context.mounted){
+                      Navigator.pushReplacement(context, PageTransition(
+                        type: PageTransitionType.rightToLeft,
+                        child: LoginPage()
+                      ));
+                    }
+                  } else if (_dataMenu[index] == "Data Class"){
+                    if (context.mounted){
+                      Navigator.push(context, PageTransition(
+                        type: PageTransitionType.rightToLeft,
+                        child: DataClassPage()
+                      ));
+                    }
+                  }
+                },
                 menu: _dataMenu[index],
               );
             },
@@ -145,10 +171,13 @@ class SettingsDataSectionWidget extends StatelessWidget {
 class SettingsDataListItem extends StatelessWidget {
   SettingsDataListItem({
     super.key,
-    required String menu
-  }) : _menu = menu;
+    required String menu,
+    required void Function()? onTap
+  }) : _menu = menu,
+       _onTap = onTap;
 
   final String _menu;
+  final void Function()? _onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -167,9 +196,7 @@ class SettingsDataListItem extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: (){
-
-          },
+          onTap: _onTap,
           splashColor: Colors.black.withAlpha(25),
           borderRadius: BorderRadius.all(Radius.circular(8.0)),
           child: Container(

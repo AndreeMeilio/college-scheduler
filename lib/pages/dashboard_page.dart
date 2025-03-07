@@ -7,9 +7,11 @@ import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:college_scheduler/cubit/event/list_event_cubit.dart';
 import 'package:college_scheduler/data/models/event_model.dart';
+import 'package:college_scheduler/pages/detail_event_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:shimmer/shimmer.dart';
 
 class DashboardPage extends StatelessWidget {
@@ -63,7 +65,7 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
             child: Column(
               children: [
                 TimeTickingWidget(now: _now,),
-                Text("${_now.day} / ${_now.month}", style: TextStyleConfig.heading1bold,)
+                Text("${DateFormat("d MMMM y").format(_now)}", style: TextStyleConfig.heading1bold,)
               ],
             ),
           ),
@@ -324,7 +326,10 @@ class ListItemEventDataWidget extends StatelessWidget {
         child: InkWell(
           splashColor: Colors.black.withAlpha(25),
           onTap: (){
-
+            Navigator.push(context, PageTransition(
+              type: PageTransitionType.rightToLeft,
+              child: DetailEventPage(data: data)
+            ));
           },
           child: Container(
             padding: const EdgeInsets.all(24.0),
@@ -342,13 +347,7 @@ class ListItemEventDataWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 32.0,),
                 Text(
-                  "Priority : ${
-                    data.priority == PRIORITY.low
-                      ? "LOW"
-                      : data.priority == PRIORITY.medium
-                        ? "MEDIUM"
-                        : "HIGH"
-                  }",
+                  "Priority : ${data.priority?.name.toUpperCase()}",
                   style: TextStyleConfig.body2,
                 ),
               ],

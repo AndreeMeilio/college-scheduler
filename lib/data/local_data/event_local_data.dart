@@ -84,7 +84,7 @@ class EventLocalData {
       if (result.isNotEmpty){
         return EventModelResponse(
           code: "00",
-          message: "You don't have any data on Events",
+          message: "Get event data success",
           data: result.map<EventModel>((data) {
             return EventModel(
               id: data["id"],
