@@ -12,6 +12,7 @@ class UsersModelResponse {
 
 class UsersModel {
     int? id;
+    String? deviceId;
     String? fullname;
     String? username;
     String? password;
@@ -21,6 +22,7 @@ class UsersModel {
 
     UsersModel({
         this.id,
+        this.deviceId,
         this.fullname,
         this.username,
         this.password,

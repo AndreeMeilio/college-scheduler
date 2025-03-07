@@ -20,12 +20,13 @@ class DatabaseConfig {
           """
             create table users(
               id integer primary key autoincrement,
-              fullname varchar(25),
-              username varchar(25),
-              password longtext,
-              salt longtext,
-              created_at timestamp,
-              updated_at timestamp
+              device_id text,
+              fullname text,
+              username text,
+              password text,
+              salt text,
+              created_at text,
+              updated_at text
             )
           """
         );
@@ -34,15 +35,15 @@ class DatabaseConfig {
             create table events(
               id integer primary key autoincrement,
               user_id integer,
-              date_of_event date,
-              title varchar(50),
-              start_hour time,
-              end_hour time,
+              date_of_event text,
+              title text,
+              start_hour text,
+              end_hour text,
               description text,
-              priority varchar(10),
-              status varchar(10),
-              created_at timestamp,
-              updated_at timestamp
+              priority text,
+              status text,
+              created_at text,
+              updated_at text
             )
           """
         );

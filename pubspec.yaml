@@ -45,6 +45,8 @@ dependencies:
   get_it: ^8.0.3
   shared_preferences: ^2.5.2
   shimmer: ^3.0.0
+  local_auth: ^2.3.0
+  device_info_plus: ^11.3.3
 
 dev_dependencies:
   flutter_test:

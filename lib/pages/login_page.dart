@@ -148,27 +148,54 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   BlocConsumer<LoginCubit, StateGeneral>(
                     builder: (context, state) {
-                      return PrimaryButtonComponent(
-                        isLoading: state.state is LoginLoadingState,
-                        onTap: () async{
-                          if (_formKey.currentState?.validate() ?? false){
-                            await _cubit.login(
-                              username: _usernameController.text, 
-                              password: _passwordController.text
-                            );                        
-                          } else {
-                            toastification.show(
-                              context: context,
-                              autoCloseDuration: const Duration(seconds: 3),
-                              style: ToastificationStyle.fillColored,
-                              type: ToastificationType.error,
-                              title: Text("Login Failed"),
-                              description: Text("Please input your credentials"),
-                              primaryColor: Colors.red
-                            );
-                          }
-                        },
-                        label: "Login",
+                      return Row(
+                        children: [
+                          Expanded(
+                            child: PrimaryButtonComponent(
+                              isLoading: state.state is LoginLoadingState,
+                              onTap: () async{
+                                if (_formKey.currentState?.validate() ?? false){
+                                  await _cubit.login(
+                                    username: _usernameController.text, 
+                                    password: _passwordController.text
+                                  );                        
+                                } else {
+                                  toastification.show(
+                                    context: context,
+                                    autoCloseDuration: const Duration(seconds: 3),
+                                    style: ToastificationStyle.fillColored,
+                                    type: ToastificationType.error,
+                                    title: Text("Login Failed"),
+                                    description: Text("Please input your credentials"),
+                                    primaryColor: Colors.red
+                                  );
+                                }
+                              },
+                              label: "Login",
+                            ),
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: ColorConfig.mainColor
+                            ),
+                            child: Material(
+                              color: Colors.transparent,
+                              child: InkWell(
+                                onTap: () async{
+                                  await _cubit.loginFingerprint();
+                                },
+                                splashColor: Colors.grey.withAlpha(50),
+                                borderRadius: BorderRadius.all(Radius.circular(50)),
+                                child: Container(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: Icon(Icons.fingerprint),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 24.0,)
+                        ],
                       );
                     },
                     listener: (context, state){
