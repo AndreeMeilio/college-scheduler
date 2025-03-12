@@ -13,7 +13,7 @@ class ClassLocalData {
     required DatabaseConfig database
   }) : _database = database;
 
-  Future<ResponseGeneral<int>> createClass({
+  Future<ResponseGeneral<int>> createAndUpdateClass({
     required ClassModel data
   }) async{
     try {

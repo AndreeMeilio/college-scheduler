@@ -3,7 +3,7 @@ import 'package:college_scheduler/components/primary_button.dart';
 import 'package:college_scheduler/components/text_form_field.dart';
 import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
-import 'package:college_scheduler/cubit/class/create_data_class_cubit.dart';
+import 'package:college_scheduler/cubit/class/create_and_update_data_class_cubit.dart';
 import 'package:college_scheduler/data/models/class_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,7 +36,7 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
   TimeOfDay? _startHour;
   TimeOfDay? _endHour;
 
-  late CreateDataClassCubit _cubit;
+  late CreateAndUpdateDataClassCubit _cubit;
 
   @override
   void initState() {
@@ -52,7 +52,7 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
     _dayofweek = DAYOFWEEK.monday;
     _dayofweekController = TextEditingController();
 
-    _cubit = BlocProvider.of<CreateDataClassCubit>(context, listen: false);
+    _cubit = BlocProvider.of<CreateAndUpdateDataClassCubit>(context, listen: false);
 
     if (widget.dataClassFromEdit != null){
       final dataClassEdit = widget.dataClassFromEdit;
@@ -195,12 +195,12 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
               const SizedBox(),
               Align(
                 alignment: Alignment.centerRight,
-                child: BlocConsumer<CreateDataClassCubit, StateGeneral>(
+                child: BlocConsumer<CreateAndUpdateDataClassCubit, StateGeneral>(
                   builder: (context, state){
                     return PrimaryButtonComponent(
                       onTap: () async{
                         if (_formKey.currentState?.validate() ?? false){
-                          await _cubit.createClass(
+                          await _cubit.createAndUpdateClass(
                             name: _nameController.text,
                             lecturerName: _lectureController.text,
                             dayofweek: _dayofweek,
@@ -226,7 +226,7 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
                     );
                   },
                   listener: (context, state){
-                    if (state.state is CreateDataClassSuccessState){
+                    if (state.state is CreateAndUpdateDataClassSuccessState){
                       toastification.show(
                         context: context,
                         autoCloseDuration: const Duration(seconds: 3),
@@ -236,7 +236,7 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
                         description: Text(state.message.toString()),
                         primaryColor: Colors.green
                       );
-                    } else if (state.state is CreateDataClassFailedState){
+                    } else if (state.state is CreateAndUpdateDataClassFailedState){
                       toastification.show(
                         context: context,
                         autoCloseDuration: const Duration(seconds: 3),

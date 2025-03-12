@@ -1,14 +1,19 @@
 import 'dart:async';
 
+import 'package:college_scheduler/components/delete_confirmation_component.dart';
+import 'package:college_scheduler/components/primary_button.dart';
 import 'package:college_scheduler/components/quote_widget.dart';
 import 'package:college_scheduler/components/text_form_field.dart';
 import 'package:college_scheduler/config/color_config.dart';
 import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
+import 'package:college_scheduler/cubit/base_menu_cubit.dart';
+import 'package:college_scheduler/cubit/event/create_event_cubit.dart';
 import 'package:college_scheduler/cubit/event/list_event_cubit.dart';
 import 'package:college_scheduler/data/models/event_model.dart';
 import 'package:college_scheduler/pages/detail_event_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -271,6 +276,7 @@ class _ListItemEventWidgetState extends State<ListItemEventWidget> {
                 itemBuilder: (context, index) {
                   return ListItemEventDataWidget(
                     data: state.data[index],
+                    cubit: _cubit,
                   );
                 },
               );
@@ -310,47 +316,94 @@ class _ListItemEventWidgetState extends State<ListItemEventWidget> {
 class ListItemEventDataWidget extends StatelessWidget {
   ListItemEventDataWidget({
     super.key,
-    required this.data
+    required this.data,
+    required this.cubit
   });
 
   EventModel data;
+  ListEventCubit cubit;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white
+    return Slidable(
+      key: ValueKey(data.id),
+      startActionPane: ActionPane(
+        motion: ScrollMotion(),
+        children: [
+          SlidableAction(
+            onPressed: (context) async{
+              final cubitBaseMenu = BlocProvider.of<BaseMenuCubit>(context, listen: false);
+              final cubitCreateEventMenu = BlocProvider.of<CreateAndUpdateEventCubit>(context, listen: false);
+              cubitCreateEventMenu.setTempDataEvent(data: data);
+
+              cubitBaseMenu.changeIndexActiveMenu(1);
+            },
+            label: "Edit",
+            backgroundColor: ColorConfig.mainColor.withAlpha(75),
+            icon: Icons.edit,
+          ),
+          SlidableAction(
+            onPressed: (context) async{
+              // await cubit.deleteEvent(data: data);
+              showModalBottomSheet(
+                context: context,
+                builder: (context){
+                  return DeleteConfirmationComponent(
+                    onCancel: (){
+                      Navigator.pop(context);
+                    },
+                    onProcceed: () async{
+                      await cubit.deleteEvent(data: data);
+
+                      if (context.mounted){
+                        Navigator.pop(context);
+                      }
+                    },
+                  );
+                }
+              );
+            },
+            label: "Delete",
+            backgroundColor: Colors.red,
+            icon: Icons.edit,
+          ),
+        ],
       ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          splashColor: Colors.black.withAlpha(25),
-          onTap: (){
-            Navigator.push(context, PageTransition(
-              type: PageTransitionType.rightToLeft,
-              child: DetailEventPage(data: data)
-            ));
-          },
-          child: Container(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  data.title.toString(),
-                  style: TextStyleConfig.body1bold,
-                ),
-                const SizedBox(height: 8.0,),
-                Text(
-                  "Deadline : ${DateFormat("d MMMM y").format(data.dateOfEvent ?? DateTime.parse("0000-00-00"))}",
-                  style: TextStyleConfig.body2,
-                ),
-                const SizedBox(height: 32.0,),
-                Text(
-                  "Priority : ${data.priority?.name.toUpperCase()}",
-                  style: TextStyleConfig.body2,
-                ),
-              ],
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            splashColor: Colors.black.withAlpha(25),
+            onTap: (){
+              Navigator.push(context, PageTransition(
+                type: PageTransitionType.rightToLeft,
+                child: DetailEventPage(data: data)
+              ));
+            },
+            child: Container(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    data.title.toString(),
+                    style: TextStyleConfig.body1bold,
+                  ),
+                  const SizedBox(height: 8.0,),
+                  Text(
+                    "Deadline : ${DateFormat("d MMMM y").format(data.dateOfEvent ?? DateTime.parse("0000-00-00"))}",
+                    style: TextStyleConfig.body2,
+                  ),
+                  const SizedBox(height: 32.0,),
+                  Text(
+                    "Priority : ${data.priority?.name.toUpperCase()}",
+                    style: TextStyleConfig.body2,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

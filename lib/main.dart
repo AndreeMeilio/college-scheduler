@@ -1,6 +1,7 @@
 import 'package:college_scheduler/config/color_config.dart';
 import 'package:college_scheduler/config/di_config.dart';
-import 'package:college_scheduler/cubit/class/create_data_class_cubit.dart';
+import 'package:college_scheduler/cubit/base_menu_cubit.dart';
+import 'package:college_scheduler/cubit/class/create_and_update_data_class_cubit.dart';
 import 'package:college_scheduler/cubit/class/list_data_class_cubit.dart';
 import 'package:college_scheduler/cubit/event/create_event_cubit.dart';
 import 'package:college_scheduler/cubit/event/list_event_cubit.dart';
@@ -29,17 +30,20 @@ class MyApp extends StatelessWidget {
         BlocProvider<RegisterCubit>(
           create: (context) => RegisterCubit(usersLocalData: sl()),
         ),
-        BlocProvider<CreateEventCubit>(
-          create: (context) => CreateEventCubit(eventLocalData: sl()),
+        BlocProvider<CreateAndUpdateEventCubit>(
+          create: (context) => CreateAndUpdateEventCubit(eventLocalData: sl()),
         ),
         BlocProvider<ListEventCubit>(
           create: (context) => ListEventCubit(eventLocalData: sl()),
         ),
-        BlocProvider<CreateDataClassCubit>(
-          create: (context) => CreateDataClassCubit(classLocalData: sl()),
+        BlocProvider<CreateAndUpdateDataClassCubit>(
+          create: (context) => CreateAndUpdateDataClassCubit(classLocalData: sl()),
         ),
-        BlocProvider(
+        BlocProvider<ListDataClassCubit>(
           create: (context) => ListDataClassCubit(classLocalData: sl()),
+        ),
+        BlocProvider<BaseMenuCubit>(
+          create: (context) => BaseMenuCubit(),
         )
       ],
       child: MaterialApp(

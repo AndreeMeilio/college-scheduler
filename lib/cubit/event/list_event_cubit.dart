@@ -57,4 +57,36 @@ class ListEventCubit extends Cubit<ListEventStateType>{
       emit(listState);
     }
   }
+
+  Future<void> deleteEvent({
+    required EventModel data
+  }) async{
+    try {
+      listState = ListEventStateType(state: ListEventLoadingState());
+      emit(listState);
+
+      final result = await _eventLocalData.deleteEvent(data: data);
+
+      if (result.code == "00"){
+        getAllEvent();
+      } else {
+        listState = ListEventStateType(
+          state: ListEventFailedState(),
+          code: "",
+          message: "There's a problem when deleting event data!",
+          data: []
+        );
+        emit(listState);
+      }
+    } catch (e){
+      print(e);
+      listState = ListEventStateType(
+        state: ListEventFailedState(),
+        code: "",
+        message: "There's a problem when getting your event data!",
+        data: []
+      );
+      emit(listState);
+    }
+  }
 }

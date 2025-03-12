@@ -10,13 +10,15 @@ class PrimaryButtonComponent extends StatelessWidget {
     double? height,
     double? width,
     Alignment? alignment,
-    bool? isLoading
+    bool? isLoading,
+    Color? color,
   }) : _onTap = onTap,
        _label = label,
        _height = height,
        _width = width,
        _alignment = alignment,
-       _isLoading = isLoading;
+       _isLoading = isLoading,
+       _color = color;
 
   final Function()? _onTap;
   final String _label;
@@ -24,6 +26,7 @@ class PrimaryButtonComponent extends StatelessWidget {
   final double? _width;
   final Alignment? _alignment;
   final bool? _isLoading;
+  final Color? _color;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +35,7 @@ class PrimaryButtonComponent extends StatelessWidget {
       width: _width,
       alignment: _alignment,
       decoration: BoxDecoration(
-        color: ColorConfig.mainColor,
+        color: _color ?? ColorConfig.mainColor,
         borderRadius: BorderRadius.all(Radius.circular(8.0)),
         boxShadow: [
           BoxShadow(

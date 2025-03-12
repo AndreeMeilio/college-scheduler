@@ -14,7 +14,7 @@ class EventLocalData {
     required DatabaseConfig database
   }) : _database = database;
 
-  Future<ResponseGeneral<int>> insert({
+  Future<ResponseGeneral<int>> insertAndUpdate({
     required EventModel data
   }) async {
     try {
@@ -30,18 +30,33 @@ class EventLocalData {
         final endHourFirstPart = (data.endHour?.hour ?? 0) < 10 ? "0${data.endHour?.hour}" : data.endHour?.hour;
         final endHourSecondPart = (data.endHour?.minute ?? 0) < 10 ? "0${data.endHour?.minute}" : data.endHour?.minute;
 
-        final resultInsert = await trx.insert("events", {
-          "user_id": data.userId,
-          "title": data.title,
-          "date_of_event": data.dateOfEvent.toString(),
-          "start_hour": "$startHourFirstPart:$startHourSecondPart",
-          "end_hour": "$endHourFirstPart:$endHourSecondPart",
-          "description": data.description,
-          "priority": data.priority.toString(),
-          "status": data.status.toString(),
-          "created_at": DateTime.now().toString(),
-          "updated_at": DateTime.now().toString()
-        });
+        late int resultInsert;
+        if (data.id != 0 && data.id != null){
+          resultInsert = await trx.update("events", {
+            "user_id": data.userId,
+            "title": data.title,
+            "date_of_event": data.dateOfEvent.toString(),
+            "start_hour": "$startHourFirstPart:$startHourSecondPart",
+            "end_hour": "$endHourFirstPart:$endHourSecondPart",
+            "description": data.description,
+            "priority": data.priority?.name.toUpperCase(),
+            "status": data.status?.name.toUpperCase(),
+            "updated_at": DateTime.now().toString()
+          }, where: 'id = ?', whereArgs: [data.id]);
+        } else {
+          resultInsert = await trx.insert("events", {
+            "user_id": data.userId,
+            "title": data.title,
+            "date_of_event": data.dateOfEvent.toString(),
+            "start_hour": "$startHourFirstPart:$startHourSecondPart",
+            "end_hour": "$endHourFirstPart:$endHourSecondPart",
+            "description": data.description,
+            "priority": data.priority?.name.toUpperCase(),
+            "status": data.status?.name.toUpperCase(),
+            "created_at": DateTime.now().toString(),
+            "updated_at": DateTime.now().toString()
+          });
+        }
 
         return resultInsert;
       });  
@@ -119,6 +134,42 @@ class EventLocalData {
         code: "01",
         message: "Something's wrong when trying to add new data",
         data: []
+      );
+    }
+  }
+
+  Future<ResponseGeneral> deleteEvent({
+    required EventModel data
+  }) async {
+    try {
+      final db = await _database.getDB();
+      final shared = SharedPreferenceConfig();
+
+      final result = await db.transaction<int>((trx) async{
+        
+        final resultQuery = await trx.delete("events", where: 'id = ?', whereArgs: [data.id]);
+
+        return resultQuery;
+      });  
+
+      if (result >= 1){
+        return ResponseGeneral(
+          code: "00",
+          message: "Creating new data event schedule successfully",
+          data: result
+        );
+      } else {
+        return ResponseGeneral(
+          code: "01",
+          message: "Something's wrong when trying to add new data",
+          data: -1
+        );
+      }
+    } catch (e){
+      return ResponseGeneral(
+        code: "01",
+        message: "Something's wrong when trying to delete data",
+        data: -1
       );
     }
   }

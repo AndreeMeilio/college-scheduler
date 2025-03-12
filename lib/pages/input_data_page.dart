@@ -2,6 +2,7 @@ import 'package:college_scheduler/components/dropdown_menu_component.dart';
 import 'package:college_scheduler/components/primary_button.dart';
 import 'package:college_scheduler/components/quote_widget.dart';
 import 'package:college_scheduler/components/text_form_field.dart';
+import 'package:college_scheduler/config/color_config.dart';
 import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:college_scheduler/cubit/event/create_event_cubit.dart';
@@ -65,7 +66,7 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
   late PRIORITY _priority;
   late STATUS _status;
 
-  late CreateEventCubit _cubit;
+  late CreateAndUpdateEventCubit _cubit;
 
   @override
   void initState() {
@@ -86,7 +87,24 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
     _priority = PRIORITY.low;
     _status = STATUS.idle;
 
-    _cubit = BlocProvider.of<CreateEventCubit>(context, listen: false);
+    _cubit = BlocProvider.of<CreateAndUpdateEventCubit>(context, listen: false);
+
+    if (_cubit.tempDataEvent != null){
+      final data = _cubit.tempDataEvent;
+
+      _dateEventController.text = DateFormat("y-MM-dd").format(data?.dateOfEvent ?? DateTime.parse("0000-00-00"));
+      _titleEventController.text = data?.title ?? "";
+      _descriptionController.text = data?.description ?? "";
+      _startHourController.text = "${data?.startHour?.hour}:${data?.startHour?.minute}:00";
+      _endHourController.text = "${data?.endHour?.hour}:${data?.endHour?.minute}:00";
+      
+      _dateEvent = data?.dateOfEvent ?? DateTime.now();
+      _startHour = data?.startHour ?? TimeOfDay.now();
+      _endHour = data?.endHour ?? TimeOfDay.now();
+
+      _priority = data?.priority ?? PRIORITY.low;
+      _status = data?.status ?? STATUS.idle;
+    }
   }
 
   @override
@@ -219,76 +237,109 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
               _status = value;
             },
           ),
-          Align(
-            alignment: Alignment.centerRight,
-            child: BlocConsumer<CreateEventCubit, StateGeneral>(
-              builder: (context, state){
-                return PrimaryButtonComponent(
-                  isLoading: state.state is CreateEventLoadingState,
-                  onTap: () async{
-                    if (_formKey.currentState?.validate() ?? false){
-                      await _cubit.insertEvent(
-                        dateOfEvent: _dateEvent,
-                        title: _titleEventController.text,
-                        startHour: _startHour ?? TimeOfDay(hour: 0, minute: 0),
-                        endHour: _endHour,
-                        description: _descriptionController.text,
-                        priority: _priority,
-                        status: _status
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: PrimaryButtonComponent(
+                  label: "Clear",
+                  width: MediaQuery.sizeOf(context).width * 0.25,
+                  color: Colors.black.withAlpha(1),
+                  onTap: (){
+                    _priority = PRIORITY.low;
+                    _status = STATUS.idle;
+                    _dateEvent = DateTime.now();
+                    _startHour = TimeOfDay.now();
+                    _endHour = TimeOfDay.now();
+
+                    _dateEventController.clear();
+                    _titleEventController.clear();
+                    _descriptionController.clear();
+                    _startHourController.clear();
+                    _endHourController.clear();
+                    _priorityController.clear();
+                    _statusController.clear();
+
+                    _cubit.clearTempDataEvent();
+                  },
+                ),
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: BlocConsumer<CreateAndUpdateEventCubit, StateGeneral>(
+                  builder: (context, state){
+                    return PrimaryButtonComponent(
+                      isLoading: state.state is CreateAndUpdateEventLoadingState,
+                      onTap: () async{
+                        if (_formKey.currentState?.validate() ?? false){
+                          await _cubit.insertAndUpdateEvent(
+                            dateOfEvent: _dateEvent,
+                            title: _titleEventController.text,
+                            startHour: _startHour ?? TimeOfDay(hour: 0, minute: 0),
+                            endHour: _endHour,
+                            description: _descriptionController.text,
+                            priority: _priority,
+                            status: _status,
+                            isEdit: _cubit.tempDataEvent != null,
+                            idEvent: _cubit.tempDataEvent?.id
+                          );
+                          _cubit.clearTempDataEvent();
+                        } else {
+                          toastification.show(
+                            context: context,
+                            autoCloseDuration: const Duration(seconds: 3),
+                            style: ToastificationStyle.fillColored,
+                            type: ToastificationType.error,
+                            title: Text("Create Event Schedule Failed"),
+                            description: Text("Please fill the required data"),
+                            primaryColor: Colors.red
+                          );
+                        }
+                      },
+                      label: "Submit",
+                      width: MediaQuery.sizeOf(context).width * 0.25,
+                    );
+                  }, 
+                  listener: (context, state){
+                    if (state.state is CreateAndUpdateEventSuccessState){
+                      toastification.show(
+                        context: context,
+                        autoCloseDuration: const Duration(seconds: 3),
+                        style: ToastificationStyle.fillColored,
+                        type: ToastificationType.success,
+                        title: Text("Create Event Schedule Successfully"),
+                        description: Text(state.message.toString()),
+                        primaryColor: Colors.green
                       );
-                    } else {
+
+                      _priority = PRIORITY.low;
+                      _status = STATUS.idle;
+                      _dateEvent = DateTime.now();
+
+                      _dateEventController.clear();
+                      _titleEventController.clear();
+                      _descriptionController.clear();
+                      _startHourController.clear();
+                      _endHourController.clear();
+                      _priorityController.clear();
+                      _statusController.clear();
+                      
+                    } else if (state.state is CreateAndUpdateEventFailedState){
                       toastification.show(
                         context: context,
                         autoCloseDuration: const Duration(seconds: 3),
                         style: ToastificationStyle.fillColored,
                         type: ToastificationType.error,
                         title: Text("Create Event Schedule Failed"),
-                        description: Text("Please fill the required data"),
+                        description: Text(state.message.toString()),
                         primaryColor: Colors.red
                       );
                     }
-                  },
-                  label: "Submit",
-                  width: MediaQuery.sizeOf(context).width * 0.25,
-                );
-              }, 
-              listener: (context, state){
-                if (state.state is CreateEventSuccessState){
-                  toastification.show(
-                    context: context,
-                    autoCloseDuration: const Duration(seconds: 3),
-                    style: ToastificationStyle.fillColored,
-                    type: ToastificationType.success,
-                    title: Text("Create Event Schedule Successfully"),
-                    description: Text(state.message.toString()),
-                    primaryColor: Colors.green
-                  );
-
-                  _priority = PRIORITY.low;
-                  _status = STATUS.idle;
-                  _dateEvent = DateTime.now();
-
-                  _dateEventController.clear();
-                  _titleEventController.clear();
-                  _descriptionController.clear();
-                  _startHourController.clear();
-                  _endHourController.clear();
-                  _priorityController.clear();
-                  _statusController.clear();
-                  
-                } else if (state.state is CreateEventFailedState){
-                  toastification.show(
-                    context: context,
-                    autoCloseDuration: const Duration(seconds: 3),
-                    style: ToastificationStyle.fillColored,
-                    type: ToastificationType.error,
-                    title: Text("Create Event Schedule Failed"),
-                    description: Text(state.message.toString()),
-                    primaryColor: Colors.red
-                  );
-                }
-              }
-            )
+                  }
+                )
+              ),
+            ],
           ),
           const SizedBox()
         ],

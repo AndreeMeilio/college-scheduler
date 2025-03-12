@@ -7,34 +7,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 
-typedef EventStateType = StateGeneral<CreateEventState, int>;
+typedef EventStateType = StateGeneral<CreateAndUpdateEventState, int>;
 
-class CreateEventState {}
-class CreateEventInitialState extends CreateEventState{}
-class CreateEventLoadingState extends CreateEventState{}
-class CreateEventSuccessState extends CreateEventState{}
-class CreateEventFailedState extends CreateEventState{}
+class CreateAndUpdateEventState {}
+class CreateAndUpdateEventInitialState extends CreateAndUpdateEventState{}
+class CreateAndUpdateEventLoadingState extends CreateAndUpdateEventState{}
+class CreateAndUpdateEventSuccessState extends CreateAndUpdateEventState{}
+class CreateAndUpdateEventFailedState extends CreateAndUpdateEventState{}
 
-class CreateEventCubit extends Cubit<EventStateType>{
+class CreateAndUpdateEventCubit extends Cubit<EventStateType>{
   final EventLocalData _eventLocalData;
 
-  CreateEventCubit({
+  CreateAndUpdateEventCubit({
     required EventLocalData eventLocalData
   }) : _eventLocalData = eventLocalData,
-       super(StateGeneral(state: CreateEventInitialState()));
+       super(StateGeneral(state: CreateAndUpdateEventInitialState()));
 
-  EventStateType eventState = EventStateType(state: CreateEventInitialState());
-  Future<void> insertEvent({
+  EventStateType eventState = EventStateType(state: CreateAndUpdateEventInitialState());
+  Future<void> insertAndUpdateEvent({
     required DateTime dateOfEvent,
     required String title,
     required TimeOfDay startHour,
     TimeOfDay? endHour,
     String? description,
     PRIORITY? priority,
-    STATUS? status
+    STATUS? status,
+    bool? isEdit,
+    int? idEvent
   }) async{
     try {
-      eventState = EventStateType(state: CreateEventLoadingState());
+      eventState = EventStateType(state: CreateAndUpdateEventLoadingState());
       emit(eventState);
   
       final modelRequest = EventModel(
@@ -46,11 +48,20 @@ class CreateEventCubit extends Cubit<EventStateType>{
         priority: priority,
         status: status
       );
-      final result = await _eventLocalData.insert(data: modelRequest);
+      
+      late ResponseGeneral result;
+      if ((isEdit ?? false) && idEvent != null){
+        modelRequest.id = idEvent;
+        print(modelRequest.status);
+        print(modelRequest.priority);
+        result = await _eventLocalData.insertAndUpdate(data: modelRequest);
+      } else {
+        result = await _eventLocalData.insertAndUpdate(data: modelRequest);
+      }
 
       if (result.code == "00"){
         eventState = EventStateType(
-          state: CreateEventSuccessState(),
+          state: CreateAndUpdateEventSuccessState(),
           code: result.code,
           message: result.message,
           data: result.data
@@ -58,7 +69,7 @@ class CreateEventCubit extends Cubit<EventStateType>{
         emit(eventState);
       } else {
         eventState = EventStateType(
-          state: CreateEventFailedState(),
+          state: CreateAndUpdateEventFailedState(),
           code: result.code,
           message: result.message,
           data: -1
@@ -69,12 +80,24 @@ class CreateEventCubit extends Cubit<EventStateType>{
     } catch (e){
       print(e);
       eventState = EventStateType(
-        state: CreateEventFailedState(),
+        state: CreateAndUpdateEventFailedState(),
         code: "01",
         message: "There's a problem creating new event i am sorry );",
         data: -1
       );
       emit(eventState);
     }
+  }
+
+
+  EventModel? tempDataEvent;
+  void setTempDataEvent({
+    required EventModel data
+  }) {
+    tempDataEvent = data;
+  }
+
+  void clearTempDataEvent(){
+    tempDataEvent = null;
   }
 }

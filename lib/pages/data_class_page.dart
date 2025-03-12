@@ -1,3 +1,4 @@
+import 'package:college_scheduler/components/delete_confirmation_component.dart';
 import 'package:college_scheduler/components/primary_button.dart';
 import 'package:college_scheduler/config/color_config.dart';
 import 'package:college_scheduler/config/state_general.dart';
@@ -139,7 +140,23 @@ class DataClassItemWidget extends StatelessWidget {
           ),
           SlidableAction(
             onPressed: (context) async{
-              await _cubit.deleteData(data: _data);
+              showModalBottomSheet(
+                context: context,
+                builder: (context){
+                  return DeleteConfirmationComponent(
+                    onCancel: (){
+                      Navigator.pop(context);
+                    }, 
+                    onProcceed: () async{
+                      await _cubit.deleteData(data: _data);
+
+                      if (context.mounted){
+                        Navigator.pop(context);
+                      }
+                    }
+                  );
+                }
+              );
             },
             label: "Delete",
             backgroundColor: Colors.red,
