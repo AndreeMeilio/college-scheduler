@@ -28,16 +28,30 @@ class ClassLocalData {
         final endHourFirstPart = (data.endHour?.hour ?? 0) < 10 ? "0${data.endHour?.hour}" : data.endHour?.hour;
         final endHourSecondPart = (data.endHour?.minute ?? 0) < 10 ? "0${data.endHour?.minute}" : data.endHour?.minute;
 
-        final resultQuery = await trx.insert("class", {
-          "user_id" : userIdShared,
-          "name" : data.name.toString(),
-          "start_hour" : "$startHourFirstPart:$startHourSecondPart:00",
-          "end_hour": "$endHourFirstPart:$endHourSecondPart:00",
-          "day" : data.day?.name,
-          "lecturer_name": data.lecturerName,
-          "created_at" : DateTime.now().toString(),
-          "updated_at" : DateTime.now().toString()
-        });
+        late int resultQuery;
+
+        if (data.id != null && data.id != 0){
+          resultQuery = await trx.update("class", {
+            "user_id" : userIdShared,
+            "name" : data.name.toString(),
+            "start_hour" : "$startHourFirstPart:$startHourSecondPart:00",
+            "end_hour": "$endHourFirstPart:$endHourSecondPart:00",
+            "day" : data.day?.name,
+            "lecturer_name": data.lecturerName,
+            "updated_at" : DateTime.now().toString()
+          }, where: "id = ?", whereArgs: [data.id]);
+        } else {
+          resultQuery = await trx.insert("class", {
+            "user_id" : userIdShared,
+            "name" : data.name.toString(),
+            "start_hour" : "$startHourFirstPart:$startHourSecondPart:00",
+            "end_hour": "$endHourFirstPart:$endHourSecondPart:00",
+            "day" : data.day?.name,
+            "lecturer_name": data.lecturerName,
+            "created_at" : DateTime.now().toString(),
+            "updated_at" : DateTime.now().toString()
+          });
+        }
 
         return resultQuery;
       });
@@ -59,6 +73,41 @@ class ClassLocalData {
       return ResponseGeneral(
         code: "01",
         message: "There's a problem creating new data class! sorry );",
+        data: -1
+      );
+    }
+  }
+
+  Future<ResponseGeneral<int>> delete({
+    required ClassModel data
+  }) async{
+    try {
+      final db = await _database.getDB();
+      final shared = SharedPreferenceConfig();
+
+      final result = await db.transaction((trx) async{
+        final resultQuery = await trx.delete("class", where: 'id = ?', whereArgs: [data.id]);
+
+        return resultQuery;
+      });
+
+      if (result >= 1){
+        return ResponseGeneral(
+          code: "00",
+          message: "deleting data class successfully",
+          data: result
+        );
+      } else {
+        return ResponseGeneral(
+          code: "01",
+          message: "There's a problem deleting data class! sorry );",
+          data: -1
+        );
+      }
+    } catch (e){
+      return ResponseGeneral(
+        code: "01",
+        message: "There's a problem deleting data class! sorry );",
         data: -1
       );
     }

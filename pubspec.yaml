@@ -47,6 +47,7 @@ dependencies:
   shimmer: ^3.0.0
   local_auth: ^2.3.0
   device_info_plus: ^11.3.3
+  flutter_slidable: ^4.0.0
 
 dev_dependencies:
   flutter_test:

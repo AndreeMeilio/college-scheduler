@@ -10,7 +10,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toastification/toastification.dart';
 
 class InputDataClassPage extends StatefulWidget {
-  const InputDataClassPage({super.key});
+  InputDataClassPage({
+    super.key,
+    this.dataClassFromEdit
+  });
+
+  ClassModel? dataClassFromEdit;
 
   @override
   State<InputDataClassPage> createState() => _InputDataClassPageState();
@@ -48,6 +53,19 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
     _dayofweekController = TextEditingController();
 
     _cubit = BlocProvider.of<CreateDataClassCubit>(context, listen: false);
+
+    if (widget.dataClassFromEdit != null){
+      final dataClassEdit = widget.dataClassFromEdit;
+      _nameController.text = dataClassEdit?.name ?? "";
+      _lectureController.text = dataClassEdit?.lecturerName ?? "";
+      _startHourController.text = "${dataClassEdit?.startHour?.hour}:${dataClassEdit?.endHour?.minute}:00";
+      _endHourController.text = "${dataClassEdit?.endHour?.hour}:${dataClassEdit?.endHour?.minute}:00";
+      
+      _startHour = dataClassEdit?.startHour;
+      _endHour = dataClassEdit?.endHour;
+
+      _dayofweek = dataClassEdit?.day ?? DAYOFWEEK.monday;
+    }
   }
 
   @override
@@ -147,7 +165,7 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
                       onTap: () async{
                         final startHourByUsers = await showTimePicker(
                           context: context,
-                          initialTime: TimeOfDay.now(),
+                          initialTime: _startHour ?? TimeOfDay.now(),
                         );
 
                         _startHourController.text = startHourByUsers != null ? "${startHourByUsers.hour}:${startHourByUsers.minute}:00" : "";
@@ -164,7 +182,7 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
                       onTap: () async{
                         final endHourByUsers = await showTimePicker(
                           context: context,
-                          initialTime: TimeOfDay.now(),
+                          initialTime: _endHour ?? TimeOfDay.now(),
                         );
 
                         _endHourController.text = endHourByUsers != null ? "${endHourByUsers.hour}:${endHourByUsers.minute}:00" : "";
@@ -187,7 +205,9 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
                             lecturerName: _lectureController.text,
                             dayofweek: _dayofweek,
                             startHour: _startHour ?? TimeOfDay.fromDateTime(DateTime.parse("0001-01-01 00:00:00")),
-                            endHour: _endHour ?? TimeOfDay.fromDateTime(DateTime.parse("0001-01-01 00:00:00"))
+                            endHour: _endHour ?? TimeOfDay.fromDateTime(DateTime.parse("0001-01-01 00:00:00")),
+                            isEdit: widget.dataClassFromEdit != null,
+                            idClass: widget.dataClassFromEdit?.id
                           );
                         } else {
                           toastification.show(

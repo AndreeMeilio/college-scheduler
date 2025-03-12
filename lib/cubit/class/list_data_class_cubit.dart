@@ -65,4 +65,36 @@ class ListDataClassCubit extends Cubit<ListDataClassStateType>{
       emit(listState);
     }
   }
+
+  Future<void> deleteData({
+    required ClassModel data
+  }) async{
+    try {
+      listState = ListDataClassStateType(state: ListDataClassLoadingState());
+      emit(listState);
+
+      final result = await _classLocalData.delete(data: data);
+
+      if (result.code == "00"){
+        await getAllData();
+      } else {
+        listState = ListDataClassStateType(
+          state: ListDataClassFailedState(),
+          code: "01",
+          message: "There's a problem when deleting class data",
+          data: []
+        );
+        emit(listState);
+      }
+
+    } catch (e){
+      listState = ListDataClassStateType(
+        state: ListDataClassFailedState(),
+        code: "01",
+        message: "There's a problem when getting class data",
+        data: []
+      );
+      emit(listState);
+    }
+  }
 }

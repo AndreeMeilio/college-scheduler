@@ -1,4 +1,5 @@
 
+import 'package:college_scheduler/config/response_general.dart';
 import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/data/local_data/class_local_data.dart';
 import 'package:college_scheduler/data/models/class_model.dart';
@@ -28,6 +29,8 @@ class CreateDataClassCubit extends Cubit<CreateDataClassStateType>{
     required TimeOfDay startHour,
     TimeOfDay? endHour,
     String? lecturerName,
+    bool? isEdit,
+    int? idClass
   }) async{
     try {
       createState = CreateDataClassStateType(state: CreateDataClassLoadingState());
@@ -39,7 +42,16 @@ class CreateDataClassCubit extends Cubit<CreateDataClassStateType>{
         endHour: endHour,
         day: dayofweek,
       );
-      final result = await _classLocalData.createClass(data: dataRequest);
+
+      late ResponseGeneral<int> result;
+
+      if ((isEdit ?? false) && idClass != null){
+        dataRequest.id = idClass;
+
+        result = await _classLocalData.createClass(data: dataRequest);
+      } else {
+        result = await _classLocalData.createClass(data: dataRequest);
+      }
 
       if (result.code == "00"){
         createState = CreateDataClassStateType(
