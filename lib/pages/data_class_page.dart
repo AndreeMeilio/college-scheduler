@@ -51,20 +51,31 @@ class _DataClassPageState extends State<DataClassPage> {
             BlocBuilder<ListDataClassCubit, StateGeneral>(
               builder: (context, state) {
                 if (state.state is ListDataClassLoadedState){
-                  return ListView.separated(
-                    itemCount: state.data.length,
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    separatorBuilder: (context, index) {
-                      return Divider(color: ColorConfig.backgroundColor, height: 2.0,);
-                    },
-                    itemBuilder: (context, index){
-                      return DataClassItemWidget(
-                        data: state.data[index],
-                        cubit: _cubit,
-                      );
-                    },
-                  );
+                  if (state.data.isNotEmpty){
+                    return ListView.separated(
+                      itemCount: state.data.length,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      separatorBuilder: (context, index) {
+                        return Divider(color: ColorConfig.backgroundColor, height: 2.0,);
+                      },
+                      itemBuilder: (context, index){
+                        return DataClassItemWidget(
+                          data: state.data[index],
+                          cubit: _cubit,
+                        );
+                      },
+                    );
+                  } else {
+                    return Container(
+                      alignment: Alignment.center,
+                      margin: const EdgeInsets.symmetric(vertical: 24.0),
+                      child: Text(
+                        "You Don't Have Any Data On Class",
+                        style: TextStyleConfig.body1bold,
+                      ),
+                    );
+                  }
                 } else if (state.state is ListDataClassFailedState){
                   return Center(
                     child: Text(
@@ -238,58 +249,57 @@ class DataClassItemLoadingWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
       child: Column(
         spacing: 4.0,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Shimmer(
-            gradient: LinearGradient(colors: [
-              Colors.grey,
-              Colors.black
-            ]),
-            child: Text(
-              "Data Dummy 1",
-              style: TextStyleConfig.body1bold,
-            ),
+          Shimmer.fromColors(
+            baseColor: Colors.grey,
+            highlightColor: Colors.white,
+            child: Container(
+              width: MediaQuery.sizeOf(context).width * 0.4,
+              height: 10.0,
+              color: Colors.grey,
+            )
           ),
-          Shimmer(
-            gradient: LinearGradient(colors: [
-              Colors.grey,
-              Colors.black
-            ]),
-            child: Text(
-              "Data Dummy 1",
-              style: TextStyleConfig.body1,
-            ),
+          Shimmer.fromColors(
+            baseColor: Colors.grey,
+            highlightColor: Colors.white,
+            child: Container(
+              width: MediaQuery.sizeOf(context).width * 0.5,
+              height: 10.0,
+              color: Colors.grey,
+            )
           ),
           const SizedBox(height: 4.0,),
           Row(
+            spacing: 24.0,
             children: [
               Expanded(
+                flex: 2,
                 child: Align(
                   alignment: Alignment.center,
-                  child: Shimmer(
-                    gradient: LinearGradient(colors: [
-                      Colors.grey,
-                      Colors.black
-                    ]),
-                    child: Text(
-                      "Data Dummy 1",
-                      style: TextStyleConfig.body1,
-                    ),
-                  )
+                  child: Shimmer.fromColors(
+                    baseColor: Colors.grey,
+                    highlightColor: Colors.white,
+                    child: Container(
+                      width: MediaQuery.sizeOf(context).width * 0.4,
+                      height: 10.0,
+                      color: Colors.grey,
+                    )
+                  ),
                 )
               ),
               Expanded(
+                flex: 1,
                 child: Align(
                   alignment: Alignment.center,
-                  child: Shimmer(
-                    gradient: LinearGradient(colors: [
-                      Colors.grey,
-                      Colors.black
-                    ]),
-                    child: Text(
-                      "Data Dummy 1",
-                      style: TextStyleConfig.body1,
-                    ),
+                  child: Shimmer.fromColors(
+                    baseColor: Colors.grey,
+                    highlightColor: Colors.white,
+                    child: Container(
+                      width: MediaQuery.sizeOf(context).width * 0.4,
+                      height: 10.0,
+                      color: Colors.grey,
+                    )
                   ),
                 )
               ),
@@ -298,17 +308,17 @@ class DataClassItemLoadingWidget extends StatelessWidget {
                 style: TextStyleConfig.body1,
               ),
               Expanded(
+                flex: 1,
                 child: Align(
                   alignment: Alignment.center,
-                  child: Shimmer(
-                    gradient: LinearGradient(colors: [
-                      Colors.grey,
-                      Colors.black
-                    ]),
-                    child: Text(
-                      "Data Dummy 1",
-                      style: TextStyleConfig.body1,
-                    ),
+                  child: Shimmer.fromColors(
+                    baseColor: Colors.grey,
+                    highlightColor: Colors.white,
+                    child: Container(
+                      width: MediaQuery.sizeOf(context).width * 0.4,
+                      height: 10.0,
+                      color: Colors.grey,
+                    )
                   ),
                 )
               ),

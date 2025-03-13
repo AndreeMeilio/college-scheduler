@@ -26,11 +26,9 @@ class UsersLocalData {
 
     try {
       final dataLocalByUsername = await db.transaction<List>((trx) async{
-        List<Map> resultQuery = List.from(await trx.query('users', where: 'username like ?', whereArgs: [username]));
+        List<Map> resultQuery = List.from(await trx.query('users', where: 'username = ?', whereArgs: [username]));
 
         List<Map> result = List.from(resultQuery);
-
-        print(result);
 
         return result;
       });
@@ -168,25 +166,44 @@ class UsersLocalData {
 
     final db = await _database.getDB();
 
+    bool isAccountWithUsernameExist = false;
+
     try {
       final result = await db.transaction<int>((txn) async{
-        final resultInsert = await txn.insert('users', {
-          "fullname" : fullname,
-          "username": username,
-          "device_id": deviceAndroid.fingerprint.toString(),
-          "password": digest.toString(),
-          "salt": saltPassword,
-          "created_at": DateTime.now().toString(),
-          "updated_at": DateTime.now().toString()
-        });
 
-        return resultInsert;
+        final checkAccountWithUsernameQuery = await txn.query("users", where: 'username = ?', whereArgs: [username]);
+
+        if (checkAccountWithUsernameQuery.isNotEmpty){
+          isAccountWithUsernameExist = true;
+
+          return -1;
+        } else {
+          isAccountWithUsernameExist = false;
+
+          final resultInsert = await txn.insert('users', {
+            "fullname" : fullname,
+            "username": username,
+            "device_id": deviceAndroid.fingerprint.toString(),
+            "password": digest.toString(),
+            "salt": saltPassword,
+            "created_at": DateTime.now().toString(),
+            "updated_at": DateTime.now().toString()
+          });
+
+          return resultInsert;
+        }
       });
 
       if (result >= 1){
         return ResponseGeneral(
           code: "00",
           message: "Your account has been successfully created",
+          data: result
+        );
+      } else if (isAccountWithUsernameExist){
+        return ResponseGeneral(
+          code: "01",
+          message: "Username has been used by others, please change it",
           data: result
         );
       } else {

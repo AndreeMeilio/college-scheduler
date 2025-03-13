@@ -3,7 +3,7 @@ import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextFormField extends StatelessWidget {
-  CustomTextFormField({
+  const CustomTextFormField({
     super.key, 
     required TextEditingController controller,
     required String label,
@@ -16,7 +16,8 @@ class CustomTextFormField extends StatelessWidget {
     void Function(String?)? onChanged,
     int maxLines = 1,
     bool readonly = false,
-    void Function()? onTap
+    void Function()? onTap,
+    bool? isRequired = false
   }) : _controller = controller,
        _label = label, 
        _hint = hint,
@@ -28,7 +29,8 @@ class CustomTextFormField extends StatelessWidget {
        _onChanged = onChanged,
        _maxLines = maxLines,
        _readOnly = readonly,
-       _onTap = onTap;
+       _onTap = onTap,
+       _isRequired = isRequired;
 
   final TextEditingController _controller;
   final String _label;
@@ -42,6 +44,7 @@ class CustomTextFormField extends StatelessWidget {
   final int _maxLines;
   final bool _readOnly;
   final void Function()? _onTap;
+  final bool? _isRequired;
 
   @override
   Widget build(BuildContext context) {
@@ -50,10 +53,18 @@ class CustomTextFormField extends StatelessWidget {
       children: [
         _label == "" || _label.isEmpty ? const SizedBox.shrink() : Container(
           margin: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: Text(
-            _label,
-            style: TextStyleConfig.body1
-          ),
+          child: RichText(
+            text: TextSpan(
+              text: _label,
+              style: TextStyleConfig.body2,
+              children: _isRequired ?? false ? [
+                TextSpan(
+                  text: " *",
+                  style: TextStyleConfig.body2.copyWith(color: Colors.red)
+                )
+              ] : null
+            ),
+          )
         ),
         _label == "" || _label.isEmpty ? const SizedBox.shrink() : const SizedBox(height: 8.0,),
         Container(

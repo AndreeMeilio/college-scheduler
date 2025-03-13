@@ -23,7 +23,9 @@ class _RegisterPageState extends State<RegisterPage> {
   late TextEditingController _fullnameController;
   late TextEditingController _usernameController;
   late TextEditingController _passwordController;
+  late TextEditingController _confirmPasswordController;
   late bool _isObscure;
+  late bool _isConfirmationObscure;
 
   late RegisterCubit _cubit;
 
@@ -35,8 +37,10 @@ class _RegisterPageState extends State<RegisterPage> {
     _fullnameController = TextEditingController();
     _usernameController = TextEditingController();
     _passwordController = TextEditingController();
+    _confirmPasswordController = TextEditingController();
 
     _isObscure = true;
+    _isConfirmationObscure = true;
 
     _cubit = BlocProvider.of<RegisterCubit>(context, listen: false);
   }
@@ -132,7 +136,33 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         PasswordRuleChecker(
                           password: _passwordController.text,
-                        )
+                        ),
+                        CustomTextFormField(
+                          controller: _confirmPasswordController,
+                          label: "Confirmation Password",
+                          hint: "Input your Confirmation Password",
+                          isPassword: true,
+                          obsureText: _isConfirmationObscure,
+                          suffixIconOnPressed: (){
+                            setState(() {
+                              _isConfirmationObscure = !_isConfirmationObscure;
+                            });
+                          },
+                          validator: (value){
+                            if (!(value?.isNotEmpty ?? false)){
+                              return "Please input your Password";
+                            } else if (_passwordController.text != _confirmPasswordController.text){
+                              return "Your password and confirmation password doesn't match";
+                            }
+                        
+                            return null;
+                          },
+                          onChanged: (value){
+                            setState(() {
+                              
+                            });
+                          },
+                        ),
                       ]
                     )
                   ],

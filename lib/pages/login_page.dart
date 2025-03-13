@@ -174,27 +174,27 @@ class _LoginPageState extends State<LoginPage> {
                               label: "Login",
                             ),
                           ),
-                          Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: ColorConfig.mainColor
-                            ),
-                            child: Material(
-                              color: Colors.transparent,
-                              child: InkWell(
-                                onTap: () async{
-                                  await _cubit.loginFingerprint();
-                                },
-                                splashColor: Colors.grey.withAlpha(50),
-                                borderRadius: BorderRadius.all(Radius.circular(50)),
-                                child: Container(
-                                  padding: const EdgeInsets.all(12.0),
-                                  child: Icon(Icons.fingerprint),
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 24.0,)
+                          // Container(
+                          //   decoration: BoxDecoration(
+                          //     shape: BoxShape.circle,
+                          //     color: ColorConfig.mainColor
+                          //   ),
+                          //   child: Material(
+                          //     color: Colors.transparent,
+                          //     child: InkWell(
+                          //       onTap: () async{
+                          //         await _cubit.loginFingerprint();
+                          //       },
+                          //       splashColor: Colors.grey.withAlpha(50),
+                          //       borderRadius: BorderRadius.all(Radius.circular(50)),
+                          //       child: Container(
+                          //         padding: const EdgeInsets.all(12.0),
+                          //         child: Icon(Icons.fingerprint),
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
+                          // const SizedBox(width: 24.0,)
                         ],
                       );
                     },

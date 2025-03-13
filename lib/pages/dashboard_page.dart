@@ -262,24 +262,35 @@ class _ListItemEventWidgetState extends State<ListItemEventWidget> {
         BlocBuilder<ListEventCubit, StateGeneral>(
           builder: (context, state){
             if (state.state is ListEventLoadedState){
-              return ListView.separated(
-                separatorBuilder: (context, index) {
-                  return Divider(
-                    height: 0.0,
-                    thickness: 8.0,
-                    color: ColorConfig.mainColor,
-                  );
-                },
-                itemCount: state.data.length,
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return ListItemEventDataWidget(
-                    data: state.data[index],
-                    cubit: _cubit,
-                  );
-                },
-              );
+              if (state.data.isNotEmpty){
+                return ListView.separated(
+                  separatorBuilder: (context, index) {
+                    return Divider(
+                      height: 0.0,
+                      thickness: 8.0,
+                      color: ColorConfig.mainColor,
+                    );
+                  },
+                  itemCount: state.data.length,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return ListItemEventDataWidget(
+                      data: state.data[index],
+                      cubit: _cubit,
+                    );
+                  },
+                );
+              } else {
+                return Container(
+                  alignment: Alignment.center,
+                  margin: const EdgeInsets.symmetric(vertical: 24.0),
+                  child: Text(
+                    "You Don't Have Any Data On Events",
+                    style: TextStyleConfig.body1bold,
+                  ),
+                );
+              }
             } else if (state.state is ListEventFailedState){
               return Container(
                 margin: const EdgeInsets.only(top: 24.0),
@@ -298,7 +309,7 @@ class _ListItemEventWidgetState extends State<ListItemEventWidget> {
                     color: ColorConfig.mainColor,
                   );
                 },
-                itemCount: 5,
+                itemCount: 2,
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
@@ -431,42 +442,37 @@ class ListItemEventDataLoadingWidget extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(24.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Shimmer(
-                  child: Text(
-                    "Tugas Pembuatan Kalkulator Java",
-                    style: TextStyleConfig.body1bold,
-                  ),
-                  gradient: LinearGradient(colors: [
-                    Colors.grey,
-                    Colors.black
-                  ]),
+                Shimmer.fromColors(
+                  baseColor: Colors.grey.withAlpha(150),
+                  highlightColor: Colors.white,
+                  child: Container(
+                    color: Colors.grey,
+                    height: 10.0,
+                    width: MediaQuery.sizeOf(context).width * 0.75,
+                  )
                 ),
                 const SizedBox(height: 8.0,),
-                Shimmer(
-                  child: Text(
-                    "Deadline : 30 Februari 2025",
-                    style: TextStyleConfig.body2,
+                Shimmer.fromColors(
+                  baseColor: Colors.grey.withAlpha(150),
+                  highlightColor: Colors.white,
+                  child: Container(
+                    color: Colors.grey,
+                    height: 10.0,
+                    width: MediaQuery.sizeOf(context).width * 0.5,
                   ),
-                  gradient: LinearGradient(colors: [
-                    Colors.grey,
-                    Colors.black
-
-                  ]),
                 ),
                 const SizedBox(height: 32.0,),
-                Shimmer(
-                  child: Text(
-                    "Priority : HIGH",
-                    style: TextStyleConfig.body2,
+                Shimmer.fromColors(
+                  baseColor: Colors.grey.withAlpha(150),
+                  highlightColor: Colors.white,
+                  child: Container(
+                    color: Colors.grey,
+                    height: 10.0,
+                    width: MediaQuery.sizeOf(context).width * 0.25,
                   ),
-                  gradient: LinearGradient(colors: [
-                    Colors.grey,
-                    Colors.black
-
-                  ]),
-                )
+                ),
               ],
             ),
           ),

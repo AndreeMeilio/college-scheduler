@@ -103,6 +103,7 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
 
                   return null;
                 },
+                isRequired: true,
               ),
               CustomTextFormField(
                 controller: _lectureController,
@@ -115,6 +116,7 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
 
                   return null;
                 },
+                isRequired: true,
               ),
               DropdownMenuComponent(
                 controller: _dayofweekController,
@@ -171,6 +173,14 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
                         _startHourController.text = startHourByUsers != null ? "${startHourByUsers.hour}:${startHourByUsers.minute}:00" : "";
                         _startHour = startHourByUsers;
                       },
+                      isRequired: true,
+                      validator: (value){
+                        if (value?.isEmpty ?? false){
+                          return "Please input starting time of the class";
+                        }
+
+                        return null;
+                      },
                     ),
                   ),
                   Expanded(
@@ -187,6 +197,14 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
 
                         _endHourController.text = endHourByUsers != null ? "${endHourByUsers.hour}:${endHourByUsers.minute}:00" : "";
                         _endHour = endHourByUsers;
+                      },
+                      isRequired: true,
+                      validator: (value){
+                        if (value?.isEmpty ?? false){
+                          return "Please input ending time of the class";
+                        }
+
+                        return null;
                       },
                     ),
                   )

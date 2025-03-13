@@ -75,6 +75,8 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
     _formKey = GlobalKey<FormState>();
 
     _dateEvent = DateTime.now();
+    _startHour = TimeOfDay(hour: 0, minute: 0);
+    _endHour = TimeOfDay(hour: 0, minute: 0);
 
     _dateEventController = TextEditingController();
     _titleEventController = TextEditingController();
@@ -129,25 +131,48 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
         children: [
           CustomTextFormField(
             controller: _dateEventController,
+            isRequired: true,
             label: "Date Of Event",
             hint: "Please input Date Of Event",
             readonly: true,
             onTap: () async{
               final dateByUsers = await showDatePicker(
                 context: context, 
-                firstDate: DateTime(DateTime.now().year - 1), 
+                firstDate: DateTime(DateTime.now().year - 1),
                 lastDate: DateTime(DateTime.now().year + 1),
+                selectableDayPredicate: (DateTime day){
+                  if (day.isAfter(DateTime.now().subtract(const Duration(days: 1)))){
+                    return true;
+                  }
+
+                  return false;
+                },
                 initialDate: _dateEvent
               );
 
               _dateEventController.text = dateByUsers != null ? DateFormat("y-MM-dd").format(dateByUsers) : "";
               _dateEvent = dateByUsers ?? DateTime.now();
             },
+            validator: (value){
+              if (value?.isEmpty ?? false){
+                return "Please input date of the event";
+              }
+
+              return null;
+            },
           ),
           CustomTextFormField(
+            isRequired: true,
             controller: _titleEventController,
             label: "Title Event",
             hint: "Please input Title Event",
+            validator: (value){
+              if (value?.isEmpty ?? false){
+                return "Please input the title event";
+              }
+
+              return null;
+            },
           ),
           Row(
             children: [
@@ -277,7 +302,7 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
                             dateOfEvent: _dateEvent,
                             title: _titleEventController.text,
                             startHour: _startHour ?? TimeOfDay(hour: 0, minute: 0),
-                            endHour: _endHour,
+                            endHour: _endHour ?? TimeOfDay(hour: 0, minute: 0),
                             description: _descriptionController.text,
                             priority: _priority,
                             status: _status,
