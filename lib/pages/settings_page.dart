@@ -2,6 +2,7 @@ import 'package:college_scheduler/components/quote_widget.dart';
 import 'package:college_scheduler/config/color_config.dart';
 import 'package:college_scheduler/config/shared_preference.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
+import 'package:college_scheduler/pages/change_password_page.dart';
 import 'package:college_scheduler/pages/data_class_page.dart';
 import 'package:college_scheduler/pages/login_page.dart';
 import 'package:flutter/material.dart';
@@ -156,6 +157,11 @@ class SettingsDataSectionWidget extends StatelessWidget {
                         child: DataClassPage()
                       ));
                     }
+                  } else if (_dataMenu[index] == "Change Password"){
+                    Navigator.push(context, PageTransition(
+                      type: PageTransitionType.rightToLeft,
+                      child: ChangePasswordPage()
+                    ));
                   }
                 },
                 menu: _dataMenu[index],

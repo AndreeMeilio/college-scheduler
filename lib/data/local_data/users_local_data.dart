@@ -50,6 +50,11 @@ class UsersLocalData {
             value: dataUser["device_id"]
           );
 
+          await shared.setString(
+            key: ConstansValue.username,
+            value: dataUser["username"]
+          );
+
           return UsersModelResponse(
             code: "00",
             message: "Welcome back bro, it's nice seeing you again (:",
@@ -219,6 +224,72 @@ class UsersLocalData {
         code: "01",
         message: "There's a problem creating your account i am sorry );",
         data: 0
+      );
+    }
+  }
+
+  Future<ResponseGeneral<int>> changePassword({
+    required String oldPassword,
+    required String newPassword
+  }) async{
+    final db = await _database.getDB();
+    final shared = SharedPreferenceConfig();
+  
+    try{
+      final result = await db.transaction<ResponseGeneral<int>>((trx) async{
+        final username = await shared.getString(key: ConstansValue.username);
+
+        final checkUserExist = await trx.query("users", where: 'username = ?', whereArgs: [username]);
+        
+        if (checkUserExist.isNotEmpty){
+          final dataUser = checkUserExist.first;
+
+          final hashPassword = utf8.encode(oldPassword + dataUser["salt"].toString());
+          final digest = sha512256.convert(hashPassword.toList());
+
+          if (digest.toString() == dataUser["password"]){
+            final hashNewPassword = utf8.encode(newPassword + dataUser["salt"].toString());
+            final digestNewPassword = sha512256.convert(hashNewPassword.toList());
+
+            final resultQueryUpdate = await trx.update("users", {
+              "password" : digestNewPassword.toString()
+            }, where: 'username = ?', whereArgs: [username]);
+
+            if (resultQueryUpdate >= 1){
+              return ResponseGeneral(
+                code: "00",
+                data: resultQueryUpdate,
+                message: "Changing password successfully, please login again"
+              );
+            } else {
+              return ResponseGeneral(
+                code: "01",
+                data: -1,
+                message: "Updating your password failed, i am sorry!"
+              );
+            }
+          } else {
+            return ResponseGeneral(
+              code: "01",
+              data: -1,
+              message: "Old password doesn't match with our database"
+            );
+          }
+        } else {
+          return ResponseGeneral(
+            code: "01",
+            data: -1,
+            message: "Your account is not found, please try login again"
+          );
+        }
+      });
+
+      return result;
+    } catch (e){
+      return ResponseGeneral(
+        code: "01",
+        message: "There's a problem when changing your account password",
+        data: -1
       );
     }
   }

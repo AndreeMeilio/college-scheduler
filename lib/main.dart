@@ -5,6 +5,7 @@ import 'package:college_scheduler/cubit/class/create_and_update_data_class_cubit
 import 'package:college_scheduler/cubit/class/list_data_class_cubit.dart';
 import 'package:college_scheduler/cubit/event/create_event_cubit.dart';
 import 'package:college_scheduler/cubit/event/list_event_cubit.dart';
+import 'package:college_scheduler/cubit/users/change_password_cubit.dart';
 import 'package:college_scheduler/cubit/users/login_cubit.dart';
 import 'package:college_scheduler/cubit/users/register_cubit.dart';
 import 'package:college_scheduler/pages/login_page.dart';
@@ -44,6 +45,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<BaseMenuCubit>(
           create: (context) => BaseMenuCubit(),
+        ),
+        BlocProvider<ChangePasswordCubit>(
+          create: (context) => ChangePasswordCubit(usersLocalData: sl())
         )
       ],
       child: MaterialApp(
