@@ -72,11 +72,13 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
   void dispose() {
     super.dispose();
 
-    _nameController.clear();
-    _lectureController.clear();
-    _startHourController.clear();
-    _endHourController.clear();
-    _dayofweekController.clear();
+    _nameController.dispose();
+    _lectureController.dispose();
+    _startHourController.dispose();
+    _endHourController.dispose();
+    _dayofweekController.dispose();
+
+    _cubit.close();
   }
 
   @override

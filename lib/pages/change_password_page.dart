@@ -50,6 +50,17 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+
+    _oldPasswordController.dispose();
+    _newPasswordController.dispose();
+    _confirmNewPasswordController.dispose();
+
+    _cubit.close();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

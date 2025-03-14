@@ -41,6 +41,17 @@ class _ChangeFullnameUsernamePageState extends State<ChangeFullnameUsernamePage>
   }
 
   @override
+  void dispose() {
+    super.dispose();
+
+    _fullnameController.dispose();
+    _usernameController.dispose();
+    _passwordController.dispose();
+
+    _cubit.close();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

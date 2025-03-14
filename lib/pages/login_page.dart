@@ -47,8 +47,10 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void dispose() {
     super.dispose();
-    _usernameController.clear();
-    _passwordController.clear();
+    _usernameController.dispose();
+    _passwordController.dispose();
+
+    _cubit.close();
   }
 
   @override

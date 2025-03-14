@@ -30,6 +30,13 @@ class _LoginHistoryPageState extends State<LoginHistoryPage> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+
+    _cubit.close();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

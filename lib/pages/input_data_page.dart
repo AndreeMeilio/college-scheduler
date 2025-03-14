@@ -115,10 +115,13 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
 
     _dateEventController.dispose();
     _titleEventController.dispose();
+    _descriptionController.dispose();
     _startHourController.dispose();
     _endHourController.dispose();
     _priorityController.dispose();
     _statusController.dispose();
+
+    _cubit.close();
   }
 
   @override
