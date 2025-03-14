@@ -33,7 +33,6 @@ class _LoginHistoryPageState extends State<LoginHistoryPage> {
   void dispose() {
     super.dispose();
 
-    _cubit.close();
   }
 
   @override

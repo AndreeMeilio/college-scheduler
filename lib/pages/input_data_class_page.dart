@@ -77,8 +77,6 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
     _startHourController.dispose();
     _endHourController.dispose();
     _dayofweekController.dispose();
-
-    _cubit.close();
   }
 
   @override

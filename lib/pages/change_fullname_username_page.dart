@@ -1,10 +1,13 @@
 
 import 'package:college_scheduler/components/primary_button.dart';
 import 'package:college_scheduler/components/text_form_field.dart';
+import 'package:college_scheduler/config/shared_preference.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:college_scheduler/cubit/users/change_fullname_username_cubit.dart';
+import 'package:college_scheduler/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:toastification/toastification.dart';
 
 class ChangeFullnameUsernamePage extends StatefulWidget {
@@ -48,7 +51,6 @@ class _ChangeFullnameUsernamePageState extends State<ChangeFullnameUsernamePage>
     _usernameController.dispose();
     _passwordController.dispose();
 
-    _cubit.close();
   }
 
   @override
@@ -141,6 +143,17 @@ class _ChangeFullnameUsernamePageState extends State<ChangeFullnameUsernamePage>
                       username: _usernameController.text,
                       password: _passwordController.text
                     );
+
+                    final prefs = SharedPreferenceConfig();
+
+                    await prefs.clearShared();
+
+                    if (context.mounted){
+                      Navigator.pushReplacement(context, PageTransition(
+                        type: PageTransitionType.rightToLeft,
+                        child: LoginPage()
+                      ));
+                    }
                   } else {
                     toastification.show(
                       context: context,

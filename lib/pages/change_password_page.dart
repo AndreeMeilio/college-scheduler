@@ -57,7 +57,6 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
     _newPasswordController.dispose();
     _confirmNewPasswordController.dispose();
 
-    _cubit.close();
   }
 
   @override

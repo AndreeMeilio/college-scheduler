@@ -121,7 +121,6 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
     _priorityController.dispose();
     _statusController.dispose();
 
-    _cubit.close();
   }
 
   @override

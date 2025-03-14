@@ -54,7 +54,6 @@ class _RegisterPageState extends State<RegisterPage> {
     _passwordController.dispose();
     _confirmPasswordController.dispose();
 
-    _cubit.close();
   }
 
   @override

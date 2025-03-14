@@ -34,8 +34,6 @@ class _DataClassPageState extends State<DataClassPage> {
   @override
   void dispose() {
     super.dispose();
-
-    _cubit.close();
   }
 
   @override

@@ -217,7 +217,6 @@ class _ListItemEventWidgetState extends State<ListItemEventWidget> {
     super.dispose();
 
     _searchController.dispose();
-    _cubit.close();
   }
 
   @override
