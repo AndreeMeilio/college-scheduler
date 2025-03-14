@@ -4,6 +4,7 @@ import 'package:college_scheduler/config/shared_preference.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:college_scheduler/pages/change_password_page.dart';
 import 'package:college_scheduler/pages/data_class_page.dart';
+import 'package:college_scheduler/pages/login_history_page.dart';
 import 'package:college_scheduler/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -161,6 +162,11 @@ class SettingsDataSectionWidget extends StatelessWidget {
                     Navigator.push(context, PageTransition(
                       type: PageTransitionType.rightToLeft,
                       child: ChangePasswordPage()
+                    ));
+                  } else if (_dataMenu[index] == "Login History"){
+                    Navigator.push(context, PageTransition(
+                      type: PageTransitionType.rightToLeft,
+                      child: LoginHistoryPage()
                     ));
                   }
                 },

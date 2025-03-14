@@ -6,6 +6,8 @@ import 'package:college_scheduler/config/constants_value.dart';
 import 'package:college_scheduler/config/database.dart';
 import 'package:college_scheduler/config/response_general.dart';
 import 'package:college_scheduler/config/shared_preference.dart';
+import 'package:college_scheduler/data/local_data/logs_local_data.dart';
+import 'package:college_scheduler/data/models/logs_model.dart';
 import 'package:college_scheduler/data/models/users_model.dart';
 import 'package:college_scheduler/utils/info_device.dart';
 import 'package:college_scheduler/utils/random_string.dart';
@@ -13,10 +15,13 @@ import 'package:crypto/crypto.dart';
 
 class UsersLocalData {
   final DatabaseConfig _database;
+  final LogsLocalData _logsLocalData;
 
   UsersLocalData({
-    required DatabaseConfig database
-  }) : _database = database;
+    required DatabaseConfig database,
+    required LogsLocalData logsLocalData
+  }) : _database = database,
+       _logsLocalData = logsLocalData;
 
   Future<UsersModelResponse> login({
     required String username,
@@ -54,6 +59,18 @@ class UsersLocalData {
             key: ConstansValue.username,
             value: dataUser["username"]
           );
+
+          final resultLogs = await _logsLocalData.createLogs(
+            data: LogsModel(
+              actionName: "login",
+              tableAction: "users",
+              description: "Account with username ${dataUser['username']} login to system at ${DateTime.now()}",
+              userId: dataUser["id"],
+              createdAt: DateTime.now(),
+              updatedAt: DateTime.now()
+            )
+          );
+          print("logs message : ${resultLogs.message}");
 
           return UsersModelResponse(
             code: "00",

@@ -63,6 +63,23 @@ class DatabaseConfig {
           """
         );
       },
+      onUpgrade: (db, oldVersion, newVersion) async{
+        if (oldVersion != newVersion && newVersion == 2){
+          await db.execute(
+            """
+              create table logs(
+                id integer primary key autoincrement,
+                user_id integer,
+                action_name text,
+                table_action text,
+                description text,
+                created_at text,
+                updated_at text
+              )
+            """
+          );
+        }
+      },
     );
 
     return _database!;
