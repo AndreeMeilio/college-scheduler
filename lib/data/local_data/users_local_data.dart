@@ -310,4 +310,69 @@ class UsersLocalData {
       );
     }
   }
+
+  Future<ResponseGeneral<int>> changeFullnameOrUsername({
+    required String fullname,
+    required String username,
+    required String password
+  }) async {
+    final db = await _database.getDB();
+    final shared = SharedPreferenceConfig();
+
+    try {
+      final result = await db.transaction<ResponseGeneral<int>>((trx) async{
+        final userId = await shared.getInt(key: ConstansValue.user_id);
+
+        final queryGetData = await trx.query("users", where: 'id = ?', whereArgs: [userId]);
+        if (queryGetData.isNotEmpty){
+          final dataUser = queryGetData.first;
+
+          final hashPassword = utf8.encode(password + dataUser["salt"].toString());
+          final digest = sha512256.convert(hashPassword.toList());
+
+          if (digest.toString() == dataUser["password"]){
+
+            final queryUpdate = await trx.update("users", {
+              "username": username,
+              "fullname": fullname
+            }, where: 'id = ?', whereArgs: [userId]);
+
+            if (queryUpdate >= 1){
+              return ResponseGeneral(
+                code: "00",
+                message: "Changing your account fullname or username success",
+                data: queryUpdate
+              );
+            } else {
+              return ResponseGeneral(
+                code: "01",
+                message: "Changing your account fullname or username failed",
+                data: queryUpdate
+              );
+            }
+          } else {
+            return ResponseGeneral(
+              code: "01",
+              message: "Password doesn't match your account username",
+              data: -1
+            );
+          }
+        } else {
+          return ResponseGeneral(
+            code: "01",
+            message: "Account not found, please try relogin",
+            data: -1
+          );
+        }
+      });
+
+      return result;
+    } catch (e){
+      return ResponseGeneral(
+        code: "01",
+        message: "There's a problem when changing your fullname or username",
+        data: -1
+      );
+    }
+  }
 }

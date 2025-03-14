@@ -2,6 +2,7 @@ import 'package:college_scheduler/components/quote_widget.dart';
 import 'package:college_scheduler/config/color_config.dart';
 import 'package:college_scheduler/config/shared_preference.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
+import 'package:college_scheduler/pages/change_fullname_username_page.dart';
 import 'package:college_scheduler/pages/change_password_page.dart';
 import 'package:college_scheduler/pages/data_class_page.dart';
 import 'package:college_scheduler/pages/login_history_page.dart';
@@ -56,27 +57,57 @@ class _SettingsListWidgetState extends State<SettingsListWidget> {
     _dataMenu = List.from([
       {
         "label" : "Data",
-        "item": List.from(<String>[
-          "History Event",
-          "Data Class",
-          "Data Dosen",
-          "Files"
+        "item": List.from(<Map>[
+          {
+            "name": "History Event",
+            "isFeatureIncoming" : true
+          },
+          {
+            "name": "Data Class",
+            "isFeatureIncoming": false
+          },
+          {
+            "name": "Data Dosen",
+            "isFeatureIncoming": true
+          },
+          {
+            "name": "Files",
+            "isFeatureIncoming": true
+          },
         ])
       },
       {
         "label" : "Notification",
-        "item": List.from(<String>[
-          "Reminder Event",
-          "Reminder Input"
+        "item": List.from(<Map>[
+          {
+            "name": "Reminder Event",
+            "isFeatureIncoming": true
+          },
+          {
+            "name": "Reminder Input",
+            "isFeatureIncoming": true
+          }
         ])
       },
       {
         "label" : "Account",
-        "item" : List.from(<String>[
-          "Change Password",
-          "Login History",
-          "Change Fullname Or Username",
-          "Logout"
+        "item" : List.from(<Map>[
+          {
+            "name": "Change Password",
+            "isFeatureIncoming": false
+          },
+          {
+            "name": "Login History",
+            "isFeatureIncoming": false
+          },
+          {
+            "name": "Change Fullname Or Username",
+            "isFeatureIncoming": false
+          },
+          {
+            "name": "Logout",
+            "isFeatureIncoming": false
+          }
         ])
       }
     ]);
@@ -140,7 +171,7 @@ class SettingsDataSectionWidget extends StatelessWidget {
             itemBuilder: (context, index){
               return SettingsDataListItem(
                 onTap: () async{
-                  if (_dataMenu[index] == "Logout"){
+                  if (_dataMenu[index]["name"] == "Logout"){
                     final prefs = SharedPreferenceConfig();
 
                     await prefs.clearShared();
@@ -151,26 +182,30 @@ class SettingsDataSectionWidget extends StatelessWidget {
                         child: LoginPage()
                       ));
                     }
-                  } else if (_dataMenu[index] == "Data Class"){
-                    if (context.mounted){
-                      Navigator.push(context, PageTransition(
-                        type: PageTransitionType.rightToLeft,
-                        child: DataClassPage()
-                      ));
-                    }
-                  } else if (_dataMenu[index] == "Change Password"){
+                  } else if (_dataMenu[index]["name"] == "Data Class"){
+                    Navigator.push(context, PageTransition(
+                      type: PageTransitionType.rightToLeft,
+                      child: DataClassPage()
+                    ));
+                  } else if (_dataMenu[index]["name"] == "Change Password"){
                     Navigator.push(context, PageTransition(
                       type: PageTransitionType.rightToLeft,
                       child: ChangePasswordPage()
                     ));
-                  } else if (_dataMenu[index] == "Login History"){
+                  } else if (_dataMenu[index]["name"] == "Change Fullname Or Username"){
+                    Navigator.push(context, PageTransition(
+                      type: PageTransitionType.rightToLeft,
+                      child: ChangeFullnameUsernamePage()
+                    ));
+                  } else if (_dataMenu[index]["name"] == "Login History"){
                     Navigator.push(context, PageTransition(
                       type: PageTransitionType.rightToLeft,
                       child: LoginHistoryPage()
                     ));
                   }
                 },
-                menu: _dataMenu[index],
+                menu: _dataMenu[index]["name"],
+                isFeatureIncoming: _dataMenu[index]["isFeatureIncoming"],
               );
             },
           ),
@@ -184,18 +219,22 @@ class SettingsDataListItem extends StatelessWidget {
   SettingsDataListItem({
     super.key,
     required String menu,
-    required void Function()? onTap
+    required void Function()? onTap,
+    bool? isFeatureIncoming
+
   }) : _menu = menu,
-       _onTap = onTap;
+       _onTap = onTap,
+       _isFeatureIncoming = isFeatureIncoming;
 
   final String _menu;
   final void Function()? _onTap;
+  final bool? _isFeatureIncoming;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: _isFeatureIncoming ?? false ? Colors.grey : Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(8.0)),
         boxShadow: [
           BoxShadow(
@@ -207,18 +246,44 @@ class SettingsDataListItem extends StatelessWidget {
       ),
       child: Material(
         color: Colors.transparent,
-        child: InkWell(
-          onTap: _onTap,
-          splashColor: Colors.black.withAlpha(25),
-          borderRadius: BorderRadius.all(Radius.circular(8.0)),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
-            child: Text(
-              _menu,
-              style: TextStyleConfig.body1,
+        child: _isFeatureIncoming ?? false
+          ? Container(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      _menu,
+                      style: TextStyleConfig.body1,
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: ColorConfig.mainColor),
+                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                    ),
+                    child: Text(
+                      "Incoming",
+                      style: TextStyleConfig.body1,
+                    ),
+                  )
+                ],
+              )
+            )
+          : InkWell(
+              onTap: _onTap,
+              splashColor: Colors.black.withAlpha(25),
+              borderRadius: BorderRadius.all(Radius.circular(8.0)),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+                child: Text(
+                  _menu,
+                  style: TextStyleConfig.body1,
+                ),
+              ),
             ),
-          ),
-        ),
       ),
     );
   }

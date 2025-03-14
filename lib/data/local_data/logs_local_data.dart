@@ -22,7 +22,7 @@ class LogsLocalData {
       final result = await db.transaction((trx) async{
         final userId = await shared.getInt(key: ConstansValue.user_id);
 
-        final resultQuery = await trx.query("logs", where: 'action_name = ? and user_id = ?', whereArgs: [action, userId]);
+        final resultQuery = await trx.query("logs", where: 'action_name = ? and user_id = ?', orderBy: 'created_at desc', whereArgs: [action, userId]);
 
         return resultQuery;
       });
