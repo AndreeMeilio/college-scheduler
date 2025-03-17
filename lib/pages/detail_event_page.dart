@@ -27,7 +27,7 @@ class DetailEventPage extends StatelessWidget {
           Container(
             margin: const EdgeInsets.all(24.0),
             child: Text(
-              data.title.toString(),
+              data.title ?? "",
               style: TextStyleConfig.heading1bold,
             ),
           ),
@@ -141,7 +141,7 @@ class DetailEventPage extends StatelessWidget {
                   spacing: 8.0,
                   children: [
                     Text("Description", style: TextStyleConfig.body1bold,),
-                    Text(data.description.toString(), style: TextStyleConfig.body1, textAlign: TextAlign.justify,)
+                    Text(data.description ?? "", style: TextStyleConfig.body1, textAlign: TextAlign.justify,)
                   ],
                 ),
               ),

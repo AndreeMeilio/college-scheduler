@@ -4,9 +4,12 @@ import 'package:college_scheduler/components/text_form_field.dart';
 import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:college_scheduler/cubit/class/create_and_update_data_class_cubit.dart';
+import 'package:college_scheduler/cubit/lecturer/list_lecturer_cubit.dart';
 import 'package:college_scheduler/data/models/class_model.dart';
+import 'package:college_scheduler/data/models/lecturer_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:toastification/toastification.dart';
 
 class InputDataClassPage extends StatefulWidget {
@@ -36,7 +39,12 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
   TimeOfDay? _startHour;
   TimeOfDay? _endHour;
 
+  LecturerModel? _selectedLecturer;
+
+  late List<LecturerModel?> _itemLecturer;
+
   late CreateAndUpdateDataClassCubit _cubit;
+  late ListLecturerCubit _lecturerCubit;
 
   @override
   void initState() {
@@ -53,6 +61,10 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
     _dayofweekController = TextEditingController();
 
     _cubit = BlocProvider.of<CreateAndUpdateDataClassCubit>(context, listen: false);
+    _lecturerCubit = BlocProvider.of<ListLecturerCubit>(context, listen: false);
+
+    _lecturerCubit.getAllData();
+    _lectureController.text = "Select Lecturer";
 
     if (widget.dataClassFromEdit != null){
       final dataClassEdit = widget.dataClassFromEdit;
@@ -110,18 +122,58 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
                       },
                       isRequired: true,
                     ),
-                    CustomTextFormField(
-                      controller: _lectureController,
-                      label: "Lecturer Name",
-                      hint: "Input lecturer name",
-                      validator: (value){
-                        if (_lectureController.text.isEmpty){
-                          return "Please input the name of the lecturer";
-                        }
-              
-                        return null;
+                    BlocBuilder<ListLecturerCubit, StateGeneral>(
+                      builder: (context, state){
+                        if (state.state is ListLecturerLoadedState){
+                          _itemLecturer = List.from([
+                            LecturerModel(
+                              id: 0,
+                              name: "Select Lecturer",
+                              userId: 0
+                            )
+                          ]);
+                          if (state.data.isNotEmpty){
+                            _itemLecturer.addAll(List.from(state.data));
+                          }
+                          return DropdownMenuComponent(
+                            label: "Lecturer",
+                            controller: _lectureController,
+                            value: _selectedLecturer,
+                            menu: _itemLecturer.map((data){
+                              return DropdownMenuEntry(
+                                label: data?.name ?? "",
+                                value: data
+                              );
+                            }).toList(),
+                            onSelected: (value){
+                              _selectedLecturer = value;
+                            },
+                          );
+                        } else {
+                          return Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 24.0),
+                            child: Column(
+                              spacing: 8.0,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Text(
+                                  "Lecturer",
+                                  style: TextStyleConfig.body1
+                                ),
+                                Shimmer.fromColors(
+                                  baseColor: Colors.grey,
+                                  highlightColor: Colors.white,
+                                  child: Container(
+                                    color: Colors.grey,
+                                    height: 50.0,
+                                    width: MediaQuery.sizeOf(context).width,
+                                  ),
+                                )
+                              ],
+                            ),
+                          );
+                        } 
                       },
-                      isRequired: true,
                     ),
                     DropdownMenuComponent(
                       controller: _dayofweekController,
@@ -227,7 +279,7 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
                     if (_formKey.currentState?.validate() ?? false){
                       await _cubit.createAndUpdateClass(
                         name: _nameController.text,
-                        lecturerName: _lectureController.text,
+                        lecturerName: _lectureController.text.toString() == "Select Lecturer" ? "" : _lectureController.text,
                         dayofweek: _dayofweek,
                         startHour: _startHour ?? TimeOfDay.fromDateTime(DateTime.parse("0001-01-01 00:00:00")),
                         endHour: _endHour ?? TimeOfDay.fromDateTime(DateTime.parse("0001-01-01 00:00:00")),
@@ -258,7 +310,7 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
                     style: ToastificationStyle.fillColored,
                     type: ToastificationType.success,
                     title: Text("Create Data Class Success"),
-                    description: Text(state.message.toString()),
+                    description: Text(state.message ?? ""),
                     primaryColor: Colors.green
                   );
             
@@ -277,7 +329,7 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
                     style: ToastificationStyle.fillColored,
                     type: ToastificationType.error,
                     title: Text("Create Data Class Failed"),
-                    description: Text(state.message.toString()),
+                    description: Text(state.message ?? ""),
                     primaryColor: Colors.red
                   );
                 }

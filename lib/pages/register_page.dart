@@ -207,7 +207,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   style: ToastificationStyle.fillColored,
                   type: ToastificationType.success,
                   title: Text("Register Success"),
-                  description: Text(_cubit.registerState.message.toString()),
+                  description: Text(_cubit.registerState.message ?? ""),
                   primaryColor: Colors.green
                 );
 
@@ -219,7 +219,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   style: ToastificationStyle.fillColored,
                   type: ToastificationType.error,
                   title: Text("Register Failed"),
-                  description: Text("${_cubit.registerState.message.toString()}"),
+                  description: Text("${_cubit.registerState.message ?? ""}"),
                   primaryColor: Colors.red
                 ); 
               }

@@ -185,7 +185,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   style: ToastificationStyle.fillColored,
                   type: ToastificationType.success,
                   title: Text("Register Success"),
-                  description: Text(state.message.toString()),
+                  description: Text(state.message ?? ""),
                   primaryColor: Colors.green
                 );
 
@@ -206,7 +206,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   style: ToastificationStyle.fillColored,
                   type: ToastificationType.error,
                   title: Text("Register Failed"),
-                  description: Text(state.message.toString()),
+                  description: Text(state.message ?? ""),
                   primaryColor: Colors.red
                 );
               }

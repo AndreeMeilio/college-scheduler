@@ -88,7 +88,7 @@ class _DataClassPageState extends State<DataClassPage> {
                       } else if (state.state is ListDataClassFailedState){
                         return Center(
                           child: Text(
-                            state.message.toString(),
+                            state.message ?? "",
                             style: TextStyleConfig.body1,
                           ),
                         );
@@ -197,11 +197,11 @@ class DataClassItemWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              _data.name.toString(),
+              _data.name ?? "",
               style: TextStyleConfig.body1bold,
             ),
             Text(
-              _data.lecturerName.toString(),
+              _data.lecturerName ?? "",
               style: TextStyleConfig.body1,
             ),
             const SizedBox(height: 4.0,),

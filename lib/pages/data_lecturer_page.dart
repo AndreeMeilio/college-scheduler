@@ -91,7 +91,7 @@ class _DataLecturerPageState extends State<DataLecturerPage> {
                       } else if (state.state is ListLecturerFailedState){
                         return Center(
                           child: Text(
-                            state.message.toString(),
+                            state.message ?? "",
                             style: TextStyleConfig.body1,
                           ),
                         );
@@ -197,7 +197,7 @@ class DataClassItemWidget extends StatelessWidget {
         ),
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
         child: Text(
-          _data.name.toString(),
+          _data.name ?? "",
           style: TextStyleConfig.body1bold,
         ),
       ),

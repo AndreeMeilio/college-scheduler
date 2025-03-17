@@ -177,7 +177,7 @@ class _ChangeFullnameUsernamePageState extends State<ChangeFullnameUsernamePage>
                   style: ToastificationStyle.fillColored,
                   type: ToastificationType.success,
                   title: Text("Change Fullname or Username Success"),
-                  description: Text(state.message.toString()),
+                  description: Text(state.message ?? ""),
                   primaryColor: Colors.green
                 ); 
               } else if (state.state is ChangeFullnameUsernameFailedState){
@@ -187,7 +187,7 @@ class _ChangeFullnameUsernamePageState extends State<ChangeFullnameUsernamePage>
                   style: ToastificationStyle.fillColored,
                   type: ToastificationType.error,
                   title: Text("Change Fullname or Username Failed"),
-                  description: Text(state.message.toString()),
+                  description: Text(state.message ?? ""),
                   primaryColor: Colors.red
                 );
               }

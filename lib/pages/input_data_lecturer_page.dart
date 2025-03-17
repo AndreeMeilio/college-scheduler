@@ -36,7 +36,7 @@ class _InputDataLecturerPageState extends State<InputDataLecturerPage> {
     _cubit = BlocProvider.of<CreateLecturerCubit>(context, listen: false);
 
     if (widget._data != null){
-      _nameController.text = widget._data!.name.toString();
+      _nameController.text = widget._data!.name ?? "";
     }
   }
 
@@ -122,7 +122,7 @@ class _InputDataLecturerPageState extends State<InputDataLecturerPage> {
                   style: ToastificationStyle.fillColored,
                   type: ToastificationType.success,
                   title: Text("Register Success"),
-                  description: Text(state.message.toString()),
+                  description: Text(state.message ?? ""),
                   primaryColor: Colors.green
                 );
 
@@ -134,7 +134,7 @@ class _InputDataLecturerPageState extends State<InputDataLecturerPage> {
                   style: ToastificationStyle.fillColored,
                   type: ToastificationType.error,
                   title: Text("Create Data Lecturer Failed"),
-                  description: Text(state.message.toString()),
+                  description: Text(state.message ?? ""),
                   primaryColor: Colors.red
                 );
               }

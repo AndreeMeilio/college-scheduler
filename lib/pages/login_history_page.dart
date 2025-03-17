@@ -60,7 +60,7 @@ class _LoginHistoryPageState extends State<LoginHistoryPage> {
               margin: const EdgeInsets.all(24.0),
               alignment: Alignment.center,
               child: Text(
-                state.message.toString(),
+                state.message ?? "",
                 style: TextStyleConfig.body1bold,
               ),
             );

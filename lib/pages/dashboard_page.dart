@@ -296,7 +296,7 @@ class _ListItemEventWidgetState extends State<ListItemEventWidget> {
                 margin: const EdgeInsets.only(top: 24.0),
                 alignment: Alignment.center,
                 child: Text(
-                  state.message.toString(),
+                  state.message ?? "",
                   style: TextStyleConfig.body1bold,
                 ),
               );
@@ -400,7 +400,7 @@ class ListItemEventDataWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    data.title.toString(),
+                    data.title ?? "",
                     style: TextStyleConfig.body1bold,
                   ),
                   const SizedBox(height: 8.0,),

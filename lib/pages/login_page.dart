@@ -207,7 +207,7 @@ class _LoginPageState extends State<LoginPage> {
                           style: ToastificationStyle.fillColored,
                           type: ToastificationType.success,
                           title: Text("Login Successfully"),
-                          description: Text(state.message.toString()),
+                          description: Text(state.message ?? ""),
                           primaryColor: Colors.green
                         );
 
@@ -222,7 +222,7 @@ class _LoginPageState extends State<LoginPage> {
                           style: ToastificationStyle.fillColored,
                           type: ToastificationType.error,
                           title: Text("Login Failed"),
-                          description: Text(state.message.toString()),
+                          description: Text(state.message ?? ""),
                           primaryColor: Colors.red
                         );
                       }

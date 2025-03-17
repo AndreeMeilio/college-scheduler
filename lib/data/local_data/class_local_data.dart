@@ -33,7 +33,7 @@ class ClassLocalData {
         if (data.id != null && data.id != 0){
           resultQuery = await trx.update("class", {
             "user_id" : userIdShared,
-            "name" : data.name.toString(),
+            "name" : data.name ?? "",
             "start_hour" : "$startHourFirstPart:$startHourSecondPart:00",
             "end_hour": "$endHourFirstPart:$endHourSecondPart:00",
             "day" : data.day?.name,
@@ -43,7 +43,7 @@ class ClassLocalData {
         } else {
           resultQuery = await trx.insert("class", {
             "user_id" : userIdShared,
-            "name" : data.name.toString(),
+            "name" : data.name ?? "",
             "start_hour" : "$startHourFirstPart:$startHourSecondPart:00",
             "end_hour": "$endHourFirstPart:$endHourSecondPart:00",
             "day" : data.day?.name,

@@ -336,7 +336,7 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
                         style: ToastificationStyle.fillColored,
                         type: ToastificationType.success,
                         title: Text("Create Event Schedule Successfully"),
-                        description: Text(state.message.toString()),
+                        description: Text(state.message ?? ""),
                         primaryColor: Colors.green
                       );
 
@@ -359,7 +359,7 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
                         style: ToastificationStyle.fillColored,
                         type: ToastificationType.error,
                         title: Text("Create Event Schedule Failed"),
-                        description: Text(state.message.toString()),
+                        description: Text(state.message ?? ""),
                         primaryColor: Colors.red
                       );
                     }
