@@ -254,6 +254,15 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
                         description: Text(state.message.toString()),
                         primaryColor: Colors.green
                       );
+
+                      _nameController.clear();
+                      _lectureController.clear();
+                      _dayofweekController.clear();
+                      _dayofweek = DAYOFWEEK.monday;
+                      _startHour = TimeOfDay.now();
+                      _endHour = TimeOfDay.now();
+                      _startHourController.clear();
+                      _endHourController.clear();
                     } else if (state.state is CreateAndUpdateDataClassFailedState){
                       toastification.show(
                         context: context,

@@ -150,7 +150,7 @@ class _ChangeFullnameUsernamePageState extends State<ChangeFullnameUsernamePage>
 
                     if (context.mounted){
                       Navigator.pushReplacement(context, PageTransition(
-                        type: PageTransitionType.rightToLeft,
+                        type: PageTransitionType.leftToRight,
                         child: LoginPage()
                       ));
                     }

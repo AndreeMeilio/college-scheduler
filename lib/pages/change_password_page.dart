@@ -195,7 +195,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
                 if (context.mounted){
                   Navigator.pushReplacement(context, PageTransition(
-                    type: PageTransitionType.rightToLeft,
+                    type: PageTransitionType.leftToRight,
                     child: LoginPage()
                   ));
                 }

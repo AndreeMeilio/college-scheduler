@@ -5,6 +5,8 @@ import 'package:college_scheduler/cubit/class/create_and_update_data_class_cubit
 import 'package:college_scheduler/cubit/class/list_data_class_cubit.dart';
 import 'package:college_scheduler/cubit/event/create_event_cubit.dart';
 import 'package:college_scheduler/cubit/event/list_event_cubit.dart';
+import 'package:college_scheduler/cubit/lecturer/create_lecturer_cubit.dart';
+import 'package:college_scheduler/cubit/lecturer/list_lecturer_cubit.dart';
 import 'package:college_scheduler/cubit/logs/login_logs_cubit.dart';
 import 'package:college_scheduler/cubit/users/change_fullname_username_cubit.dart';
 import 'package:college_scheduler/cubit/users/change_password_cubit.dart';
@@ -56,6 +58,12 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<ChangeFullnameUsernameCubit>(
           create: (context) => ChangeFullnameUsernameCubit(usersLocalData: sl()),
+        ),
+        BlocProvider<CreateLecturerCubit>(
+          create: (context) => CreateLecturerCubit(lecturerLocalData: sl()),
+        ),
+        BlocProvider<ListLecturerCubit>(
+          create: (context) => ListLecturerCubit(lecturerLocalData: sl()),
         )
       ],
       child: MaterialApp(

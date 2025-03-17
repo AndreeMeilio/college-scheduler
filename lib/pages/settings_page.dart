@@ -5,6 +5,7 @@ import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:college_scheduler/pages/change_fullname_username_page.dart';
 import 'package:college_scheduler/pages/change_password_page.dart';
 import 'package:college_scheduler/pages/data_class_page.dart';
+import 'package:college_scheduler/pages/data_lecturer_page.dart';
 import 'package:college_scheduler/pages/login_history_page.dart';
 import 'package:college_scheduler/pages/login_page.dart';
 import 'package:flutter/material.dart';
@@ -67,8 +68,8 @@ class _SettingsListWidgetState extends State<SettingsListWidget> {
             "isFeatureIncoming": false
           },
           {
-            "name": "Data Dosen",
-            "isFeatureIncoming": true
+            "name": "Data Lecturer",
+            "isFeatureIncoming": false
           },
           {
             "name": "Files",
@@ -178,7 +179,7 @@ class SettingsDataSectionWidget extends StatelessWidget {
 
                     if (context.mounted){
                       Navigator.pushReplacement(context, PageTransition(
-                        type: PageTransitionType.rightToLeft,
+                        type: PageTransitionType.leftToRight,
                         child: LoginPage()
                       ));
                     }
@@ -201,6 +202,11 @@ class SettingsDataSectionWidget extends StatelessWidget {
                     Navigator.push(context, PageTransition(
                       type: PageTransitionType.rightToLeft,
                       child: LoginHistoryPage()
+                    ));
+                  } else if (_dataMenu[index]["name"] == "Data Lecturer"){
+                    Navigator.push(context, PageTransition(
+                      type: PageTransitionType.rightToLeft,
+                      child: DataLecturerPage()
                     ));
                   }
                 },
