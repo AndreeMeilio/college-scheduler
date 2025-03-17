@@ -42,82 +42,89 @@ class _DataClassPageState extends State<DataClassPage> {
       appBar: AppBar(
         title: Text("Data Class", style: TextStyleConfig.body1,),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(
-              margin: const EdgeInsets.all(24.0),
-              child: Text(
-                "List Data Class",
-                style: TextStyleConfig.heading1bold,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.all(24.0),
+                    child: Text(
+                      "List Data Class",
+                      style: TextStyleConfig.heading1bold,
+                    ),
+                  ),
+                  BlocBuilder<ListDataClassCubit, StateGeneral>(
+                    builder: (context, state) {
+                      if (state.state is ListDataClassLoadedState){
+                        if (state.data.isNotEmpty){
+                          return ListView.separated(
+                            itemCount: state.data.length,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            separatorBuilder: (context, index) {
+                              return Divider(color: ColorConfig.backgroundColor, height: 2.0,);
+                            },
+                            itemBuilder: (context, index){
+                              return DataClassItemWidget(
+                                data: state.data[index],
+                                cubit: _cubit,
+                              );
+                            },
+                          );
+                        } else {
+                          return Container(
+                            alignment: Alignment.center,
+                            margin: const EdgeInsets.symmetric(vertical: 24.0),
+                            child: Text(
+                              "You Don't Have Any Data On Class",
+                              style: TextStyleConfig.body1bold,
+                            ),
+                          );
+                        }
+                      } else if (state.state is ListDataClassFailedState){
+                        return Center(
+                          child: Text(
+                            state.message.toString(),
+                            style: TextStyleConfig.body1,
+                          ),
+                        );
+                      } else {
+                        return ListView.separated(
+                          itemCount: 5,
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          separatorBuilder: (context, index) {
+                            return Divider(color: ColorConfig.backgroundColor, height: 2.0,);
+                          },
+                          itemBuilder: (context, index){
+                            return DataClassItemLoadingWidget();
+                          },
+                        );
+                      }
+                    },
+                  ),
+                ],
               ),
             ),
-            BlocBuilder<ListDataClassCubit, StateGeneral>(
-              builder: (context, state) {
-                if (state.state is ListDataClassLoadedState){
-                  if (state.data.isNotEmpty){
-                    return ListView.separated(
-                      itemCount: state.data.length,
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      separatorBuilder: (context, index) {
-                        return Divider(color: ColorConfig.backgroundColor, height: 2.0,);
-                      },
-                      itemBuilder: (context, index){
-                        return DataClassItemWidget(
-                          data: state.data[index],
-                          cubit: _cubit,
-                        );
-                      },
-                    );
-                  } else {
-                    return Container(
-                      alignment: Alignment.center,
-                      margin: const EdgeInsets.symmetric(vertical: 24.0),
-                      child: Text(
-                        "You Don't Have Any Data On Class",
-                        style: TextStyleConfig.body1bold,
-                      ),
-                    );
-                  }
-                } else if (state.state is ListDataClassFailedState){
-                  return Center(
-                    child: Text(
-                      state.message.toString(),
-                      style: TextStyleConfig.body1,
-                    ),
-                  );
-                } else {
-                  return ListView.separated(
-                    itemCount: 5,
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    separatorBuilder: (context, index) {
-                      return Divider(color: ColorConfig.backgroundColor, height: 2.0,);
-                    },
-                    itemBuilder: (context, index){
-                      return DataClassItemLoadingWidget();
-                    },
-                  );
-                }
+          ),
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 24.0),
+            alignment: Alignment.center,
+            child: PrimaryButtonComponent(
+              label: "Create Data Class",
+              onTap: (){
+                Navigator.push(context, PageTransition(
+                  type: PageTransitionType.rightToLeft,
+                  child: InputDataClassPage()
+                ));
               },
             ),
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: 24.0),
-              alignment: Alignment.center,
-              child: PrimaryButtonComponent(
-                label: "Create Data Class",
-                onTap: (){
-                  Navigator.push(context, PageTransition(
-                    type: PageTransitionType.rightToLeft,
-                    child: InputDataClassPage()
-                  ));
-                },
-              ),
-            )
-          ],
-        ),
+          )
+        ],
       )
     );
   }
