@@ -71,10 +71,6 @@ class _SettingsListWidgetState extends State<SettingsListWidget> {
             "name": "Data Lecturer",
             "isFeatureIncoming": false
           },
-          {
-            "name": "Files",
-            "isFeatureIncoming": true
-          },
         ])
       },
       {

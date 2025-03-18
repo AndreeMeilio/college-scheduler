@@ -34,7 +34,7 @@ class QuoteWidget extends StatelessWidget {
             ),
           ),
           Text(
-            "~ Some Chinese Dude",
+            "~ Chinese Proverb",
             style: TextStyleConfig.body1.copyWith(
               fontStyle: FontStyle.italic
             ),

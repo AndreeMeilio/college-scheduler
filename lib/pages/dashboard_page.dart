@@ -87,45 +87,67 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
                   )
                 ]
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                spacing: 8.0,
-                children: [
-                  const SizedBox(),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("DONE", style: TextStyleConfig.body1bold,),
-                        Text("14", style: TextStyleConfig.body1bold,),
-                      ],
-                    ),
-                  ),
-                  const Divider(color: Colors.white, height: 0,),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("PROGRESS", style: TextStyleConfig.body1bold,),
-                        Text("3", style: TextStyleConfig.body1bold,),
-                      ],
-                    ),
-                  ),
-                  const Divider(color: Colors.white, height: 0,),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("IDLE", style: TextStyleConfig.body1bold,),
-                        Text("5", style: TextStyleConfig.body1bold,),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(),
-                ],
+              child: BlocBuilder<ListEventCubit, StateGeneral<ListEventState, List<EventModel?>?>>(
+                builder: (context, state) {
+                  int doneCount = 0;
+                  int progressCount = 0;
+                  int idleCount = 0;
+
+                  if (state.state is ListEventLoadedState){
+                    if (state.data?.isNotEmpty ?? false){
+                      for (final data in state.data!){
+                        if (data?.status == STATUS.idle){
+                          idleCount++;
+                        } else if (data?.status == STATUS.progress){
+                          progressCount++;
+                        } else if (data?.status == STATUS.done){
+                          doneCount++;
+                        }
+                      }
+                    }
+                  }
+
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    spacing: 8.0,
+                    children: [
+                      const SizedBox(),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("DONE", style: TextStyleConfig.body1bold,),
+                            Text("$doneCount", style: TextStyleConfig.body1bold,),
+                          ],
+                        ),
+                      ),
+                      const Divider(color: Colors.white, height: 0,),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("PROGRESS", style: TextStyleConfig.body1bold,),
+                            Text("$progressCount", style: TextStyleConfig.body1bold,),
+                          ],
+                        ),
+                      ),
+                      const Divider(color: Colors.white, height: 0,),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("IDLE", style: TextStyleConfig.body1bold,),
+                            Text("$idleCount", style: TextStyleConfig.body1bold,),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(),
+                    ],
+                  );
+                }
               ),
             ),
           )
