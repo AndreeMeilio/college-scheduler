@@ -1,6 +1,7 @@
 
 import 'package:college_scheduler/components/primary_button.dart';
 import 'package:college_scheduler/components/text_form_field.dart';
+import 'package:college_scheduler/config/color_config.dart';
 import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/cubit/lecturer/create_lecturer_cubit.dart';
 import 'package:college_scheduler/data/models/lecturer_model.dart';
@@ -51,6 +52,8 @@ class _InputDataLecturerPageState extends State<InputDataLecturerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: ColorConfig.backgroundColor,
+        backgroundColor: ColorConfig.backgroundColor,
         title: Text(
           "Input Data Lecturer"
         ),

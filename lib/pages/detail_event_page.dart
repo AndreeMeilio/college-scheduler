@@ -16,6 +16,8 @@ class DetailEventPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: ColorConfig.backgroundColor,
+        backgroundColor: ColorConfig.backgroundColor,
         title: Text(
           "Detail Event",
           style: TextStyleConfig.body1,

@@ -39,6 +39,8 @@ class _LoginHistoryPageState extends State<LoginHistoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: ColorConfig.backgroundColor,
+        backgroundColor: ColorConfig.backgroundColor,
         title: Text(
           "Login History",
           style: TextStyleConfig.body1,

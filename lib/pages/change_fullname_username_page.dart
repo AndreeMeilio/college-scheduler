@@ -1,6 +1,7 @@
 
 import 'package:college_scheduler/components/primary_button.dart';
 import 'package:college_scheduler/components/text_form_field.dart';
+import 'package:college_scheduler/config/color_config.dart';
 import 'package:college_scheduler/config/shared_preference.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:college_scheduler/cubit/users/change_fullname_username_cubit.dart';
@@ -57,6 +58,8 @@ class _ChangeFullnameUsernamePageState extends State<ChangeFullnameUsernamePage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: ColorConfig.backgroundColor,
+        backgroundColor: ColorConfig.backgroundColor,
         title: Text(
           "Change Fullname Or Username",
           style: TextStyleConfig.body1,

@@ -1,6 +1,7 @@
 import 'package:college_scheduler/components/dropdown_menu_component.dart';
 import 'package:college_scheduler/components/primary_button.dart';
 import 'package:college_scheduler/components/text_form_field.dart';
+import 'package:college_scheduler/config/color_config.dart';
 import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:college_scheduler/cubit/class/create_and_update_data_class_cubit.dart';
@@ -59,6 +60,7 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
 
     _dayofweek = DAYOFWEEK.monday;
     _dayofweekController = TextEditingController();
+    _dayofweekController.text = "Select Day";
 
     _cubit = BlocProvider.of<CreateAndUpdateDataClassCubit>(context, listen: false);
     _lecturerCubit = BlocProvider.of<ListLecturerCubit>(context, listen: false);
@@ -95,6 +97,8 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: ColorConfig.backgroundColor,
+        backgroundColor: ColorConfig.backgroundColor,
         title: Text("Input Data Class", style: TextStyleConfig.body1,),
       ),
       body: Form(
@@ -142,7 +146,8 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
                             menu: _itemLecturer.map((data){
                               return DropdownMenuEntry(
                                 label: data?.name ?? "",
-                                value: data
+                                value: data,
+                                enabled: !(data?.name == "Select Lecturer")
                               );
                             }).toList(),
                             onSelected: (value){
@@ -179,6 +184,11 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
                       controller: _dayofweekController,
                       label: "Day",
                       menu: [
+                        DropdownMenuEntry(
+                          value: DAYOFWEEK.monday,
+                          label: "Select Day",
+                          enabled: false
+                        ),
                         DropdownMenuEntry(
                           value: DAYOFWEEK.monday,
                           label: "Monday",
@@ -315,8 +325,13 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
                   );
             
                   _nameController.clear();
-                  _lectureController.clear();
-                  _dayofweekController.clear();
+                  _lectureController.text = "Select Lecturer";
+                  _selectedLecturer = LecturerModel(
+                    id: 0,
+                    name: "Select Lecturer",
+                    userId: 0
+                  );
+                  _dayofweekController.text = "Select Day";
                   _dayofweek = DAYOFWEEK.monday;
                   _startHour = TimeOfDay.now();
                   _endHour = TimeOfDay.now();

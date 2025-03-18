@@ -43,6 +43,8 @@ class _DataLecturerPageState extends State<DataLecturerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: ColorConfig.backgroundColor,
+        backgroundColor: ColorConfig.backgroundColor,
         title: Text("Data Lecturer", style: TextStyleConfig.body1,),
       ),
       body: Column(

@@ -40,6 +40,8 @@ class _DataClassPageState extends State<DataClassPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: ColorConfig.backgroundColor,
+        backgroundColor: ColorConfig.backgroundColor,
         title: Text("Data Class", style: TextStyleConfig.body1,),
       ),
       body: Column(
