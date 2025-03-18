@@ -62,11 +62,10 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 24.0),
       child: Row(
-        spacing: 24.0,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 24.0),
+            margin: const EdgeInsets.only(right: 24.0),
             child: Column(
               children: [
                 TimeTickingWidget(now: _now,),
@@ -116,9 +115,10 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
                         padding: const EdgeInsets.symmetric(horizontal: 24.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          spacing: 16.0,
                           children: [
-                            Text("DONE", style: TextStyleConfig.body1bold,),
-                            Text("$doneCount", style: TextStyleConfig.body1bold,),
+                            Text("IDLE", style: TextStyleConfig.body1bold,),
+                            Text("$idleCount", style: TextStyleConfig.body1bold,),
                           ],
                         ),
                       ),
@@ -127,6 +127,7 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
                         padding: const EdgeInsets.symmetric(horizontal: 24.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          spacing: 16.0,
                           children: [
                             Text("PROGRESS", style: TextStyleConfig.body1bold,),
                             Text("$progressCount", style: TextStyleConfig.body1bold,),
@@ -138,9 +139,10 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
                         padding: const EdgeInsets.symmetric(horizontal: 24.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          spacing: 16.0,
                           children: [
-                            Text("IDLE", style: TextStyleConfig.body1bold,),
-                            Text("$idleCount", style: TextStyleConfig.body1bold,),
+                            Text("DONE", style: TextStyleConfig.body1bold,),
+                            Text("$doneCount", style: TextStyleConfig.body1bold,),
                           ],
                         ),
                       ),
@@ -431,10 +433,19 @@ class ListItemEventDataWidget extends StatelessWidget {
                     style: TextStyleConfig.body2,
                   ),
                   const SizedBox(height: 32.0,),
-                  Text(
-                    "Priority : ${data.priority?.name.toUpperCase()}",
-                    style: TextStyleConfig.body2,
-                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Priority : ${data.priority?.name.toUpperCase()}",
+                        style: TextStyleConfig.body2,
+                      ),
+                      Text(
+                        "Status : ${data.status?.name.toUpperCase()}",
+                        style: TextStyleConfig.body2,
+                      ),
+                    ],
+                  )
                 ],
               ),
             ),
