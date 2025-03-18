@@ -5,11 +5,14 @@ import 'package:college_scheduler/components/text_form_field.dart';
 import 'package:college_scheduler/config/color_config.dart';
 import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
+import 'package:college_scheduler/cubit/class/list_data_class_cubit.dart';
 import 'package:college_scheduler/cubit/event/create_event_cubit.dart';
+import 'package:college_scheduler/data/models/class_model.dart';
 import 'package:college_scheduler/data/models/event_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:toastification/toastification.dart';
 
 class InputDataPage extends StatelessWidget {
@@ -62,11 +65,17 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
   late TextEditingController _descriptionController;
   late TextEditingController _priorityController;
   late TextEditingController _statusController;
+  late TextEditingController _locationController;
+  late TextEditingController _classController;
 
   late PRIORITY _priority;
   late STATUS _status;
 
   late CreateAndUpdateEventCubit _cubit;
+  late ListDataClassCubit _classCubit;
+
+  late List _itemLecturer;
+  late ClassModel _selectedClass;
 
   @override
   void initState() {
@@ -85,11 +94,17 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
     _endHourController = TextEditingController();
     _priorityController = TextEditingController();
     _statusController = TextEditingController();
+    _locationController = TextEditingController();
+    _classController = TextEditingController(text: "Select Class");
 
     _priority = PRIORITY.low;
     _status = STATUS.idle;
 
     _cubit = BlocProvider.of<CreateAndUpdateEventCubit>(context, listen: false);
+    _classCubit = BlocProvider.of<ListDataClassCubit>(context, listen: false);
+
+    _classCubit.getAllData();
+    _selectedClass = ClassModel(name: "Select Class");
 
     if (_cubit.tempDataEvent != null){
       final data = _cubit.tempDataEvent;
@@ -99,6 +114,8 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
       _descriptionController.text = data?.description ?? "";
       _startHourController.text = "${data?.startHour?.hour}:${data?.startHour?.minute}:00";
       _endHourController.text = "${data?.endHour?.hour}:${data?.endHour?.minute}:00";
+      _locationController.text = data?.location ?? "";
+      _classController.text = data?.className == "" ? "Select Class" : data?.className ?? "";
       
       _dateEvent = data?.dateOfEvent ?? DateTime.now();
       _startHour = data?.startHour ?? TimeOfDay.now();
@@ -106,6 +123,9 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
 
       _priority = data?.priority ?? PRIORITY.low;
       _status = data?.status ?? STATUS.idle;
+      _selectedClass = ClassModel(
+        name: "Select Class"
+      );
     }
   }
 
@@ -120,7 +140,8 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
     _endHourController.dispose();
     _priorityController.dispose();
     _statusController.dispose();
-
+    _locationController.dispose();
+    _classController.dispose();
   }
 
   @override
@@ -214,6 +235,63 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
               )
             ],
           ),
+          BlocBuilder<ListDataClassCubit, StateGeneral>(
+            builder: (context, state){
+              if (state.state is ListDataClassLoadedState){
+                _itemLecturer = List.from([
+                  ClassModel(
+                    name: "Select Class"
+                  )
+                ]);
+                if (state.data.isNotEmpty){
+                  _itemLecturer.addAll(List.from(state.data));
+                }
+                return DropdownMenuComponent(
+                  label: "Lecturer",
+                  controller: _classController,
+                  value: _selectedClass,
+                  menu: _itemLecturer.map((data){
+                    return DropdownMenuEntry(
+                      label: data?.name ?? "",
+                      value: data,
+                      enabled: !(data?.name == "Select Class")
+                    );
+                  }).toList(),
+                  onSelected: (value){
+                    _selectedClass = value;
+                  },
+                );
+              } else {
+                return Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Column(
+                    spacing: 8.0,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        "Lecturer",
+                        style: TextStyleConfig.body1
+                      ),
+                      Shimmer.fromColors(
+                        baseColor: Colors.grey,
+                        highlightColor: Colors.white,
+                        child: Container(
+                          color: Colors.grey,
+                          height: 50.0,
+                          width: MediaQuery.sizeOf(context).width,
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              } 
+            },
+          ),
+          CustomTextFormField(
+            controller: _locationController,
+            label: "Location",
+            hint: "",
+          ),
           CustomTextFormField(
             controller: _descriptionController,
             label: "Description",
@@ -287,6 +365,11 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
                     _endHourController.clear();
                     _priorityController.clear();
                     _statusController.clear();
+                    _locationController.clear();
+                    _classController.text = "Select Class";
+                    _selectedClass = ClassModel(
+                      name: "Select Class"
+                    );
 
                     _cubit.clearTempDataEvent();
                   },
@@ -305,6 +388,8 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
                             title: _titleEventController.text,
                             startHour: _startHour ?? TimeOfDay(hour: 0, minute: 0),
                             endHour: _endHour ?? TimeOfDay(hour: 0, minute: 0),
+                            location: _locationController.text,
+                            className: _classController.text == "Select Class" ? "" : _classController.text,
                             description: _descriptionController.text,
                             priority: _priority,
                             status: _status,
@@ -351,6 +436,12 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
                       _endHourController.clear();
                       _priorityController.clear();
                       _statusController.clear();
+
+                      _locationController.clear();
+                      _classController.text = "Select Class";
+                      _selectedClass = ClassModel(
+                        name: "Select Class"
+                      );
                       
                     } else if (state.state is CreateAndUpdateEventFailedState){
                       toastification.show(

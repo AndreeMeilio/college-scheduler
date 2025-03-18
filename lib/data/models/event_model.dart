@@ -32,7 +32,9 @@ class EventModel {
   DateTime? dateOfEvent;
   TimeOfDay? startHour;
   TimeOfDay? endHour;
+  String? location;
   String? description;
+  String? className;
   PRIORITY? priority;
   STATUS? status;
 
@@ -43,7 +45,9 @@ class EventModel {
     this.dateOfEvent,
     this.startHour,
     this.endHour,
+    this.location,
     this.description,
+    this.className,
     this.priority,
     this.status
   });

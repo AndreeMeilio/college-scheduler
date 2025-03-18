@@ -31,6 +31,8 @@ class CreateAndUpdateEventCubit extends Cubit<EventStateType>{
     TimeOfDay? endHour,
     String? description,
     PRIORITY? priority,
+    String? location,
+    String? className,
     STATUS? status,
     bool? isEdit,
     int? idEvent
@@ -44,6 +46,8 @@ class CreateAndUpdateEventCubit extends Cubit<EventStateType>{
         dateOfEvent: dateOfEvent,
         startHour: startHour,
         endHour: endHour,
+        location: location,
+        className: className,
         description: description,
         priority: priority,
         status: status

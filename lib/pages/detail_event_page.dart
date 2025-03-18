@@ -91,7 +91,10 @@ class DetailEventPage extends StatelessWidget {
           const SizedBox(height: 8.0,),
           Container(
             decoration: BoxDecoration(
-              color: ColorConfig.mainColor
+              color: ColorConfig.backgroundColor,
+              border: Border.symmetric(horizontal: BorderSide(
+                color: ColorConfig.mainColor
+              ))
             ),
             padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
             child: Row(
@@ -126,6 +129,49 @@ class DetailEventPage extends StatelessWidget {
                     ],
                   ),
                 ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 8.0,),
+          Container(
+            decoration: BoxDecoration(
+              color: ColorConfig.mainColor,
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  "Location",
+                  style: TextStyleConfig.body1bold,
+                ),
+                Text(
+                  data.location ?? "-",
+                  style: TextStyleConfig.body1,
+                )
+              ],
+            ),
+          ),
+          const SizedBox(height: 8.0,),
+          Container(
+            decoration: BoxDecoration(
+              color: ColorConfig.backgroundColor,
+              border: Border.symmetric(horizontal: BorderSide(
+                color: ColorConfig.mainColor
+              ))
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  "Class Name",
+                  style: TextStyleConfig.body1bold,
+                ),
+                Text(
+                  data.className ?? "-",
+                  style: TextStyleConfig.body1,
+                )
               ],
             ),
           ),

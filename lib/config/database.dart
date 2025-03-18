@@ -39,6 +39,8 @@ class DatabaseConfig {
               title text,
               start_hour text,
               end_hour text,
+              location text,
+              class_name text,
               description text,
               priority text,
               status text,
