@@ -13,7 +13,7 @@ final sl = GetIt.I;
 void setupServiceLocator(){
   sl.registerLazySingleton<DatabaseConfig>(() => DatabaseConfig());
   sl.registerLazySingleton<UsersLocalData>(() => UsersLocalData(database: sl(), logsLocalData: sl()));
-  sl.registerLazySingleton<EventLocalData>(() => EventLocalData(database: sl()));
+  sl.registerLazySingleton<EventLocalData>(() => EventLocalData(database: sl(), logsLocalData: sl()));
   sl.registerLazySingleton<ClassLocalData>(() => ClassLocalData(database: sl()));
   sl.registerLazySingleton<LogsLocalData>(() => LogsLocalData(database: sl()));
   sl.registerLazySingleton<LecturerLocalData>(() => LecturerLocalData(database: sl()));

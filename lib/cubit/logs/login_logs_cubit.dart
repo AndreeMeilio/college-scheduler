@@ -26,7 +26,7 @@ class LoginLogsCubit extends Cubit<LoginLogsStateType>{
       logsState = LoginLogsStateType(state: LoginLogsLoadingState());
       emit(logsState);
 
-      final result = await _logsLocalData.getLogsByAction(action: "login");
+      final result = await _logsLocalData.getLogs(actionName: "login");
 
       if (result.code == "00"){
         logsState = LoginLogsStateType(

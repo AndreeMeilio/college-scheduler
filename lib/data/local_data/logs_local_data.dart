@@ -12,8 +12,9 @@ class LogsLocalData {
     required DatabaseConfig database
   }) : _database = database;
 
-  Future<LogsModelResponse> getLogsByAction({
-    required String action
+  Future<LogsModelResponse> getLogs({
+    String? actionName,
+    String? tableAction
   }) async{
     final db = await _database.getDB();
     final shared = SharedPreferenceConfig();
@@ -22,7 +23,18 @@ class LogsLocalData {
       final result = await db.transaction((trx) async{
         final userId = await shared.getInt(key: ConstansValue.user_id);
 
-        final resultQuery = await trx.query("logs", where: 'action_name = ? and user_id = ?', orderBy: 'created_at desc', whereArgs: [action, userId]);
+        String whereQuery = 'user_id = ?';
+        List<Object> whereArgsList = List.from([userId]);
+
+        if (actionName?.isNotEmpty ?? false){
+          whereQuery += " and action_name = ?";
+          whereArgsList.add(actionName!);
+        } else if (tableAction?.isNotEmpty ?? false){
+          whereQuery += " and table_action = ?";
+          whereArgsList.add(tableAction!);
+        }
+
+        final resultQuery = await trx.query("logs", where: whereQuery, orderBy: 'created_at desc', whereArgs: whereArgsList);
 
         return resultQuery;
       });

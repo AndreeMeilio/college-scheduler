@@ -1,4 +1,5 @@
 
+import 'package:college_scheduler/components/logs_item_component.dart';
 import 'package:college_scheduler/config/color_config.dart';
 import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
@@ -46,9 +47,10 @@ class _LoginHistoryPageState extends State<LoginHistoryPage> {
           style: TextStyleConfig.body1,
         ),
       ),
-      body: BlocConsumer<LoginLogsCubit, StateGeneral<LoginLogsState, List<LogsModel?>?>>(
+      body: BlocBuilder<LoginLogsCubit, StateGeneral<LoginLogsState, List<LogsModel?>?>>(
         builder: (context, state){
-          if (state.data?.isNotEmpty ?? false){
+          if (state.state is LoginLogsLoadedState){
+            if (state.data?.isNotEmpty ?? false){
             return ListView.builder(
               itemCount: state.data?.length,
               itemBuilder: (context, index){
@@ -67,9 +69,21 @@ class _LoginHistoryPageState extends State<LoginHistoryPage> {
               ),
             );
           }
-        },
-        listener: (context, state){
-          
+          } else if (state.state is LoginLogsFailedState){
+            return Center(
+              child: Text(
+                "There's a problem getting login history",
+                style: TextStyleConfig.body1,
+              ),
+            );
+          } else {
+            return ListView.builder(
+              itemCount: 3,
+              itemBuilder: (context, index){
+                return LogsItemLoadingComponent();
+              },
+            );
+          }
         },
       )
     );
@@ -86,111 +100,10 @@ class LoginHistoryItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
-      padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: ColorConfig.mainColor),
-        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey,
-            offset: Offset(1, 1),
-            spreadRadius: 1.0
-          )
-        ]
-      ),
-      child: Column(
-        spacing: 16.0,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            spacing: 16.0,
-            children: [
-              Text(
-                logsModel?.actionName?.toUpperCase() ?? "",
-                style: TextStyleConfig.body1bold,
-              ),
-              Expanded(
-                child: Text(
-                  DateFormat("d MMMM y hh:mm:ss").format(logsModel?.createdAt ?? DateTime.parse("0000-00-00")),
-                  style: TextStyleConfig.body1,
-                ),
-              )
-            ],
-          ),
-          Text(
-            "Account with username andreemeilioc login to system at ${logsModel?.createdAt}",
-            style: TextStyleConfig.body2,
-            textAlign: TextAlign.justify,
-          )
-        ],
-      )
-    );
-  }
-}
-
-class LoginHistoryItemLoadingWidget extends StatelessWidget {
-  const LoginHistoryItemLoadingWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
-      padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: ColorConfig.mainColor),
-        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey,
-            offset: Offset(1, 1),
-            spreadRadius: 1.0
-          )
-        ]
-      ),
-      child: Column(
-        spacing: 16.0,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            spacing: 16.0,
-            children: [
-              Shimmer.fromColors(
-                baseColor: Colors.grey,
-                highlightColor: Colors.white,
-                child: Container(
-                  color: Colors.grey,
-                  height: 10.0,
-                  width: MediaQuery.sizeOf(context).width * 0.2,
-                ),
-              ),
-              Expanded(
-                child: Shimmer.fromColors(
-                  baseColor: Colors.grey,
-                  highlightColor: Colors.white,
-                  child: Container(
-                    color: Colors.grey,
-                    height: 10.0,
-                    width: MediaQuery.sizeOf(context).width * 0.2,
-                  ),
-                ),
-              )
-            ],
-          ),
-          Shimmer.fromColors(
-            baseColor: Colors.grey,
-            highlightColor: Colors.white,
-            child: Container(
-              color: Colors.grey,
-              height: 25.0,
-              width: MediaQuery.sizeOf(context).width,
-            ),
-          ),
-        ],
-      )
+    return LogsItemComponent(
+      name: logsModel?.actionName ?? "",
+      description: logsModel?.description ?? "",
+      createdAt: logsModel?.createdAt ?? DateTime.parse("0000-00-00"),
     );
   }
 }

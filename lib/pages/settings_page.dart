@@ -6,6 +6,7 @@ import 'package:college_scheduler/pages/change_fullname_username_page.dart';
 import 'package:college_scheduler/pages/change_password_page.dart';
 import 'package:college_scheduler/pages/data_class_page.dart';
 import 'package:college_scheduler/pages/data_lecturer_page.dart';
+import 'package:college_scheduler/pages/event_history_page.dart';
 import 'package:college_scheduler/pages/login_history_page.dart';
 import 'package:college_scheduler/pages/login_page.dart';
 import 'package:flutter/material.dart';
@@ -60,8 +61,8 @@ class _SettingsListWidgetState extends State<SettingsListWidget> {
         "label" : "Data",
         "item": List.from(<Map>[
           {
-            "name": "History Event",
-            "isFeatureIncoming" : true
+            "name": "Event History",
+            "isFeatureIncoming" : false
           },
           {
             "name": "Data Class",
@@ -203,6 +204,11 @@ class SettingsDataSectionWidget extends StatelessWidget {
                     Navigator.push(context, PageTransition(
                       type: PageTransitionType.rightToLeft,
                       child: DataLecturerPage()
+                    ));
+                  } else if (_dataMenu[index]["name"] == "Event History"){
+                    Navigator.push(context, PageTransition(
+                      type: PageTransitionType.rightToLeft,
+                      child: EventHistoryPage()
                     ));
                   }
                 },

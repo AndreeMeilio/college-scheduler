@@ -4,15 +4,20 @@ import 'package:college_scheduler/config/constants_value.dart';
 import 'package:college_scheduler/config/database.dart';
 import 'package:college_scheduler/config/response_general.dart';
 import 'package:college_scheduler/config/shared_preference.dart';
+import 'package:college_scheduler/data/local_data/logs_local_data.dart';
 import 'package:college_scheduler/data/models/event_model.dart';
+import 'package:college_scheduler/data/models/logs_model.dart';
 import 'package:flutter/material.dart';
 
 class EventLocalData {
   final DatabaseConfig _database;
+  final LogsLocalData _logsLocalData;
 
   EventLocalData({
-    required DatabaseConfig database
-  }) : _database = database;
+    required DatabaseConfig database,
+    required LogsLocalData logsLocalData
+  }) : _database = database,
+       _logsLocalData = logsLocalData;
 
   Future<ResponseGeneral<int>> insertAndUpdate({
     required EventModel data
@@ -21,9 +26,14 @@ class EventLocalData {
       final db = await _database.getDB();
       final shared = SharedPreferenceConfig();
 
-      final result = await db.transaction<int>((trx) async{
-        final userIdShared = await shared.getInt(key: ConstansValue.user_id);
+      //Variable For Logs
+      late String actionName;
+      late String description;
+      final userName = await shared.getString(key: ConstansValue.username);
+      final userIdShared = await shared.getInt(key: ConstansValue.user_id);
         data.userId = userIdShared;
+
+      final result = await db.transaction<int>((trx) async{
         final startHourFirstPart = (data.startHour?.hour ?? 0) < 10 ? "0${data.startHour?.hour}" : data.startHour?.hour;
         final startHourSecondPart = (data.startHour?.minute ?? 0) < 10 ? "0${data.startHour?.minute}" : data.startHour?.minute;
 
@@ -32,17 +42,28 @@ class EventLocalData {
 
         late int resultInsert;
         if (data.id != 0 && data.id != null){
-          resultInsert = await trx.update("events", {
-            "user_id": data.userId,
-            "title": data.title,
-            "date_of_event": data.dateOfEvent.toString(),
-            "start_hour": "$startHourFirstPart:$startHourSecondPart",
-            "end_hour": "$endHourFirstPart:$endHourSecondPart",
-            "description": data.description,
-            "priority": data.priority?.name.toUpperCase(),
-            "status": data.status?.name.toUpperCase(),
-            "updated_at": DateTime.now().toString()
-          }, where: 'id = ?', whereArgs: [data.id]);
+          final checkData = await trx.query("events", where: 'id = ?', whereArgs: [data.id]);
+
+          if (checkData.isNotEmpty){
+            resultInsert = await trx.update("events", {
+              "user_id": data.userId,
+              "title": data.title,
+              "date_of_event": data.dateOfEvent.toString(),
+              "start_hour": "$startHourFirstPart:$startHourSecondPart",
+              "end_hour": "$endHourFirstPart:$endHourSecondPart",
+              "description": data.description,
+              "priority": data.priority?.name.toUpperCase(),
+              "status": data.status?.name.toUpperCase(),
+              "updated_at": DateTime.now().toString()
+            }, where: 'id = ?', whereArgs: [data.id]);
+
+            final dataOld = checkData.first;
+            actionName = "update";
+            description = "$userName update data event id data ${dataOld['id']} and title ${dataOld['title']} at ${DateTime.now().toString()}";
+          } else {
+            resultInsert = -1;
+          }
+
         } else {
           resultInsert = await trx.insert("events", {
             "user_id": data.userId,
@@ -56,12 +77,25 @@ class EventLocalData {
             "created_at": DateTime.now().toString(),
             "updated_at": DateTime.now().toString()
           });
+
+          if (resultInsert >= 1){
+            actionName = "create";
+            description = "$userName create new data events with title ${data.title} at ${DateTime.now().toString()}";
+          }
         }
 
         return resultInsert;
-      });  
+      });
 
       if (result >= 1){
+        await _logsLocalData.createLogs(data: LogsModel(
+          actionName: actionName,
+          description: description,
+          tableAction: "events",
+          updatedAt: DateTime.now(),
+          userId: userIdShared,
+          createdAt: DateTime.now()
+        ));
         return ResponseGeneral(
           code: "00",
           message: "Creating new data event schedule successfully",
@@ -153,6 +187,18 @@ class EventLocalData {
       });  
 
       if (result >= 1){
+        final userName = await shared.getString(key: ConstansValue.username);
+        final userId = await shared.getInt(key: ConstansValue.user_id);
+
+        await _logsLocalData.createLogs(data: LogsModel(
+          actionName: "delete",
+          description: "$userName deleted data event id data ${data.id} and title ${data.title} at ${DateTime.now()}",
+          tableAction: "events",
+          updatedAt: DateTime.now(),
+          userId: userId,
+          createdAt: DateTime.now()
+        ));
+
         return ResponseGeneral(
           code: "00",
           message: "Creating new data event schedule successfully",
