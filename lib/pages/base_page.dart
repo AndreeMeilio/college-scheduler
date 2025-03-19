@@ -96,7 +96,7 @@ class _BasePageState extends State<BasePage> with TickerProviderStateMixin{
                         children: [
                           Icon(Icons.add_circle_outline_rounded),
                           Text(
-                            "Input Data",
+                            "Events",
                             style: TextStyleConfig.body1,
                           )
                         ],

@@ -8,6 +8,7 @@ import 'package:college_scheduler/data/local_data/logs_local_data.dart';
 import 'package:college_scheduler/data/models/event_model.dart';
 import 'package:college_scheduler/data/models/logs_model.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class EventLocalData {
   final DatabaseConfig _database;
@@ -122,14 +123,55 @@ class EventLocalData {
     }
   }
 
-  Future<EventModelResponse> getAllEvent() async{
+  Future<EventModelResponse> getAllEvent({
+    String? searchItem,
+    DateTimeRange? dateRangeEvent,
+    PRIORITY? priority,
+    STATUS? status,
+    int? limit
+  }) async{
     try {
       final db = await _database.getDB();
       final shared = SharedPreferenceConfig();
 
       final result = await db.transaction<List<Map>>((trx) async{
         final userIdShared = await shared.getInt(key: ConstansValue.user_id);
-        final query = await trx.query("events", where: 'user_id = ?', whereArgs: [userIdShared]);
+
+        String whereValue = 'user_id = ?';
+        final whereArgsValue = List.from([
+          userIdShared
+        ]);
+
+        if (searchItem != "" && (searchItem?.isNotEmpty ?? false)){
+          whereValue += " and title like ?";
+          whereArgsValue.add("%$searchItem%");
+        }
+
+        if (dateRangeEvent != null){
+          whereValue += " and date_of_event between ? and ?";
+          whereArgsValue.add(DateFormat('y-MM-dd').format(dateRangeEvent.start));
+          whereArgsValue.add(DateFormat('y-MM-dd').format(dateRangeEvent.end));
+        }
+
+        if (priority != PRIORITY.selectPriority && priority != null){
+          whereValue += " and priority = ?";
+          whereArgsValue.add(priority.name.toUpperCase());
+        }
+
+        if (status != STATUS.selectStatus && status != null){
+          whereValue += " and status = ?";
+          whereArgsValue.add(status.name.toUpperCase());
+        }
+
+        if (limit != null){
+          whereValue += " limit ?";
+          whereArgsValue.add(limit);
+        }
+
+        print(whereValue);
+        print(whereArgsValue);
+
+        final query = await trx.query("events", where: whereValue, whereArgs: whereArgsValue);
 
         return query;
       });
@@ -222,6 +264,59 @@ class EventLocalData {
         code: "01",
         message: "Something's wrong when trying to delete data",
         data: -1
+      );
+    }
+  }
+
+  Future<ResponseGeneral<Map<String, int>>> getStatusAllEvent() async{
+    try {
+      final db = await _database.getDB();
+      final shared = SharedPreferenceConfig();
+
+      final result = await db.transaction<ResponseGeneral<Map<String, int>>>((trx) async{
+        final userId = await shared.getInt(key: ConstansValue.user_id);
+
+        final query = await trx.rawQuery(
+          """
+            select 
+              count(case when status = 'DONE' then 1 end) as done_count,
+              count(case when status = 'PROGRESS' then 1 end) as progress_count,
+              count(case when status = 'IDLE' then 1 end) as idle_count
+            from events where user_id = ?
+          """
+        , [userId]);
+
+        if (query.isNotEmpty){
+          final dataStatus = query.first;
+
+          return ResponseGeneral(
+            code: "00",
+            message: "Getting data status all events success",
+            data: {
+              "doneCount": int.parse(dataStatus['done_count'].toString()),
+              "progressCount": int.parse(dataStatus['progress_count'].toString()),
+              "idleCount": int.parse(dataStatus['idle_count'].toString())
+            }
+          );
+        } else {
+          return ResponseGeneral(
+            code: "00",
+            message: "You don't have data status all events",
+            data: {
+              "doneCount": 0,
+              "progressCount": 0,
+              "idleCount": 0
+            }
+          );
+        }
+      });
+
+      return result;
+    } catch (e){
+      return ResponseGeneral(
+        code: "01",
+        message: "There's a problem when getting data status all event",
+        data: {}
       );
     }
   }

@@ -12,13 +12,15 @@ class PrimaryButtonComponent extends StatelessWidget {
     Alignment? alignment,
     bool? isLoading,
     Color? color,
+    EdgeInsets? margin
   }) : _onTap = onTap,
        _label = label,
        _height = height,
        _width = width,
        _alignment = alignment,
        _isLoading = isLoading,
-       _color = color;
+       _color = color,
+       _margin = margin;
 
   final Function()? _onTap;
   final String _label;
@@ -27,6 +29,7 @@ class PrimaryButtonComponent extends StatelessWidget {
   final Alignment? _alignment;
   final bool? _isLoading;
   final Color? _color;
+  final EdgeInsets? _margin;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +51,7 @@ class PrimaryButtonComponent extends StatelessWidget {
           )
         ]
       ),
-      margin: const EdgeInsets.symmetric(horizontal: 24.0),
+      margin: _margin ?? const EdgeInsets.symmetric(horizontal: 24.0),
       child: _isLoading ?? false
         ? Container(
           alignment: Alignment.center,

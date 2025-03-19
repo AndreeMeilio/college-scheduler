@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:college_scheduler/components/delete_confirmation_component.dart';
+import 'package:college_scheduler/components/dropdown_menu_component.dart';
 import 'package:college_scheduler/components/primary_button.dart';
 import 'package:college_scheduler/components/quote_widget.dart';
 import 'package:college_scheduler/components/text_form_field.dart';
@@ -10,7 +11,11 @@ import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:college_scheduler/cubit/base_menu_cubit.dart';
 import 'package:college_scheduler/cubit/event/create_event_cubit.dart';
 import 'package:college_scheduler/cubit/event/list_event_cubit.dart';
+import 'package:college_scheduler/cubit/event/status_events_cubit.dart';
 import 'package:college_scheduler/data/models/event_model.dart';
+import 'package:college_scheduler/pages/data_class_page.dart';
+import 'package:college_scheduler/pages/data_events_page.dart';
+import 'package:college_scheduler/pages/data_lecturer_page.dart';
 import 'package:college_scheduler/pages/detail_event_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -32,7 +37,8 @@ class DashboardPage extends StatelessWidget {
           children: [
             QuoteWidget(),
             StatusDashboardWidget(),
-            ListItemEventWidget()
+            ShortcutMenuWidget(),
+            RecentDataEventWidget(),
           ],
         ),
       ),
@@ -51,10 +57,15 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
 
   late DateTime _now;
 
+  late StatusEventsCubit _cubit;
+
   @override
   void initState() {
     super.initState();
     _now = DateTime.now();
+
+    _cubit = BlocProvider.of<StatusEventsCubit>(context, listen: false);
+    _cubit.getStatusAllEvents();
   }
 
   @override
@@ -86,69 +97,152 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
                   )
                 ]
               ),
-              child: BlocBuilder<ListEventCubit, StateGeneral<ListEventState, List<EventModel?>?>>(
+              child: BlocBuilder<StatusEventsCubit, StateGeneral<StatusEventsState, Map<String, int>>>(
                 builder: (context, state) {
-                  int doneCount = 0;
-                  int progressCount = 0;
-                  int idleCount = 0;
-
-                  if (state.state is ListEventLoadedState){
-                    if (state.data?.isNotEmpty ?? false){
-                      for (final data in state.data!){
-                        if (data?.status == STATUS.idle){
-                          idleCount++;
-                        } else if (data?.status == STATUS.progress){
-                          progressCount++;
-                        } else if (data?.status == STATUS.done){
-                          doneCount++;
-                        }
-                      }
-                    }
+                  if (state.state is StatusEventsFailedState){
+                    return Center(
+                      child: Text(
+                        state.message ?? "",
+                        style: TextStyleConfig.body1bold,
+                      ),
+                    );
+                  } else if (state.state is StatusEventsLoadedState){
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      spacing: 8.0,
+                      children: [
+                        const SizedBox(),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            spacing: 16.0,
+                            children: [
+                              Text("IDLE", style: TextStyleConfig.body1bold,),
+                              Text("${state.data?['idleCount']}", style: TextStyleConfig.body1bold,),
+                            ],
+                          ),
+                        ),
+                        const Divider(color: Colors.white, height: 0,),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            spacing: 16.0,
+                            children: [
+                              Text("PROGRESS", style: TextStyleConfig.body1bold,),
+                              Text("${state.data?['progressCount']}", style: TextStyleConfig.body1bold,),
+                            ],
+                          ),
+                        ),
+                        const Divider(color: Colors.white, height: 0,),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            spacing: 16.0,
+                            children: [
+                              Text("DONE", style: TextStyleConfig.body1bold,),
+                              Text("${state.data?['doneCount']}", style: TextStyleConfig.body1bold,),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(),
+                      ],
+                    );
+                  } else {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      spacing: 8.0,
+                      children: [
+                        const SizedBox(),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            spacing: 16.0,
+                            children: [
+                              Shimmer.fromColors(
+                                baseColor: Colors.grey,
+                                highlightColor: Colors.white,
+                                child: Container(
+                                  height: 16.0,
+                                  width: MediaQuery.sizeOf(context).width * 0.25,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              Shimmer.fromColors(
+                                baseColor: Colors.grey,
+                                highlightColor: Colors.white,
+                                child: Container(
+                                  height: 16.0,
+                                  width: 24.0,
+                                  color: Colors.grey,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        const Divider(color: Colors.white, height: 0,),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            spacing: 16.0,
+                            children: [
+                              Shimmer.fromColors(
+                                baseColor: Colors.grey,
+                                highlightColor: Colors.white,
+                                child: Container(
+                                  height: 16.0,
+                                  width: MediaQuery.sizeOf(context).width * 0.25,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              Shimmer.fromColors(
+                                baseColor: Colors.grey,
+                                highlightColor: Colors.white,
+                                child: Container(
+                                  height: 16.0,
+                                  width: 24.0,
+                                  color: Colors.grey,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        const Divider(color: Colors.white, height: 0,),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            spacing: 16.0,
+                            children: [
+                              Shimmer.fromColors(
+                                baseColor: Colors.grey,
+                                highlightColor: Colors.white,
+                                child: Container(
+                                  height: 16.0,
+                                  width: MediaQuery.sizeOf(context).width * 0.25,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              Shimmer.fromColors(
+                                baseColor: Colors.grey,
+                                highlightColor: Colors.white,
+                                child: Container(
+                                  height: 16.0,
+                                  width: 24.0,
+                                  color: Colors.grey,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        const SizedBox(),
+                      ],
+                    );
                   }
-
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    spacing: 8.0,
-                    children: [
-                      const SizedBox(),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          spacing: 16.0,
-                          children: [
-                            Text("IDLE", style: TextStyleConfig.body1bold,),
-                            Text("$idleCount", style: TextStyleConfig.body1bold,),
-                          ],
-                        ),
-                      ),
-                      const Divider(color: Colors.white, height: 0,),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          spacing: 16.0,
-                          children: [
-                            Text("PROGRESS", style: TextStyleConfig.body1bold,),
-                            Text("$progressCount", style: TextStyleConfig.body1bold,),
-                          ],
-                        ),
-                      ),
-                      const Divider(color: Colors.white, height: 0,),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          spacing: 16.0,
-                          children: [
-                            Text("DONE", style: TextStyleConfig.body1bold,),
-                            Text("$doneCount", style: TextStyleConfig.body1bold,),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(),
-                    ],
-                  );
                 }
               ),
             ),
@@ -156,6 +250,127 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
         ],
       ),
     ) ;
+  }
+}
+
+class ShortcutMenuWidget extends StatelessWidget {
+  const ShortcutMenuWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 24.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: ColorConfig.mainColor),
+        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey,
+            offset: Offset(2.0, 2.0),
+            blurRadius: 1.0
+          )
+        ]
+      ),
+      child: IntrinsicHeight(
+        child: Row(
+          children: [
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                ),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: (){
+                      Navigator.push(context, PageTransition(
+                        type: PageTransitionType.rightToLeft,
+                        child: DataEventsPage()
+                      ));
+                    },
+                    splashColor: Colors.black.withAlpha(25),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                      child: Text(
+                        "Data Events",
+                        style: TextStyleConfig.body1bold,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const VerticalDivider(
+              color: ColorConfig.mainColor, 
+              thickness: 1.0,
+            ),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                ),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: (){
+                      Navigator.push(context, PageTransition(
+                        type: PageTransitionType.rightToLeft,
+                        child: DataClassPage()
+                      ));
+                    },
+                    splashColor: Colors.black.withAlpha(25),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                      child: Text(
+                        "Data Class",
+                        style: TextStyleConfig.body1bold,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const VerticalDivider(
+              color: ColorConfig.mainColor, 
+              thickness: 1.0,
+            ),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                ),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: (){
+                      Navigator.push(context, PageTransition(
+                        type: PageTransitionType.rightToLeft,
+                        child: DataLecturerPage()
+                      ));
+                    },
+                    splashColor: Colors.black.withAlpha(25),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                      child: Text(
+                        "Data Lecturer",
+                        style: TextStyleConfig.body1bold,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -214,302 +429,80 @@ class _TimeTickingWidgetState extends State<TimeTickingWidget> with WidgetsBindi
   }
 }
 
-class ListItemEventWidget extends StatefulWidget {
-  const ListItemEventWidget({super.key});
+class RecentDataEventWidget extends StatefulWidget {
+  const RecentDataEventWidget({super.key});
 
   @override
-  State<ListItemEventWidget> createState() => _ListItemEventWidgetState();
+  State<RecentDataEventWidget> createState() => _RecentDataEventWidgetState();
 }
 
-class _ListItemEventWidgetState extends State<ListItemEventWidget> {
+class _RecentDataEventWidgetState extends State<RecentDataEventWidget> {
 
-  late TextEditingController _searchController;
   late ListEventCubit _cubit;
 
   @override
   void initState() {
     super.initState();
 
-    _searchController = TextEditingController();
-    _cubit = BlocProvider.of<ListEventCubit>(context, listen:false);
-
-    _cubit.getAllEvent();
+    _cubit = BlocProvider.of<ListEventCubit>(context, listen: false);
+    _cubit.getAllEvent(limit: 3);
   }
-
-  @override
-  void dispose() {
-    super.dispose();
-
-    _searchController.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      spacing: 16.0,
-      children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
-              child: CustomTextFormField(
-                controller: _searchController,
-                label: "",
-                hint: "Search item by Title",
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(right: 24.0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color: ColorConfig.mainColor),
-                borderRadius: BorderRadius.all(Radius.circular(8.0))
-              ),
-              // padding: const EdgeInsets.all(8.0),
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  splashColor: Colors.black.withAlpha(25),
-                  onTap: (){
-
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Icon(Icons.filter_alt, color: ColorConfig.mainColor,),
-                  ),
-                ),
-              )
-            )
-          ],
-        ),
-        BlocBuilder<ListEventCubit, StateGeneral>(
-          builder: (context, state){
-            if (state.state is ListEventLoadedState){
-              if (state.data.isNotEmpty){
-                return ListView.separated(
-                  separatorBuilder: (context, index) {
-                    return Divider(
-                      height: 0.0,
-                      thickness: 8.0,
-                      color: ColorConfig.mainColor,
-                    );
-                  },
-                  itemCount: state.data.length,
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return ListItemEventDataWidget(
-                      data: state.data[index],
-                      cubit: _cubit,
-                    );
-                  },
-                );
-              } else {
-                return Container(
-                  alignment: Alignment.center,
-                  margin: const EdgeInsets.symmetric(vertical: 24.0),
-                  child: Text(
-                    "You Don't Have Any Data On Events",
-                    style: TextStyleConfig.body1bold,
-                  ),
-                );
-              }
-            } else if (state.state is ListEventFailedState){
-              return Container(
-                margin: const EdgeInsets.only(top: 24.0),
-                alignment: Alignment.center,
-                child: Text(
-                  state.message ?? "",
-                  style: TextStyleConfig.body1bold,
-                ),
-              );
-            } else {
-              return ListView.separated(
-                separatorBuilder: (context, index) {
-                  return Divider(
-                    height: 0.0,
-                    thickness: 8.0,
-                    color: ColorConfig.mainColor,
-                  );
-                },
-                itemCount: 2,
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return ListItemEventDataLoadingWidget();
-                },
-              );
-            }
-          },
-        )
-      ],
-    );
-  }
-}
-
-class ListItemEventDataWidget extends StatelessWidget {
-  ListItemEventDataWidget({
-    super.key,
-    required this.data,
-    required this.cubit
-  });
-
-  EventModel data;
-  ListEventCubit cubit;
-
-  @override
-  Widget build(BuildContext context) {
-    return Slidable(
-      key: ValueKey(data.id),
-      startActionPane: ActionPane(
-        motion: ScrollMotion(),
-        children: [
-          SlidableAction(
-            onPressed: (context) async{
-              final cubitBaseMenu = BlocProvider.of<BaseMenuCubit>(context, listen: false);
-              final cubitCreateEventMenu = BlocProvider.of<CreateAndUpdateEventCubit>(context, listen: false);
-              cubitCreateEventMenu.setTempDataEvent(data: data);
-
-              cubitBaseMenu.changeIndexActiveMenu(1);
-            },
-            label: "Edit",
-            backgroundColor: ColorConfig.mainColor.withAlpha(75),
-            icon: Icons.edit,
-          ),
-          SlidableAction(
-            onPressed: (context) async{
-              // await cubit.deleteEvent(data: data);
-              showModalBottomSheet(
-                context: context,
-                builder: (context){
-                  return DeleteConfirmationComponent(
-                    onCancel: (){
-                      Navigator.pop(context);
-                    },
-                    onProcceed: () async{
-                      await cubit.deleteEvent(data: data);
-
-                      if (context.mounted){
-                        Navigator.pop(context);
-                      }
-                    },
-                  );
-                }
-              );
-            },
-            label: "Delete",
-            backgroundColor: Colors.red,
-            icon: Icons.edit,
-          ),
-        ],
-      ),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white
-        ),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            splashColor: Colors.black.withAlpha(25),
-            onTap: (){
-              Navigator.push(context, PageTransition(
-                type: PageTransitionType.rightToLeft,
-                child: DetailEventPage(data: data)
-              ));
-            },
-            child: Container(
-              padding: const EdgeInsets.all(24.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    data.title ?? "",
-                    style: TextStyleConfig.body1bold,
-                  ),
-                  const SizedBox(height: 8.0,),
-                  Text(
-                    "Deadline : ${DateFormat("d MMMM y").format(data.dateOfEvent ?? DateTime.parse("0000-00-00"))}",
-                    style: TextStyleConfig.body2,
-                  ),
-                  const SizedBox(height: 32.0,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Priority : ${data.priority?.name.toUpperCase()}",
-                        style: TextStyleConfig.body2,
-                      ),
-                      Text(
-                        "Status : ${data.status?.name.toUpperCase()}",
-                        style: TextStyleConfig.body2,
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class ListItemEventDataLoadingWidget extends StatelessWidget {
-  const ListItemEventDataLoadingWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: Colors.white
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          splashColor: Colors.black.withAlpha(25),
-          onTap: (){
-
-          },
-          child: Container(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Shimmer.fromColors(
-                  baseColor: Colors.grey.withAlpha(150),
-                  highlightColor: Colors.white,
-                  child: Container(
-                    color: Colors.grey,
-                    height: 10.0,
-                    width: MediaQuery.sizeOf(context).width * 0.75,
-                  )
-                ),
-                const SizedBox(height: 8.0,),
-                Shimmer.fromColors(
-                  baseColor: Colors.grey.withAlpha(150),
-                  highlightColor: Colors.white,
-                  child: Container(
-                    color: Colors.grey,
-                    height: 10.0,
-                    width: MediaQuery.sizeOf(context).width * 0.5,
-                  ),
-                ),
-                const SizedBox(height: 32.0,),
-                Shimmer.fromColors(
-                  baseColor: Colors.grey.withAlpha(150),
-                  highlightColor: Colors.white,
-                  child: Container(
-                    color: Colors.grey,
-                    height: 10.0,
-                    width: MediaQuery.sizeOf(context).width * 0.25,
-                  ),
-                ),
-              ],
-            ),
+      margin: const EdgeInsets.symmetric(horizontal: 24.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        spacing: 16.0,
+        children: [
+          Text(
+            "Recent Data Events",
+            style: TextStyleConfig.body1bold,
           ),
-        ),
+          BlocBuilder<ListEventCubit, StateGeneral>(
+            builder: (context, state){
+              if (state.state is ListEventFailedState){
+                return Center(
+                  child: Text(
+                    state.message ?? "",
+                    style: TextStyleConfig.body1bold,
+                  ),
+                );
+              } else if (state.state is ListEventLoadedState){
+                if (state.data?.isNotEmpty ?? false){
+                  return ListView.builder(
+                    itemCount: state.data?.length,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index){
+                      return ListItemEventDataWidget(
+                        data: state.data?[index],
+                        cubit: _cubit,
+                      );
+                    },
+                  );
+                } else {
+                  return Center(
+                    child: Text(
+                      state.message ?? "",
+                      style: TextStyleConfig.body1bold,
+                    ),
+                  );
+                }
+              } else {
+                return ListView.builder(
+                  itemCount: 3,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index){
+                    return ListItemEventDataLoadingWidget();
+                  },
+                );
+              }
+            },
+          )
+        ],
       ),
     );
   }

@@ -156,7 +156,7 @@ class ClassLocalData {
                 dayofweek = DAYOFWEEK.sunday;
                 break; 
               default:
-                dayofweek = DAYOFWEEK.monday; 
+                dayofweek = DAYOFWEEK.selectDay; 
             }
 
             return ClassModel(

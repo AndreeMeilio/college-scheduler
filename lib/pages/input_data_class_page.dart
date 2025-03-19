@@ -58,7 +58,7 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
     _startHourController = TextEditingController();
     _endHourController = TextEditingController();
 
-    _dayofweek = DAYOFWEEK.monday;
+    _dayofweek = DAYOFWEEK.selectDay;
     _dayofweekController = TextEditingController();
     _dayofweekController.text = "Select Day";
 
@@ -185,7 +185,7 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
                       label: "Day",
                       menu: [
                         DropdownMenuEntry(
-                          value: DAYOFWEEK.monday,
+                          value: DAYOFWEEK.selectDay,
                           label: "Select Day",
                           enabled: false
                         ),
@@ -332,7 +332,7 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
                     userId: 0
                   );
                   _dayofweekController.text = "Select Day";
-                  _dayofweek = DAYOFWEEK.monday;
+                  _dayofweek = DAYOFWEEK.selectDay;
                   _startHour = TimeOfDay.now();
                   _endHour = TimeOfDay.now();
                   _startHourController.clear();

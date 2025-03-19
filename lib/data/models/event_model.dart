@@ -2,12 +2,14 @@
 import 'package:flutter/material.dart';
 
 enum PRIORITY {
+  selectPriority,
   low,
   medium,
   high
 }
 
 enum STATUS {
+  selectStatus,
   idle,
   progress,
   done

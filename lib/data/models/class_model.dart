@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 enum DAYOFWEEK {
+  selectDay,
   monday,
   tuesday,
   wednesday,

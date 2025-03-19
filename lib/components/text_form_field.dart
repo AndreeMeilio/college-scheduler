@@ -17,7 +17,9 @@ class CustomTextFormField extends StatelessWidget {
     int maxLines = 1,
     bool readonly = false,
     void Function()? onTap,
-    bool? isRequired = false
+    bool? isRequired = false,
+    Function(String)? onSubmited,
+    EdgeInsets? margin
   }) : _controller = controller,
        _label = label, 
        _hint = hint,
@@ -30,7 +32,9 @@ class CustomTextFormField extends StatelessWidget {
        _maxLines = maxLines,
        _readOnly = readonly,
        _onTap = onTap,
-       _isRequired = isRequired;
+       _isRequired = isRequired,
+       _onSubmited = onSubmited,
+       _margin = margin;
 
   final TextEditingController _controller;
   final String _label;
@@ -45,6 +49,8 @@ class CustomTextFormField extends StatelessWidget {
   final bool _readOnly;
   final void Function()? _onTap;
   final bool? _isRequired;
+  final Function(String)? _onSubmited;
+  final EdgeInsets? _margin;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +58,7 @@ class CustomTextFormField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _label == "" || _label.isEmpty ? const SizedBox.shrink() : Container(
-          margin: const EdgeInsets.symmetric(horizontal: 24.0),
+          margin: _margin ?? const EdgeInsets.symmetric(horizontal: 24.0),
           child: RichText(
             text: TextSpan(
               text: _label,
@@ -68,7 +74,7 @@ class CustomTextFormField extends StatelessWidget {
         ),
         _label == "" || _label.isEmpty ? const SizedBox.shrink() : const SizedBox(height: 8.0,),
         Container(
-          margin: const EdgeInsets.symmetric(horizontal: 24.0),
+          margin: _margin ?? const EdgeInsets.symmetric(horizontal: 24.0),
           child: TextFormField(
             decoration: InputDecoration(
               focusedBorder: OutlineInputBorder(
@@ -108,6 +114,7 @@ class CustomTextFormField extends StatelessWidget {
             onChanged: _onChanged,
             maxLines: _maxLines,
             readOnly: _readOnly,
+            onFieldSubmitted: _onSubmited,
             onTap: _onTap,
           ),
         )

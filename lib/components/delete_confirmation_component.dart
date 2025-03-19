@@ -38,20 +38,23 @@ class DeleteConfirmationComponent extends StatelessWidget {
             ),
           ),
           Row(
+            spacing: 16.0,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              PrimaryButtonComponent(
-                label: "Cancel",
-                color: Colors.grey,
-                width: MediaQuery.sizeOf(context).width * 0.25,
-                onTap: onCancel
+              Expanded(
+                child: PrimaryButtonComponent(
+                  label: "Cancel",
+                  color: Colors.grey,
+                  onTap: onCancel
+                ),
               ),
-              PrimaryButtonComponent(
-                label: "Yes, Delete It",
-                color: ColorConfig.mainColor,
-                width: MediaQuery.sizeOf(context).width * 0.25,
-                onTap: onProcceed
-              ),
+              Expanded(
+                child: PrimaryButtonComponent(
+                  label: "Yes, Delete It",
+                  color: ColorConfig.mainColor,
+                  onTap: onProcceed
+                ),
+              )
             ],
           )
         ],

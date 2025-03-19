@@ -343,10 +343,10 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
             },
           ),
           Row(
+            spacing: 16.0,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Align(
-                alignment: Alignment.centerLeft,
+              Expanded(
                 child: PrimaryButtonComponent(
                   label: "Clear",
                   width: MediaQuery.sizeOf(context).width * 0.25,
@@ -357,7 +357,7 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
                     _dateEvent = DateTime.now();
                     _startHour = TimeOfDay.now();
                     _endHour = TimeOfDay.now();
-
+                
                     _dateEventController.clear();
                     _titleEventController.clear();
                     _descriptionController.clear();
@@ -370,13 +370,12 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
                     _selectedClass = ClassModel(
                       name: "Select Class"
                     );
-
+                
                     _cubit.clearTempDataEvent();
                   },
                 ),
               ),
-              Align(
-                alignment: Alignment.centerRight,
+              Expanded(
                 child: BlocConsumer<CreateAndUpdateEventCubit, StateGeneral>(
                   builder: (context, state){
                     return PrimaryButtonComponent(
@@ -424,11 +423,11 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
                         description: Text(state.message ?? ""),
                         primaryColor: Colors.green
                       );
-
+                
                       _priority = PRIORITY.low;
                       _status = STATUS.idle;
                       _dateEvent = DateTime.now();
-
+                
                       _dateEventController.clear();
                       _titleEventController.clear();
                       _descriptionController.clear();
@@ -436,7 +435,7 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
                       _endHourController.clear();
                       _priorityController.clear();
                       _statusController.clear();
-
+                
                       _locationController.clear();
                       _classController.text = "Select Class";
                       _selectedClass = ClassModel(
@@ -455,7 +454,7 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
                       );
                     }
                   }
-                )
+                ),
               ),
             ],
           ),

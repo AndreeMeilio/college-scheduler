@@ -51,69 +51,54 @@ class _DataLecturerPageState extends State<DataLecturerPage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.all(24.0),
+            child: BlocBuilder<ListLecturerCubit, StateGeneral>(
+              builder: (context, state) {
+                if (state.state is ListLecturerLoadedState){
+                  if (state.data.isNotEmpty){
+                    return ListView.separated(
+                      itemCount: state.data.length,
+                      physics: BouncingScrollPhysics(),
+                      separatorBuilder: (context, index) {
+                        return Divider(color: ColorConfig.backgroundColor, height: 2.0,);
+                      },
+                      itemBuilder: (context, index){
+                        return DataClassItemWidget(
+                          data: state.data[index],
+                          cubit: _cubit,
+                        );
+                      },
+                    );
+                  } else {
+                    return Container(
+                      alignment: Alignment.center,
+                      margin: const EdgeInsets.symmetric(vertical: 24.0),
+                      child: Text(
+                        "You Don't Have Any Data On Lecturer",
+                        style: TextStyleConfig.body1bold,
+                      ),
+                    );
+                  }
+                } else if (state.state is ListLecturerFailedState){
+                  return Center(
                     child: Text(
-                      "List Data Lecturer",
-                      style: TextStyleConfig.heading1bold,
+                      state.message ?? "",
+                      style: TextStyleConfig.body1,
                     ),
-                  ),
-                  BlocBuilder<ListLecturerCubit, StateGeneral>(
-                    builder: (context, state) {
-                      if (state.state is ListLecturerLoadedState){
-                        if (state.data.isNotEmpty){
-                          return ListView.separated(
-                            itemCount: state.data.length,
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            separatorBuilder: (context, index) {
-                              return Divider(color: ColorConfig.backgroundColor, height: 2.0,);
-                            },
-                            itemBuilder: (context, index){
-                              return DataClassItemWidget(
-                                data: state.data[index],
-                                cubit: _cubit,
-                              );
-                            },
-                          );
-                        } else {
-                          return Container(
-                            alignment: Alignment.center,
-                            margin: const EdgeInsets.symmetric(vertical: 24.0),
-                            child: Text(
-                              "You Don't Have Any Data On Lecturer",
-                              style: TextStyleConfig.body1bold,
-                            ),
-                          );
-                        }
-                      } else if (state.state is ListLecturerFailedState){
-                        return Center(
-                          child: Text(
-                            state.message ?? "",
-                            style: TextStyleConfig.body1,
-                          ),
-                        );
-                      } else {
-                        return ListView.separated(
-                          itemCount: 5,
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          separatorBuilder: (context, index) {
-                            return Divider(color: ColorConfig.backgroundColor, height: 2.0,);
-                          },
-                          itemBuilder: (context, index){
-                            return DataClassItemLoadingWidget();
-                          },
-                        );
-                      }
+                  );
+                } else {
+                  return ListView.separated(
+                    itemCount: 5,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    separatorBuilder: (context, index) {
+                      return Divider(color: ColorConfig.backgroundColor, height: 2.0,);
                     },
-                  ),
-                ],
-              ),
+                    itemBuilder: (context, index){
+                      return DataClassItemLoadingWidget();
+                    },
+                  );
+                }
+              },
             ),
           ),
           Container(

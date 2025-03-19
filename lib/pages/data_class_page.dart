@@ -48,69 +48,54 @@ class _DataClassPageState extends State<DataClassPage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.all(24.0),
+            child: BlocBuilder<ListDataClassCubit, StateGeneral>(
+              builder: (context, state) {
+                if (state.state is ListDataClassLoadedState){
+                  if (state.data.isNotEmpty){
+                    return ListView.separated(
+                      itemCount: state.data.length,
+                      physics: BouncingScrollPhysics(),
+                      separatorBuilder: (context, index) {
+                        return Divider(color: ColorConfig.backgroundColor, height: 2.0,);
+                      },
+                      itemBuilder: (context, index){
+                        return DataClassItemWidget(
+                          data: state.data[index],
+                          cubit: _cubit,
+                        );
+                      },
+                    );
+                  } else {
+                    return Container(
+                      alignment: Alignment.center,
+                      margin: const EdgeInsets.symmetric(vertical: 24.0),
+                      child: Text(
+                        "You Don't Have Any Data On Class",
+                        style: TextStyleConfig.body1bold,
+                      ),
+                    );
+                  }
+                } else if (state.state is ListDataClassFailedState){
+                  return Center(
                     child: Text(
-                      "List Data Class",
-                      style: TextStyleConfig.heading1bold,
+                      state.message ?? "",
+                      style: TextStyleConfig.body1,
                     ),
-                  ),
-                  BlocBuilder<ListDataClassCubit, StateGeneral>(
-                    builder: (context, state) {
-                      if (state.state is ListDataClassLoadedState){
-                        if (state.data.isNotEmpty){
-                          return ListView.separated(
-                            itemCount: state.data.length,
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            separatorBuilder: (context, index) {
-                              return Divider(color: ColorConfig.backgroundColor, height: 2.0,);
-                            },
-                            itemBuilder: (context, index){
-                              return DataClassItemWidget(
-                                data: state.data[index],
-                                cubit: _cubit,
-                              );
-                            },
-                          );
-                        } else {
-                          return Container(
-                            alignment: Alignment.center,
-                            margin: const EdgeInsets.symmetric(vertical: 24.0),
-                            child: Text(
-                              "You Don't Have Any Data On Class",
-                              style: TextStyleConfig.body1bold,
-                            ),
-                          );
-                        }
-                      } else if (state.state is ListDataClassFailedState){
-                        return Center(
-                          child: Text(
-                            state.message ?? "",
-                            style: TextStyleConfig.body1,
-                          ),
-                        );
-                      } else {
-                        return ListView.separated(
-                          itemCount: 5,
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          separatorBuilder: (context, index) {
-                            return Divider(color: ColorConfig.backgroundColor, height: 2.0,);
-                          },
-                          itemBuilder: (context, index){
-                            return DataClassItemLoadingWidget();
-                          },
-                        );
-                      }
+                  );
+                } else {
+                  return ListView.separated(
+                    itemCount: 5,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    separatorBuilder: (context, index) {
+                      return Divider(color: ColorConfig.backgroundColor, height: 2.0,);
                     },
-                  ),
-                ],
-              ),
+                    itemBuilder: (context, index){
+                      return DataClassItemLoadingWidget();
+                    },
+                  );
+                }
+              },
             ),
           ),
           Container(
@@ -213,7 +198,7 @@ class DataClassItemWidget extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.center,
                     child: Text(
-                      "${_data.day?.name[0].toUpperCase()}${_data.day?.name.substring(1)}",
+                      _data.day == DAYOFWEEK.selectDay ? "" : "${_data.day?.name[0].toUpperCase()}${_data.day?.name.substring(1)}",
                       style: TextStyleConfig.body1,
                     ),
                   )
@@ -228,7 +213,7 @@ class DataClassItemWidget extends StatelessWidget {
                   )
                 ),
                 Text(
-                  "s/d",
+                  "to",
                   style: TextStyleConfig.body1,
                 ),
                 Expanded(
@@ -318,7 +303,7 @@ class DataClassItemLoadingWidget extends StatelessWidget {
                 )
               ),
               Text(
-                "s/d",
+                "to",
                 style: TextStyleConfig.body1,
               ),
               Expanded(

@@ -1,0 +1,538 @@
+
+import 'package:college_scheduler/components/delete_confirmation_component.dart';
+import 'package:college_scheduler/components/dropdown_menu_component.dart';
+import 'package:college_scheduler/components/primary_button.dart';
+import 'package:college_scheduler/components/text_form_field.dart';
+import 'package:college_scheduler/config/color_config.dart';
+import 'package:college_scheduler/config/state_general.dart';
+import 'package:college_scheduler/config/text_style_config.dart';
+import 'package:college_scheduler/cubit/base_menu_cubit.dart';
+import 'package:college_scheduler/cubit/event/create_event_cubit.dart';
+import 'package:college_scheduler/cubit/event/list_event_cubit.dart';
+import 'package:college_scheduler/data/models/event_model.dart';
+import 'package:college_scheduler/pages/detail_event_page.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:intl/intl.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:shimmer/shimmer.dart';
+
+class DataEventsPage extends StatefulWidget {
+  const DataEventsPage({super.key});
+
+  @override
+  State<DataEventsPage> createState() => _DataEventsPageState();
+}
+
+class _DataEventsPageState extends State<DataEventsPage> {
+  
+  late TextEditingController _searchController;
+
+  late TextEditingController _filterPriorityController;
+  late TextEditingController _filterStatusController;
+  late TextEditingController _filterDateOfEventController;
+
+  late PRIORITY _filterSelectedPriority;
+  late STATUS _filterSelectedStatus;
+
+  late ListEventCubit _cubit;
+
+  late DateTimeRange? _filterDateRangeEvent;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _searchController = TextEditingController();
+    _filterPriorityController = TextEditingController(text: "Select Priority");
+    _filterStatusController = TextEditingController(text: "Select Status");
+    _filterDateOfEventController = TextEditingController();
+
+    _filterDateRangeEvent = null;
+
+    _filterSelectedPriority = PRIORITY.selectPriority;
+    _filterSelectedStatus = STATUS.selectStatus;
+
+    _cubit = BlocProvider.of<ListEventCubit>(context, listen:false);
+
+    _cubit.getAllEvent();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    _searchController.dispose();
+    _filterPriorityController.dispose();
+    _filterStatusController.dispose();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "Data Events",
+          style: TextStyleConfig.body1,
+        ),
+        backgroundColor: ColorConfig.backgroundColor,
+        surfaceTintColor: ColorConfig.backgroundColor,
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        spacing: 16.0,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: CustomTextFormField(
+                  controller: _searchController,
+                  label: "",
+                  hint: "Search item by Title",
+                  onSubmited: (value) async{
+                    await _cubit.getAllEvent(
+                      searchItem: value,
+                      priorty: _filterSelectedPriority,
+                      status: _filterSelectedStatus
+                    );
+                  },
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(right: 24.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: ColorConfig.mainColor),
+                  borderRadius: BorderRadius.all(Radius.circular(8.0))
+                ),
+                // padding: const EdgeInsets.all(8.0),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    splashColor: Colors.black.withAlpha(25),
+                    onTap: () async{
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (context){
+                          return Container(
+                            padding: const EdgeInsets.all(24.0),
+                            width: MediaQuery.sizeOf(context).width,
+                            height: MediaQuery.sizeOf(context).height * 0.5,
+                            child: Column(
+                              spacing: 16.0,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Expanded(
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                                      spacing: 16.0,
+                                      children: [
+                                        Divider(
+                                          color: ColorConfig.mainColor,
+                                          thickness: 4,
+                                          indent: 125.0,
+                                          endIndent: 125.0,
+                                        ),
+                                        Text(
+                                          "Filter Events",
+                                          style: TextStyleConfig.body1bold,
+                                        ),
+                                        CustomTextFormField(
+                                          controller: _filterDateOfEventController,
+                                          margin: const EdgeInsets.all(0.0),
+                                          label: "Date Of Event",
+                                          hint: "Please input Date Of Event",
+                                          readonly: true,
+                                          onTap: () async{
+                                            final dateByUsers = await showDateRangePicker(
+                                              context: context, 
+                                              firstDate: DateTime(DateTime.now().year - 1),
+                                              lastDate: DateTime(DateTime.now().year + 1),
+                                              selectableDayPredicate: (DateTime day, DateTime? selectedStartDay, DateTime? selectedEndTime){
+                                                if (day.isAfter(DateTime.now().subtract(const Duration(days: 1)))){
+                                                  return true;
+                                                }
+
+                                                return false;
+                                              },
+                                              initialDateRange: _filterDateRangeEvent
+                                            );
+
+                                            if (dateByUsers != null){
+                                              _filterDateOfEventController.text = "${DateFormat('y-MM-dd').format(dateByUsers.start)} to ${DateFormat('y-MM-dd').format(dateByUsers.end)}";
+                                              _filterDateRangeEvent = dateByUsers;
+                                            }
+                                          },
+                                          validator: (value){
+                                            if (value?.isEmpty ?? false){
+                                              return "Please input date of the event";
+                                            }
+
+                                            return null;
+                                          },
+                                        ),
+                                        Row(
+                                          spacing: 16.0,
+                                          children: [
+                                            Expanded(
+                                              child: DropdownMenuComponent(
+                                                margin: const EdgeInsets.all(0.0),
+                                                label: "Priority",
+                                                controller: _filterPriorityController,
+                                                value: _filterSelectedPriority,
+                                                menu: [
+                                                  DropdownMenuEntry(
+                                                    label: "Select Priority",
+                                                    value: PRIORITY.selectPriority,
+                                                    enabled: false
+                                                  ),
+                                                  DropdownMenuEntry(
+                                                    label: "LOW",
+                                                    value: PRIORITY.low,
+                                                  ),
+                                                  DropdownMenuEntry(
+                                                    label: "MEDIUM",
+                                                    value: PRIORITY.medium,
+                                                  ),
+                                                  DropdownMenuEntry(
+                                                    label: "HIGH",
+                                                    value: PRIORITY.high,
+                                                  ),
+                                                ],
+                                                onSelected: (value){
+                                                  _filterSelectedPriority = value;
+                                                },
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: DropdownMenuComponent(
+                                                margin: const EdgeInsets.all(0.0),
+                                                label: "Status",
+                                                controller: _filterStatusController,
+                                                value: _filterSelectedStatus,
+                                                menu: [
+                                                  DropdownMenuEntry(
+                                                    label: "Select Status",
+                                                    value: STATUS.selectStatus,
+                                                    enabled: false
+                                                  ),
+                                                  DropdownMenuEntry(
+                                                    label: "IDLE",
+                                                    value: STATUS.idle,
+                                                  ),
+                                                  DropdownMenuEntry(
+                                                    label: "PROGRESS",
+                                                    value: STATUS.progress,
+                                                  ),
+                                                  DropdownMenuEntry(
+                                                    label: "DONE",
+                                                    value: STATUS.done,
+                                                  ),
+                                                ],
+                                                onSelected: (value){
+                                                  _filterSelectedStatus = value;
+                                                },
+                                              ),
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Row(
+                                  spacing: 16.0,
+                                  children: [
+                                    Expanded(
+                                      child: PrimaryButtonComponent(
+                                        onTap: (){
+                                          _filterDateRangeEvent = null;
+                                          _filterDateOfEventController.clear();
+
+                                          _filterPriorityController.text = "Select Priority";
+                                          _filterStatusController.text = "Select Status";
+                                          _filterSelectedPriority = PRIORITY.selectPriority;
+                                          _filterSelectedStatus = STATUS.selectStatus;
+                                        },
+                                        margin: const EdgeInsets.all(0.0),
+                                        label: "Clear",
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: PrimaryButtonComponent(
+                                        onTap: () async{
+                                          await _cubit.getAllEvent(
+                                            searchItem: _searchController.text,
+                                            priorty: _filterSelectedPriority,
+                                            status: _filterSelectedStatus,
+                                            dateRangeEvent: _filterDateRangeEvent
+                                          );
+
+                                          if (context.mounted){
+                                            Navigator.pop(context);
+                                          }
+                                        },
+                                        margin: const EdgeInsets.all(0.0),
+                                        label: "Submit",
+                                      ),
+                                    )
+                                  ],
+                                )
+                              ],
+                            )
+                          );
+                        }
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Icon(Icons.filter_alt, color: ColorConfig.mainColor,),
+                    ),
+                  ),
+                )
+              )
+            ],
+          ),
+          BlocBuilder<ListEventCubit, StateGeneral>(
+            builder: (context, state){
+              if (state.state is ListEventLoadedState){
+                if (state.data.isNotEmpty){
+                  return ListView.separated(
+                    separatorBuilder: (context, index) {
+                      return Divider(
+                        height: 0.0,
+                        thickness: 8.0,
+                        color: ColorConfig.mainColor,
+                      );
+                    },
+                    itemCount: state.data.length,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 24.0),
+                        child: ListItemEventDataWidget(
+                          data: state.data[index],
+                          cubit: _cubit,
+                        ),
+                      );
+                    },
+                  );
+                } else {
+                  return Container(
+                    alignment: Alignment.center,
+                    margin: const EdgeInsets.symmetric(vertical: 24.0),
+                    child: Text(
+                      "You Don't Have Any Data On Events",
+                      style: TextStyleConfig.body1bold,
+                    ),
+                  );
+                }
+              } else if (state.state is ListEventFailedState){
+                return Container(
+                  margin: const EdgeInsets.only(top: 24.0),
+                  alignment: Alignment.center,
+                  child: Text(
+                    state.message ?? "",
+                    style: TextStyleConfig.body1bold,
+                  ),
+                );
+              } else {
+                return ListView.separated(
+                  separatorBuilder: (context, index) {
+                    return Divider(
+                      height: 0.0,
+                      thickness: 8.0,
+                      color: ColorConfig.mainColor,
+                    );
+                  },
+                  itemCount: 2,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 24.0),
+                      child: ListItemEventDataLoadingWidget(),
+                    );
+                  },
+                );
+              }
+            },
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class ListItemEventDataWidget extends StatelessWidget {
+  ListItemEventDataWidget({
+    super.key,
+    required this.data,
+    required this.cubit
+  });
+
+  EventModel data;
+  ListEventCubit cubit;
+
+  @override
+  Widget build(BuildContext context) {
+    return Slidable(
+      key: ValueKey(data.id),
+      startActionPane: ActionPane(
+        motion: ScrollMotion(),
+        children: [
+          SlidableAction(
+            onPressed: (context) async{
+              final cubitBaseMenu = BlocProvider.of<BaseMenuCubit>(context, listen: false);
+              final cubitCreateEventMenu = BlocProvider.of<CreateAndUpdateEventCubit>(context, listen: false);
+              cubitCreateEventMenu.setTempDataEvent(data: data);
+
+              cubitBaseMenu.changeIndexActiveMenu(1);
+            },
+            label: "Edit",
+            backgroundColor: ColorConfig.mainColor.withAlpha(75),
+            icon: Icons.edit,
+          ),
+          SlidableAction(
+            onPressed: (context) async{
+              // await cubit.deleteEvent(data: data);
+              showModalBottomSheet(
+                context: context,
+                builder: (context){
+                  return DeleteConfirmationComponent(
+                    onCancel: (){
+                      Navigator.pop(context);
+                    },
+                    onProcceed: () async{
+                      await cubit.deleteEvent(data: data);
+
+                      if (context.mounted){
+                        Navigator.pop(context);
+                      }
+                    },
+                  );
+                }
+              );
+            },
+            label: "Delete",
+            backgroundColor: Colors.red,
+            icon: Icons.edit,
+          ),
+        ],
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: ColorConfig.mainColor),
+          borderRadius: BorderRadius.all(Radius.circular(8.0))
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            splashColor: Colors.black.withAlpha(25),
+            onTap: (){
+              Navigator.push(context, PageTransition(
+                type: PageTransitionType.rightToLeft,
+                child: DetailEventPage(data: data)
+              ));
+            },
+            child: Container(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    data.title ?? "",
+                    style: TextStyleConfig.body1bold,
+                  ),
+                  const SizedBox(height: 8.0,),
+                  Text(
+                    "Deadline : ${DateFormat("d MMMM y").format(data.dateOfEvent ?? DateTime.parse("0000-00-00"))}",
+                    style: TextStyleConfig.body2,
+                  ),
+                  const SizedBox(height: 32.0,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Priority : ${data.priority?.name.toUpperCase()}",
+                        style: TextStyleConfig.body2,
+                      ),
+                      Text(
+                        "Status : ${data.status?.name.toUpperCase()}",
+                        style: TextStyleConfig.body2,
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ListItemEventDataLoadingWidget extends StatelessWidget {
+  const ListItemEventDataLoadingWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          splashColor: Colors.black.withAlpha(25),
+          onTap: (){
+
+          },
+          child: Container(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Shimmer.fromColors(
+                  baseColor: Colors.grey.withAlpha(150),
+                  highlightColor: Colors.white,
+                  child: Container(
+                    color: Colors.grey,
+                    height: 10.0,
+                    width: MediaQuery.sizeOf(context).width * 0.75,
+                  )
+                ),
+                const SizedBox(height: 8.0,),
+                Shimmer.fromColors(
+                  baseColor: Colors.grey.withAlpha(150),
+                  highlightColor: Colors.white,
+                  child: Container(
+                    color: Colors.grey,
+                    height: 10.0,
+                    width: MediaQuery.sizeOf(context).width * 0.5,
+                  ),
+                ),
+                const SizedBox(height: 32.0,),
+                Shimmer.fromColors(
+                  baseColor: Colors.grey.withAlpha(150),
+                  highlightColor: Colors.white,
+                  child: Container(
+                    color: Colors.grey,
+                    height: 10.0,
+                    width: MediaQuery.sizeOf(context).width * 0.25,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

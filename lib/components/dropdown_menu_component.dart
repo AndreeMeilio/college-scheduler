@@ -9,18 +9,21 @@ class DropdownMenuComponent<T> extends StatelessWidget {
     required TextEditingController controller,
     T? value,
     required List<DropdownMenuEntry> menu,
-    void Function(dynamic)? onSelected
+    void Function(dynamic)? onSelected,
+    EdgeInsets? margin
   }) : _label = label,
        _controller = controller,
        _value = value,
        _menu = menu,
-       _onSelected = onSelected;
+       _onSelected = onSelected,
+       _margin = margin;
 
   final String _label;
   final TextEditingController _controller;
   final T? _value;
   final List<DropdownMenuEntry> _menu;
   final void Function(dynamic)? _onSelected;
+  final EdgeInsets? _margin;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +31,7 @@ class DropdownMenuComponent<T> extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Container(
-          margin: const EdgeInsets.symmetric(horizontal: 24.0),
+          margin: _margin ?? const EdgeInsets.symmetric(horizontal: 24.0),
           child: Text(
             _label,
             style: TextStyleConfig.body1
@@ -36,7 +39,7 @@ class DropdownMenuComponent<T> extends StatelessWidget {
         ),
         const SizedBox(height: 8.0,),
         Container(
-          margin: const EdgeInsets.symmetric(horizontal: 24.0),
+          margin: _margin ?? const EdgeInsets.symmetric(horizontal: 24.0),
           child: DropdownMenu(
             controller: _controller,
             initialSelection: _value,
