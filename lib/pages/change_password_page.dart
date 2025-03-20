@@ -7,6 +7,7 @@ import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:college_scheduler/cubit/users/change_password_cubit.dart';
 import 'package:college_scheduler/pages/login_page.dart';
+import 'package:college_scheduler/utils/toast_notif_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:page_transition/page_transition.dart';
@@ -166,14 +167,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       newPassword: _newPasswordController.text
                     );
                   } else {
-                    toastification.show(
+                    ToastNotifUtils.showError(
                       context: context,
-                      autoCloseDuration: const Duration(seconds: 3),
-                      style: ToastificationStyle.fillColored,
-                      type: ToastificationType.error,
-                      title: Text("Register Failed"),
-                      description: Text("Please fill the required field"),
-                      primaryColor: Colors.red
+                      title: "Register Failed",
+                      description: "Please fill the required field"
                     );
                   }
                 },
@@ -181,14 +178,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             },
             listener: (context, state) async{
               if (state.state is ChangePasswordSuccessState){
-                toastification.show(
+                ToastNotifUtils.showSuccess(
                   context: context,
-                  autoCloseDuration: const Duration(seconds: 3),
-                  style: ToastificationStyle.fillColored,
-                  type: ToastificationType.success,
-                  title: Text("Register Success"),
-                  description: Text(state.message ?? ""),
-                  primaryColor: Colors.green
+                  title: "Register Success",
+                  description: state.message ?? ""
                 );
 
                 final prefs = SharedPreferenceConfig();
@@ -202,14 +195,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   ));
                 }
               } else if (state.state is ChangePasswordFailedState){
-                toastification.show(
+                ToastNotifUtils.showError(
                   context: context,
-                  autoCloseDuration: const Duration(seconds: 3),
-                  style: ToastificationStyle.fillColored,
-                  type: ToastificationType.error,
-                  title: Text("Register Failed"),
-                  description: Text(state.message ?? ""),
-                  primaryColor: Colors.red
+                  title: "Register Failed",
+                  description: state.message ?? ""
                 );
               }
             },

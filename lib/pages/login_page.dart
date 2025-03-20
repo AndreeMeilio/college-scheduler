@@ -7,6 +7,7 @@ import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:college_scheduler/cubit/users/login_cubit.dart';
 import 'package:college_scheduler/pages/base_page.dart';
 import 'package:college_scheduler/pages/register_page.dart';
+import 'package:college_scheduler/utils/toast_notif_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:page_transition/page_transition.dart';
@@ -161,14 +162,10 @@ class _LoginPageState extends State<LoginPage> {
                                     password: _passwordController.text
                                   );                        
                                 } else {
-                                  toastification.show(
+                                  ToastNotifUtils.showError(
                                     context: context,
-                                    autoCloseDuration: const Duration(seconds: 3),
-                                    style: ToastificationStyle.fillColored,
-                                    type: ToastificationType.error,
-                                    title: Text("Login Failed"),
-                                    description: Text("Please input your credentials"),
-                                    primaryColor: Colors.red
+                                    title: "Login Failed",
+                                    description: "Please input your credentials"
                                   );
                                 }
                               },
@@ -201,14 +198,10 @@ class _LoginPageState extends State<LoginPage> {
                     },
                     listener: (context, state){
                       if (state.state is LoginSuccessState){
-                        toastification.show(
+                        ToastNotifUtils.showSuccess(
                           context: context,
-                          autoCloseDuration: const Duration(seconds: 3),
-                          style: ToastificationStyle.fillColored,
-                          type: ToastificationType.success,
-                          title: Text("Login Successfully"),
-                          description: Text(state.message ?? ""),
-                          primaryColor: Colors.green
+                          title: "Login Successfully",
+                          description: state.message ?? ""
                         );
 
                         Navigator.pushReplacement(context, PageTransition(
@@ -216,14 +209,10 @@ class _LoginPageState extends State<LoginPage> {
                           child: BasePage()
                         ));
                       } else if (state.state is LoginFailedState){
-                        toastification.show(
+                        ToastNotifUtils.showError(
                           context: context,
-                          autoCloseDuration: const Duration(seconds: 3),
-                          style: ToastificationStyle.fillColored,
-                          type: ToastificationType.error,
-                          title: Text("Login Failed"),
-                          description: Text(state.message ?? ""),
-                          primaryColor: Colors.red
+                          title: "Login Failed",
+                          description: state.message ?? ""
                         );
                       }
                     },

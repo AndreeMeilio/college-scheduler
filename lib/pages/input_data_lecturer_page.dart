@@ -5,6 +5,7 @@ import 'package:college_scheduler/config/color_config.dart';
 import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/cubit/lecturer/create_lecturer_cubit.dart';
 import 'package:college_scheduler/data/models/lecturer_model.dart';
+import 'package:college_scheduler/utils/toast_notif_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toastification/toastification.dart';
@@ -104,14 +105,10 @@ class _InputDataLecturerPageState extends State<InputDataLecturerPage> {
                       await _cubit.createLecturer(lecturerName: _nameController.text);
                     }
                   } else {
-                    toastification.show(
+                    ToastNotifUtils.showError(
                       context: context,
-                      autoCloseDuration: const Duration(seconds: 3),
-                      style: ToastificationStyle.fillColored,
-                      type: ToastificationType.error,
-                      title: Text("Create Data Lecturer Failed"),
-                      description: Text("Please fill the required data"),
-                      primaryColor: Colors.red
+                      title: "Create Data Lecturer Failed",
+                      description: "Please fill the required data"
                     );
                   }
                 },
@@ -119,26 +116,18 @@ class _InputDataLecturerPageState extends State<InputDataLecturerPage> {
             },
             listener: (context, state){
               if (state.state is CreateLecturerSuccessState){
-                toastification.show(
+                ToastNotifUtils.showSuccess(
                   context: context,
-                  autoCloseDuration: const Duration(seconds: 3),
-                  style: ToastificationStyle.fillColored,
-                  type: ToastificationType.success,
-                  title: Text("Register Success"),
-                  description: Text(state.message ?? ""),
-                  primaryColor: Colors.green
+                  title: "Register Success",
+                  description: state.message ?? ""
                 );
 
                 _nameController.clear();
               } else if (state.state is CreateLecturerFailedState){
-                toastification.show(
+                ToastNotifUtils.showError(
                   context: context,
-                  autoCloseDuration: const Duration(seconds: 3),
-                  style: ToastificationStyle.fillColored,
-                  type: ToastificationType.error,
-                  title: Text("Create Data Lecturer Failed"),
-                  description: Text(state.message ?? ""),
-                  primaryColor: Colors.red
+                  title: "Create Data Lecturer Failed",
+                  description: state.message ?? ""
                 );
               }
             },

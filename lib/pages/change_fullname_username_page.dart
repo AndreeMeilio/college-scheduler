@@ -6,6 +6,7 @@ import 'package:college_scheduler/config/shared_preference.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:college_scheduler/cubit/users/change_fullname_username_cubit.dart';
 import 'package:college_scheduler/pages/login_page.dart';
+import 'package:college_scheduler/utils/toast_notif_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:page_transition/page_transition.dart';
@@ -158,15 +159,11 @@ class _ChangeFullnameUsernamePageState extends State<ChangeFullnameUsernamePage>
                       ));
                     }
                   } else {
-                    toastification.show(
+                    ToastNotifUtils.showError(
                       context: context,
-                      autoCloseDuration: const Duration(seconds: 3),
-                      style: ToastificationStyle.fillColored,
-                      type: ToastificationType.error,
-                      title: Text("Change Fullname or Username Failed"),
-                      description: Text("Please fill the required data"),
-                      primaryColor: Colors.red
-                    ); 
+                      title: "Change Fullname or Username Failed",
+                      description: "Please fill the required data"
+                    );
                   }
                 },
                 label: "Submit Changes",
@@ -174,24 +171,16 @@ class _ChangeFullnameUsernamePageState extends State<ChangeFullnameUsernamePage>
             },
             listener: (context, state){
               if (state.state is ChangeFullnameUsernameSuccessState){
-                toastification.show(
+                ToastNotifUtils.showSuccess(
                   context: context,
-                  autoCloseDuration: const Duration(seconds: 3),
-                  style: ToastificationStyle.fillColored,
-                  type: ToastificationType.success,
-                  title: Text("Change Fullname or Username Success"),
-                  description: Text(state.message ?? ""),
-                  primaryColor: Colors.green
-                ); 
+                  title: "Change Fullname or Username Success",
+                  description: state.message ?? ""
+                );
               } else if (state.state is ChangeFullnameUsernameFailedState){
-                toastification.show(
+                ToastNotifUtils.showError(
                   context: context,
-                  autoCloseDuration: const Duration(seconds: 3),
-                  style: ToastificationStyle.fillColored,
-                  type: ToastificationType.error,
-                  title: Text("Change Fullname or Username Failed"),
-                  description: Text(state.message ?? ""),
-                  primaryColor: Colors.red
+                  title: "Change Fullname or Username Failed",
+                  description: state.message ?? ""
                 );
               }
             },

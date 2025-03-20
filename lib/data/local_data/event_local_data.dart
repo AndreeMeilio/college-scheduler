@@ -7,6 +7,7 @@ import 'package:college_scheduler/config/shared_preference.dart';
 import 'package:college_scheduler/data/local_data/logs_local_data.dart';
 import 'package:college_scheduler/data/models/event_model.dart';
 import 'package:college_scheduler/data/models/logs_model.dart';
+import 'package:college_scheduler/utils/date_format_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -149,8 +150,8 @@ class EventLocalData {
 
         if (dateRangeEvent != null){
           whereValue += " and date_of_event between ? and ?";
-          whereArgsValue.add(DateFormat('y-MM-dd').format(dateRangeEvent.start));
-          whereArgsValue.add(DateFormat('y-MM-dd').format(dateRangeEvent.end));
+          whereArgsValue.add(DateFormatUtils.dateFormatyMMdd(date: dateRangeEvent.start));
+          whereArgsValue.add(DateFormatUtils.dateFormatyMMdd(date: dateRangeEvent.end));
         }
 
         if (priority != PRIORITY.selectPriority && priority != null){

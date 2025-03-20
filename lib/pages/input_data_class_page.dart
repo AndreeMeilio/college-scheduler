@@ -8,6 +8,7 @@ import 'package:college_scheduler/cubit/class/create_and_update_data_class_cubit
 import 'package:college_scheduler/cubit/lecturer/list_lecturer_cubit.dart';
 import 'package:college_scheduler/data/models/class_model.dart';
 import 'package:college_scheduler/data/models/lecturer_model.dart';
+import 'package:college_scheduler/utils/toast_notif_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
@@ -297,14 +298,10 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
                         idClass: widget.dataClassFromEdit?.id
                       );
                     } else {
-                      toastification.show(
+                      ToastNotifUtils.showError(
                         context: context,
-                        autoCloseDuration: const Duration(seconds: 3),
-                        style: ToastificationStyle.fillColored,
-                        type: ToastificationType.error,
-                        title: Text("Create Data Class Failed"),
-                        description: Text("Please fill the required data"),
-                        primaryColor: Colors.red
+                        title: "Create Data Class Failed",
+                        description: "Please fill the required data"
                       );
                     }
                   },
@@ -314,16 +311,12 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
               },
               listener: (context, state){
                 if (state.state is CreateAndUpdateDataClassSuccessState){
-                  toastification.show(
+                  ToastNotifUtils.showSuccess(
                     context: context,
-                    autoCloseDuration: const Duration(seconds: 3),
-                    style: ToastificationStyle.fillColored,
-                    type: ToastificationType.success,
-                    title: Text("Create Data Class Success"),
-                    description: Text(state.message ?? ""),
-                    primaryColor: Colors.green
+                    title: "Create Data Class Success",
+                    description: state.message ?? ""
                   );
-            
+                  
                   _nameController.clear();
                   _lectureController.text = "Select Lecturer";
                   _selectedLecturer = LecturerModel(
@@ -338,14 +331,10 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
                   _startHourController.clear();
                   _endHourController.clear();
                 } else if (state.state is CreateAndUpdateDataClassFailedState){
-                  toastification.show(
+                  ToastNotifUtils.showError(
                     context: context,
-                    autoCloseDuration: const Duration(seconds: 3),
-                    style: ToastificationStyle.fillColored,
-                    type: ToastificationType.error,
-                    title: Text("Create Data Class Failed"),
-                    description: Text(state.message ?? ""),
-                    primaryColor: Colors.red
+                    title: "Create Data Class Failed",
+                    description: state.message ?? ""
                   );
                 }
               },

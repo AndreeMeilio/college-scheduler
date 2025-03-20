@@ -9,6 +9,8 @@ import 'package:college_scheduler/cubit/class/list_data_class_cubit.dart';
 import 'package:college_scheduler/cubit/event/create_event_cubit.dart';
 import 'package:college_scheduler/data/models/class_model.dart';
 import 'package:college_scheduler/data/models/event_model.dart';
+import 'package:college_scheduler/utils/date_format_utils.dart';
+import 'package:college_scheduler/utils/toast_notif_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -109,7 +111,7 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
     if (_cubit.tempDataEvent != null){
       final data = _cubit.tempDataEvent;
 
-      _dateEventController.text = DateFormat("y-MM-dd").format(data?.dateOfEvent ?? DateTime.parse("0000-00-00"));
+      _dateEventController.text = DateFormatUtils.dateFormatyMMdd(date: data?.dateOfEvent ?? DateTime.parse("0000-00-00"));
       _titleEventController.text = data?.title ?? "";
       _descriptionController.text = data?.description ?? "";
       _startHourController.text = "${data?.startHour?.hour}:${data?.startHour?.minute}:00";
@@ -173,7 +175,7 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
                 initialDate: _dateEvent
               );
 
-              _dateEventController.text = dateByUsers != null ? DateFormat("y-MM-dd").format(dateByUsers) : "";
+              _dateEventController.text = dateByUsers != null ? DateFormatUtils.dateFormatyMMdd(date: dateByUsers) : "";
               _dateEvent = dateByUsers ?? DateTime.now();
             },
             validator: (value){
@@ -397,14 +399,10 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
                           );
                           _cubit.clearTempDataEvent();
                         } else {
-                          toastification.show(
+                          ToastNotifUtils.showError(
                             context: context,
-                            autoCloseDuration: const Duration(seconds: 3),
-                            style: ToastificationStyle.fillColored,
-                            type: ToastificationType.error,
-                            title: Text("Create Event Schedule Failed"),
-                            description: Text("Please fill the required data"),
-                            primaryColor: Colors.red
+                            title: "Create Event Schedule Failed",
+                            description: "Please fill the required data"
                           );
                         }
                       },
@@ -414,14 +412,10 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
                   }, 
                   listener: (context, state){
                     if (state.state is CreateAndUpdateEventSuccessState){
-                      toastification.show(
+                      ToastNotifUtils.showSuccess(
                         context: context,
-                        autoCloseDuration: const Duration(seconds: 3),
-                        style: ToastificationStyle.fillColored,
-                        type: ToastificationType.success,
-                        title: Text("Create Event Schedule Successfully"),
-                        description: Text(state.message ?? ""),
-                        primaryColor: Colors.green
+                        title: "Create Event Schedule Successfully",
+                        description: state.message ?? ""
                       );
                 
                       _priority = PRIORITY.low;
@@ -443,14 +437,10 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
                       );
                       
                     } else if (state.state is CreateAndUpdateEventFailedState){
-                      toastification.show(
+                      ToastNotifUtils.showError(
                         context: context,
-                        autoCloseDuration: const Duration(seconds: 3),
-                        style: ToastificationStyle.fillColored,
-                        type: ToastificationType.error,
-                        title: Text("Create Event Schedule Failed"),
-                        description: Text(state.message ?? ""),
-                        primaryColor: Colors.red
+                        title: "Create Event Schedule Failed",
+                        description: state.message ?? ""
                       );
                     }
                   }

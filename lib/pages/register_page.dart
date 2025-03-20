@@ -6,6 +6,7 @@ import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:college_scheduler/cubit/users/login_cubit.dart';
 import 'package:college_scheduler/cubit/users/register_cubit.dart';
+import 'package:college_scheduler/utils/toast_notif_utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toastification/toastification.dart';
 import 'package:flutter/material.dart';
@@ -186,14 +187,10 @@ class _RegisterPageState extends State<RegisterPage> {
                       password: _passwordController.text
                     );
                   } else {
-                    toastification.show(
+                    ToastNotifUtils.showError(
                       context: context,
-                      autoCloseDuration: const Duration(seconds: 3),
-                      style: ToastificationStyle.fillColored,
-                      type: ToastificationType.error,
-                      title: Text("Register Failed"),
-                      description: Text("Please fill the required data"),
-                      primaryColor: Colors.red
+                      title: "Register Failed",
+                      description: "Please fill the required data"
                     );
                   }
                 },
@@ -202,27 +199,19 @@ class _RegisterPageState extends State<RegisterPage> {
             },
             listener: (context, state) {
               if (state.state is RegisterSuccessState){
-                toastification.show(
+                ToastNotifUtils.showSuccess(
                   context: context,
-                  autoCloseDuration: const Duration(seconds: 3),
-                  style: ToastificationStyle.fillColored,
-                  type: ToastificationType.success,
-                  title: Text("Register Success"),
-                  description: Text(_cubit.registerState.message ?? ""),
-                  primaryColor: Colors.green
+                  title: "Register Success",
+                  description: state.message ?? ""
                 );
 
                 Navigator.pop(context);
               } else if (state.state is RegisterFailedState){
-                toastification.show(
+                ToastNotifUtils.showError(
                   context: context,
-                  autoCloseDuration: const Duration(seconds: 3),
-                  style: ToastificationStyle.fillColored,
-                  type: ToastificationType.error,
-                  title: Text("Register Failed"),
-                  description: Text("${_cubit.registerState.message ?? ""}"),
-                  primaryColor: Colors.red
-                ); 
+                  title: "Register Failed",
+                  description: state.message ?? ""
+                );
               }
             },
           ),

@@ -1,6 +1,7 @@
 import 'package:college_scheduler/config/color_config.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:college_scheduler/data/models/event_model.dart';
+import 'package:college_scheduler/utils/date_format_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -49,7 +50,7 @@ class DetailEventPage extends StatelessWidget {
                         style: TextStyleConfig.body1bold,
                       ),
                       Text(
-                        DateFormat("d MMMM y").format(data.dateOfEvent ?? DateTime.parse("0000-00-00")),
+                        DateFormatUtils.dateFormatddMMMMy(date: data.dateOfEvent ?? DateTime.parse("0000-00-00")),
                         style: TextStyleConfig.body1,
                       )
                     ],

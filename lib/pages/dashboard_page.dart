@@ -17,6 +17,7 @@ import 'package:college_scheduler/pages/data_class_page.dart';
 import 'package:college_scheduler/pages/data_events_page.dart';
 import 'package:college_scheduler/pages/data_lecturer_page.dart';
 import 'package:college_scheduler/pages/detail_event_page.dart';
+import 'package:college_scheduler/utils/date_format_utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
@@ -80,7 +81,7 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
             child: Column(
               children: [
                 TimeTickingWidget(now: _now,),
-                Text("${DateFormat("d MMMM y").format(_now)}", style: TextStyleConfig.heading1bold,)
+                Text(DateFormatUtils.dateFormatddMMMMy(date: _now), style: TextStyleConfig.heading1bold,)
               ],
             ),
           ),
@@ -395,15 +396,12 @@ class _TimeTickingWidgetState extends State<TimeTickingWidget> with WidgetsBindi
 
   late Timer _timerTicker;
 
-  late DateFormat _format;
-
   @override
   void initState() {
     super.initState();
 
     _continueTimeTicking = true;
     _timeOutput = widget._now;
-    _format = DateFormat("jms");
 
     timeTickingSec();
   }
@@ -425,7 +423,7 @@ class _TimeTickingWidgetState extends State<TimeTickingWidget> with WidgetsBindi
 
   @override
   Widget build(BuildContext context) {
-    return Text("${_format.format(_timeOutput)}", style: TextStyleConfig.heading1bold,);
+    return Text("${DateFormatUtils.dateFormatjms(date: _timeOutput)}", style: TextStyleConfig.heading1bold,);
   }
 }
 

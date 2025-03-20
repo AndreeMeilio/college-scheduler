@@ -1,6 +1,7 @@
 
 import 'package:college_scheduler/config/color_config.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
+import 'package:college_scheduler/utils/date_format_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
@@ -47,7 +48,7 @@ class LogsItemComponent extends StatelessWidget {
               ),
               Expanded(
                 child: Text(
-                  DateFormat("d MMMM y hh:mm:ss").format(createdAt),
+                  DateFormatUtils.dateFormatddMMMMyhhiiss(date: createdAt),
                   style: TextStyleConfig.body1,
                 ),
               )

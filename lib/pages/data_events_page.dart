@@ -11,6 +11,7 @@ import 'package:college_scheduler/cubit/event/create_event_cubit.dart';
 import 'package:college_scheduler/cubit/event/list_event_cubit.dart';
 import 'package:college_scheduler/data/models/event_model.dart';
 import 'package:college_scheduler/pages/detail_event_page.dart';
+import 'package:college_scheduler/utils/date_format_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -161,7 +162,7 @@ class _DataEventsPageState extends State<DataEventsPage> {
                                             );
 
                                             if (dateByUsers != null){
-                                              _filterDateOfEventController.text = "${DateFormat('y-MM-dd').format(dateByUsers.start)} to ${DateFormat('y-MM-dd').format(dateByUsers.end)}";
+                                              _filterDateOfEventController.text = "${DateFormatUtils.dateFormatyMMdd(date: dateByUsers.start)} to ${DateFormatUtils.dateFormatyMMdd(date: dateByUsers.end)}";
                                               _filterDateRangeEvent = dateByUsers;
                                             }
                                           },
@@ -451,7 +452,7 @@ class ListItemEventDataWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 8.0,),
                   Text(
-                    "Deadline : ${DateFormat("d MMMM y").format(data.dateOfEvent ?? DateTime.parse("0000-00-00"))}",
+                    "Deadline : ${DateFormatUtils.dateFormatddMMMMy(date: data.dateOfEvent ?? DateTime.parse("0000-00-00"))}",
                     style: TextStyleConfig.body2,
                   ),
                   const SizedBox(height: 32.0,),
