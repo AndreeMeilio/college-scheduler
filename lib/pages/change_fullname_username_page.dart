@@ -2,6 +2,7 @@
 import 'package:college_scheduler/components/primary_button.dart';
 import 'package:college_scheduler/components/text_form_field.dart';
 import 'package:college_scheduler/config/color_config.dart';
+import 'package:college_scheduler/config/constants_route_value.dart';
 import 'package:college_scheduler/config/shared_preference.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:college_scheduler/cubit/users/change_fullname_username_cubit.dart';
@@ -9,6 +10,7 @@ import 'package:college_scheduler/pages/login_page.dart';
 import 'package:college_scheduler/utils/toast_notif_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:toastification/toastification.dart';
 
@@ -153,10 +155,7 @@ class _ChangeFullnameUsernamePageState extends State<ChangeFullnameUsernamePage>
                     await prefs.clearShared();
 
                     if (context.mounted){
-                      Navigator.pushReplacement(context, PageTransition(
-                        type: PageTransitionType.leftToRight,
-                        child: LoginPage()
-                      ));
+                      context.pushReplacement(ConstantsRouteValue.login);
                     }
                   } else {
                     ToastNotifUtils.showError(

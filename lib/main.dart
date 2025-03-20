@@ -1,6 +1,7 @@
 import 'package:college_scheduler/config/color_config.dart';
 import 'package:college_scheduler/config/cubit_config.dart';
 import 'package:college_scheduler/config/di_config.dart';
+import 'package:college_scheduler/config/route_navigator_config.dart';
 import 'package:college_scheduler/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: CubitConfig.getProviders(),
-      child: MaterialApp(
+      child: MaterialApp.router(
         title: 'Jadwal Kuliah',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: ColorConfig.mainColor),
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
           fontFamily: "LibreBaskerville",
           scaffoldBackgroundColor: ColorConfig.backgroundColor
         ),
-        home: LoginPage()
+        routerConfig: RouteNavigatorConfig.router,
       ),
     );
   }

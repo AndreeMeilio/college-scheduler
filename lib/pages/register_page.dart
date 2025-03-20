@@ -2,12 +2,14 @@ import 'package:college_scheduler/components/primary_button.dart';
 import 'package:college_scheduler/components/text_button_component.dart';
 import 'package:college_scheduler/components/text_form_field.dart';
 import 'package:college_scheduler/config/color_config.dart';
+import 'package:college_scheduler/config/constants_route_value.dart';
 import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:college_scheduler/cubit/users/login_cubit.dart';
 import 'package:college_scheduler/cubit/users/register_cubit.dart';
 import 'package:college_scheduler/utils/toast_notif_utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:toastification/toastification.dart';
 import 'package:flutter/material.dart';
 
@@ -205,7 +207,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   description: state.message ?? ""
                 );
 
-                Navigator.pop(context);
+                context.pop();
               } else if (state.state is RegisterFailedState){
                 ToastNotifUtils.showError(
                   context: context,
@@ -217,7 +219,8 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           GestureDetector(
             onTap: (){
-              Navigator.pop(context);
+              
+              context.pop();
             },
             child: Container(
               alignment: Alignment.center,

@@ -4,6 +4,7 @@ import 'package:college_scheduler/components/dropdown_menu_component.dart';
 import 'package:college_scheduler/components/primary_button.dart';
 import 'package:college_scheduler/components/text_form_field.dart';
 import 'package:college_scheduler/config/color_config.dart';
+import 'package:college_scheduler/config/constants_route_value.dart';
 import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:college_scheduler/cubit/base_menu_cubit.dart';
@@ -15,6 +16,7 @@ import 'package:college_scheduler/utils/date_format_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shimmer/shimmer.dart';
@@ -273,8 +275,9 @@ class _DataEventsPageState extends State<DataEventsPage> {
                                           );
 
                                           if (context.mounted){
-                                            Navigator.pop(context);
+                                            context.pop();
                                           }
+
                                         },
                                         margin: const EdgeInsets.all(0.0),
                                         label: "Submit",
@@ -406,13 +409,13 @@ class ListItemEventDataWidget extends StatelessWidget {
                 builder: (context){
                   return DeleteConfirmationComponent(
                     onCancel: (){
-                      Navigator.pop(context);
+                      context.pop();
                     },
                     onProcceed: () async{
                       await cubit.deleteEvent(data: data);
 
                       if (context.mounted){
-                        Navigator.pop(context);
+                        context.pop();
                       }
                     },
                   );
@@ -436,10 +439,7 @@ class ListItemEventDataWidget extends StatelessWidget {
           child: InkWell(
             splashColor: Colors.black.withAlpha(25),
             onTap: (){
-              Navigator.push(context, PageTransition(
-                type: PageTransitionType.rightToLeft,
-                child: DetailEventPage(data: data)
-              ));
+              context.push("${ConstantsRouteValue.events}/${ConstantsRouteValue.detailEvents}", extra: data);
             },
             child: Container(
               padding: const EdgeInsets.all(24.0),

@@ -1,6 +1,7 @@
 import 'package:college_scheduler/components/delete_confirmation_component.dart';
 import 'package:college_scheduler/components/primary_button.dart';
 import 'package:college_scheduler/config/color_config.dart';
+import 'package:college_scheduler/config/constants_route_value.dart';
 import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:college_scheduler/cubit/class/list_data_class_cubit.dart';
@@ -9,6 +10,7 @@ import 'package:college_scheduler/pages/input_data_class_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:go_router/go_router.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -104,10 +106,7 @@ class _DataClassPageState extends State<DataClassPage> {
             child: PrimaryButtonComponent(
               label: "Create Data Class",
               onTap: (){
-                Navigator.push(context, PageTransition(
-                  type: PageTransitionType.rightToLeft,
-                  child: InputDataClassPage()
-                ));
+                context.push("${ConstantsRouteValue.clasess}/${ConstantsRouteValue.actionClasess}");
               },
             ),
           )
@@ -137,12 +136,7 @@ class DataClassItemWidget extends StatelessWidget {
         children: [
           SlidableAction(
             onPressed: (context) {
-              Navigator.push(context, PageTransition(
-                type: PageTransitionType.rightToLeft,
-                child: InputDataClassPage(
-                  dataClassFromEdit: _data,
-                )
-              ));
+              context.push("${ConstantsRouteValue.clasess}/${ConstantsRouteValue.actionClasess}", extra: _data);
             },
             label: "Edit",
             backgroundColor: ColorConfig.mainColor.withAlpha(75),
@@ -155,13 +149,13 @@ class DataClassItemWidget extends StatelessWidget {
                 builder: (context){
                   return DeleteConfirmationComponent(
                     onCancel: (){
-                      Navigator.pop(context);
+                      context.pop();
                     }, 
                     onProcceed: () async{
                       await _cubit.deleteData(data: _data);
 
                       if (context.mounted){
-                        Navigator.pop(context);
+                        context.pop();
                       }
                     }
                   );

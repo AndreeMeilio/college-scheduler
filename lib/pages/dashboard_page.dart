@@ -6,6 +6,7 @@ import 'package:college_scheduler/components/primary_button.dart';
 import 'package:college_scheduler/components/quote_widget.dart';
 import 'package:college_scheduler/components/text_form_field.dart';
 import 'package:college_scheduler/config/color_config.dart';
+import 'package:college_scheduler/config/constants_route_value.dart';
 import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:college_scheduler/cubit/base_menu_cubit.dart';
@@ -20,6 +21,7 @@ import 'package:college_scheduler/pages/detail_event_page.dart';
 import 'package:college_scheduler/utils/date_format_utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -286,10 +288,7 @@ class ShortcutMenuWidget extends StatelessWidget {
                   color: Colors.transparent,
                   child: InkWell(
                     onTap: (){
-                      Navigator.push(context, PageTransition(
-                        type: PageTransitionType.rightToLeft,
-                        child: DataEventsPage()
-                      ));
+                      context.push(ConstantsRouteValue.events);
                     },
                     splashColor: Colors.black.withAlpha(25),
                     child: Container(
@@ -318,10 +317,7 @@ class ShortcutMenuWidget extends StatelessWidget {
                   color: Colors.transparent,
                   child: InkWell(
                     onTap: (){
-                      Navigator.push(context, PageTransition(
-                        type: PageTransitionType.rightToLeft,
-                        child: DataClassPage()
-                      ));
+                      context.push(ConstantsRouteValue.clasess);
                     },
                     splashColor: Colors.black.withAlpha(25),
                     child: Container(
@@ -350,10 +346,7 @@ class ShortcutMenuWidget extends StatelessWidget {
                   color: Colors.transparent,
                   child: InkWell(
                     onTap: (){
-                      Navigator.push(context, PageTransition(
-                        type: PageTransitionType.rightToLeft,
-                        child: DataLecturerPage()
-                      ));
+                      context.push(ConstantsRouteValue.lecturer);
                     },
                     splashColor: Colors.black.withAlpha(25),
                     child: Container(

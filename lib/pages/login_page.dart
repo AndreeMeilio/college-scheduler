@@ -2,6 +2,7 @@ import 'package:college_scheduler/components/primary_button.dart';
 import 'package:college_scheduler/components/text_button_component.dart';
 import 'package:college_scheduler/components/text_form_field.dart';
 import 'package:college_scheduler/config/color_config.dart';
+import 'package:college_scheduler/config/constants_route_value.dart';
 import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:college_scheduler/cubit/users/login_cubit.dart';
@@ -10,6 +11,7 @@ import 'package:college_scheduler/pages/register_page.dart';
 import 'package:college_scheduler/utils/toast_notif_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:toastification/toastification.dart';
 
@@ -204,10 +206,7 @@ class _LoginPageState extends State<LoginPage> {
                           description: state.message ?? ""
                         );
 
-                        Navigator.pushReplacement(context, PageTransition(
-                          type: PageTransitionType.rightToLeft,
-                          child: BasePage()
-                        ));
+                        context.pushReplacement(ConstantsRouteValue.baseMenu);
                       } else if (state.state is LoginFailedState){
                         ToastNotifUtils.showError(
                           context: context,
@@ -219,11 +218,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   GestureDetector(
                     onTap: (){
-                      Navigator.push(context, PageTransition(
-                        type: PageTransitionType.rightToLeft,
-                        duration: const Duration(milliseconds: 250),
-                        child: RegisterPage()
-                      ));
+                      context.push(ConstantsRouteValue.register);
                     },
                     child: Container(
                       alignment: Alignment.center,

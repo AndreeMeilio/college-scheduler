@@ -1,5 +1,6 @@
 import 'package:college_scheduler/components/quote_widget.dart';
 import 'package:college_scheduler/config/color_config.dart';
+import 'package:college_scheduler/config/constants_route_value.dart';
 import 'package:college_scheduler/config/shared_preference.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:college_scheduler/pages/change_fullname_username_page.dart';
@@ -10,6 +11,7 @@ import 'package:college_scheduler/pages/event_history_page.dart';
 import 'package:college_scheduler/pages/login_history_page.dart';
 import 'package:college_scheduler/pages/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:page_transition/page_transition.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -175,41 +177,20 @@ class SettingsDataSectionWidget extends StatelessWidget {
                     await prefs.clearShared();
 
                     if (context.mounted){
-                      Navigator.pushReplacement(context, PageTransition(
-                        type: PageTransitionType.leftToRight,
-                        child: LoginPage()
-                      ));
+                      context.pushReplacement(ConstantsRouteValue.login);
                     }
                   } else if (_dataMenu[index]["name"] == "Data Class"){
-                    Navigator.push(context, PageTransition(
-                      type: PageTransitionType.rightToLeft,
-                      child: DataClassPage()
-                    ));
+                    context.push(ConstantsRouteValue.clasess);
                   } else if (_dataMenu[index]["name"] == "Change Password"){
-                    Navigator.push(context, PageTransition(
-                      type: PageTransitionType.rightToLeft,
-                      child: ChangePasswordPage()
-                    ));
+                    context.push(ConstantsRouteValue.changePassword);
                   } else if (_dataMenu[index]["name"] == "Change Fullname Or Username"){
-                    Navigator.push(context, PageTransition(
-                      type: PageTransitionType.rightToLeft,
-                      child: ChangeFullnameUsernamePage()
-                    ));
+                    context.push(ConstantsRouteValue.changeFullnameOrUsername);
                   } else if (_dataMenu[index]["name"] == "Login History"){
-                    Navigator.push(context, PageTransition(
-                      type: PageTransitionType.rightToLeft,
-                      child: LoginHistoryPage()
-                    ));
+                    context.push("${ConstantsRouteValue.login}/${ConstantsRouteValue.loginHistory}");
                   } else if (_dataMenu[index]["name"] == "Data Lecturer"){
-                    Navigator.push(context, PageTransition(
-                      type: PageTransitionType.rightToLeft,
-                      child: DataLecturerPage()
-                    ));
+                    context.push(ConstantsRouteValue.lecturer);
                   } else if (_dataMenu[index]["name"] == "Event History"){
-                    Navigator.push(context, PageTransition(
-                      type: PageTransitionType.rightToLeft,
-                      child: EventHistoryPage()
-                    ));
+                    context.push("${ConstantsRouteValue.events}/${ConstantsRouteValue.historyEvents}");
                   }
                 },
                 menu: _dataMenu[index]["name"],
