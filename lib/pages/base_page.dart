@@ -1,6 +1,6 @@
 import 'package:college_scheduler/config/color_config.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
-import 'package:college_scheduler/cubit/base_menu_cubit.dart';
+import 'package:college_scheduler/cubit/menu/base_menu_cubit.dart';
 import 'package:college_scheduler/cubit/event/create_event_cubit.dart';
 import 'package:college_scheduler/pages/dashboard_page.dart';
 import 'package:college_scheduler/pages/input_data_page.dart';

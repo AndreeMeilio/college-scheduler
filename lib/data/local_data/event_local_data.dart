@@ -115,7 +115,6 @@ class EventLocalData {
         );
       }
     } catch (e){
-      print(e);
       return ResponseGeneral(
         code: "01",
         message: "Something's wrong when trying to add new data",
@@ -168,9 +167,6 @@ class EventLocalData {
           whereValue += " limit ?";
           whereArgsValue.add(limit);
         }
-
-        print(whereValue);
-        print(whereArgsValue);
 
         final query = await trx.query("events", where: whereValue, whereArgs: whereArgsValue);
 

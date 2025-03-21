@@ -56,8 +56,6 @@ class CreateAndUpdateEventCubit extends Cubit<EventStateType>{
       late ResponseGeneral result;
       if ((isEdit ?? false) && idEvent != null){
         modelRequest.id = idEvent;
-        print(modelRequest.status);
-        print(modelRequest.priority);
         result = await _eventLocalData.insertAndUpdate(data: modelRequest);
       } else {
         result = await _eventLocalData.insertAndUpdate(data: modelRequest);
@@ -82,7 +80,6 @@ class CreateAndUpdateEventCubit extends Cubit<EventStateType>{
       }
 
     } catch (e){
-      print(e);
       eventState = EventStateType(
         state: CreateAndUpdateEventFailedState(),
         code: "01",

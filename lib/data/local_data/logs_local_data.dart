@@ -39,8 +39,6 @@ class LogsLocalData {
         return resultQuery;
       });
 
-      print(result);
-
       if (result.isNotEmpty){
         return LogsModelResponse(
           code: "00",

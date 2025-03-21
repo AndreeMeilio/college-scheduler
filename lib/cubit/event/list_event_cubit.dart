@@ -60,7 +60,6 @@ class ListEventCubit extends Cubit<ListEventStateType>{
       emit(listState);
 
     } catch (e){
-      print(e);
       listState = ListEventStateType(
         state: ListEventFailedState(),
         code: "",
@@ -92,7 +91,6 @@ class ListEventCubit extends Cubit<ListEventStateType>{
         emit(listState);
       }
     } catch (e){
-      print(e);
       listState = ListEventStateType(
         state: ListEventFailedState(),
         code: "",

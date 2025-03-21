@@ -2,7 +2,10 @@ import 'package:college_scheduler/components/quote_widget.dart';
 import 'package:college_scheduler/config/color_config.dart';
 import 'package:college_scheduler/config/constants_route_value.dart';
 import 'package:college_scheduler/config/shared_preference.dart';
+import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
+import 'package:college_scheduler/cubit/menu/settings_menu_cubit.dart';
+import 'package:college_scheduler/data/models/menu_model.dart';
 import 'package:college_scheduler/pages/change_fullname_username_page.dart';
 import 'package:college_scheduler/pages/change_password_page.dart';
 import 'package:college_scheduler/pages/data_class_page.dart';
@@ -11,8 +14,10 @@ import 'package:college_scheduler/pages/event_history_page.dart';
 import 'package:college_scheduler/pages/login_history_page.dart';
 import 'package:college_scheduler/pages/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:shimmer/shimmer.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -51,89 +56,97 @@ class SettingsListWidget extends StatefulWidget {
 }
 
 class _SettingsListWidgetState extends State<SettingsListWidget> {
-
-  late List<Map<String, dynamic>> _dataMenu;
+  late SettingsMenuCubit _cubit;
 
   @override
   void initState() {
     super.initState();
 
-    _dataMenu = List.from([
-      {
-        "label" : "Data",
-        "item": List.from(<Map>[
-          {
-            "name": "Event History",
-            "isFeatureIncoming" : false
-          },
-          {
-            "name": "Data Class",
-            "isFeatureIncoming": false
-          },
-          {
-            "name": "Data Lecturer",
-            "isFeatureIncoming": false
-          },
-        ])
-      },
-      {
-        "label" : "Notification",
-        "item": List.from(<Map>[
-          {
-            "name": "Reminder Event",
-            "isFeatureIncoming": true
-          },
-          {
-            "name": "Reminder Input",
-            "isFeatureIncoming": true
-          }
-        ])
-      },
-      {
-        "label" : "Account",
-        "item" : List.from(<Map>[
-          {
-            "name": "Change Password",
-            "isFeatureIncoming": false
-          },
-          {
-            "name": "Login History",
-            "isFeatureIncoming": false
-          },
-          {
-            "name": "Change Fullname Or Username",
-            "isFeatureIncoming": false
-          },
-          {
-            "name": "Logout",
-            "isFeatureIncoming": false
-          }
-        ])
-      }
-    ]);
+    _cubit = BlocProvider.of<SettingsMenuCubit>(context, listen: false);
+    _cubit.getAllMenu();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      itemBuilder: (context, index){
-        return SettingsDataSectionWidget(
-          label: _dataMenu[index]["label"],
-          dataMenu: _dataMenu[index]["item"],
-        );
-      }, 
-      separatorBuilder: (context, index){
-        return Container(
-          padding: const EdgeInsets.symmetric(vertical: 16.0),
-          child: Divider(
-            height: 0.0,
-            thickness: 3,
-          ),
-        );
-      }, 
-      itemCount: _dataMenu.length
+    return BlocBuilder<SettingsMenuCubit, SettingsMenuStateType>(
+      builder: (context, state){
+        if (state.state is SettingsMenuFailedState){
+          return Center(
+            child: Text(
+              state.message ?? "",
+              style: TextStyleConfig.body1bold,
+            ),
+          );
+        } else if (state.state is SettingsMenuLoadedState){
+          if (state.data?.isNotEmpty ?? false){
+            List<MenuModel?> dataListMenu = List.from([]);
+            List<MenuModel?> notificationListMenu = List.from([]);
+            List<MenuModel?> accountListMenu = List.from([]);
+
+            for (MenuModel? data in state.data!){
+              if (data?.parentName == "data"){
+                dataListMenu.add(data);
+              } else if (data?.parentName == "notification"){
+                notificationListMenu.add(data);
+              } else if (data?.parentName == "account"){
+                accountListMenu.add(data);
+              }
+            }
+
+            List dataMenu = List.from([
+              {
+                "label": "Data",
+                "item" : dataListMenu
+              },
+              {
+                "label": "Notification",
+                "item" : notificationListMenu
+              },
+              {
+                "label": "Account",
+                "item" : accountListMenu
+              },
+            ]);
+
+            return ListView.separated(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index){
+                return SettingsDataSectionWidget(
+                  label: dataMenu[index]["label"],
+                  dataMenu: dataMenu[index]["item"],
+                );
+              }, 
+              separatorBuilder: (context, index){
+                return Container(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: Divider(
+                    height: 0.0,
+                    thickness: 3,
+                  ),
+                );
+              }, 
+              itemCount: dataMenu.length
+            );
+          } else {
+            return Center(
+              child: Text(
+                "You don't have data on settings menu",
+                style: TextStyleConfig.body1bold,
+              ),
+            );
+          }
+        } else {
+          return ListView.builder(
+            itemCount: 3,
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index){
+              return SettingsDataListLoadingItem();
+            },
+          );
+        }
+      },
     );
   }
 }
@@ -142,12 +155,12 @@ class SettingsDataSectionWidget extends StatelessWidget {
   SettingsDataSectionWidget({
     super.key,
     required String label,
-    required List dataMenu
+    required List<MenuModel?> dataMenu
   }) : _label = label,
        _dataMenu = dataMenu;
 
   final String _label;
-  final List _dataMenu;
+  final List<MenuModel?> _dataMenu;
 
   @override
   Widget build(BuildContext context) {
@@ -171,7 +184,7 @@ class SettingsDataSectionWidget extends StatelessWidget {
             itemBuilder: (context, index){
               return SettingsDataListItem(
                 onTap: () async{
-                  if (_dataMenu[index]["name"] == "Logout"){
+                  if (_dataMenu[index]?.route == "/logout"){
                     final prefs = SharedPreferenceConfig();
 
                     await prefs.clearShared();
@@ -179,22 +192,12 @@ class SettingsDataSectionWidget extends StatelessWidget {
                     if (context.mounted){
                       context.pushReplacement(ConstantsRouteValue.login);
                     }
-                  } else if (_dataMenu[index]["name"] == "Data Class"){
-                    context.push(ConstantsRouteValue.clasess);
-                  } else if (_dataMenu[index]["name"] == "Change Password"){
-                    context.push(ConstantsRouteValue.changePassword);
-                  } else if (_dataMenu[index]["name"] == "Change Fullname Or Username"){
-                    context.push(ConstantsRouteValue.changeFullnameOrUsername);
-                  } else if (_dataMenu[index]["name"] == "Login History"){
-                    context.push("${ConstantsRouteValue.login}/${ConstantsRouteValue.loginHistory}");
-                  } else if (_dataMenu[index]["name"] == "Data Lecturer"){
-                    context.push(ConstantsRouteValue.lecturer);
-                  } else if (_dataMenu[index]["name"] == "Event History"){
-                    context.push("${ConstantsRouteValue.events}/${ConstantsRouteValue.historyEvents}");
+                  } else {
+                    if (_dataMenu[index] != null && (_dataMenu[index]?.route?.isNotEmpty ?? false)) context.push(_dataMenu[index]!.route!);
                   }
                 },
-                menu: _dataMenu[index]["name"],
-                isFeatureIncoming: _dataMenu[index]["isFeatureIncoming"],
+                menu: _dataMenu[index]?.name ?? "",
+                isFeatureIncoming: _dataMenu[index]?.isIncoming,
               );
             },
           ),
@@ -274,6 +277,37 @@ class SettingsDataListItem extends StatelessWidget {
               ),
             ),
       ),
+    );
+  }
+}
+
+class SettingsDataListLoadingItem extends StatelessWidget {
+  const SettingsDataListLoadingItem();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+        boxShadow: [
+          BoxShadow(
+            color: ColorConfig.mainColor,
+            offset: Offset(2, 2),
+            blurRadius: 1
+          )
+        ]
+      ),
+      child: Shimmer.fromColors(
+        baseColor: Colors.grey,
+        highlightColor: Colors.white,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+          height: 12.0,
+          width: MediaQuery.sizeOf(context).width * 0.25,
+          color: Colors.grey,
+        ),
+      )
     );
   }
 }

@@ -5,6 +5,7 @@ import 'package:college_scheduler/data/local_data/class_local_data.dart';
 import 'package:college_scheduler/data/local_data/event_local_data.dart';
 import 'package:college_scheduler/data/local_data/lecturer_local_data.dart';
 import 'package:college_scheduler/data/local_data/logs_local_data.dart';
+import 'package:college_scheduler/data/local_data/menu_local_data.dart';
 import 'package:college_scheduler/data/local_data/users_local_data.dart';
 import 'package:get_it/get_it.dart';
 
@@ -17,4 +18,5 @@ void setupServiceLocator(){
   sl.registerLazySingleton<ClassLocalData>(() => ClassLocalData(database: sl()));
   sl.registerLazySingleton<LogsLocalData>(() => LogsLocalData(database: sl()));
   sl.registerLazySingleton<LecturerLocalData>(() => LecturerLocalData(database: sl()));
+  sl.registerLazySingleton<MenuLocalData>(() => MenuLocalData(database: sl()));
 }

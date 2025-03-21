@@ -70,8 +70,7 @@ class UsersLocalData {
               updatedAt: DateTime.now()
             )
           );
-          print("logs message : ${resultLogs.message}");
-
+          
           return UsersModelResponse(
             code: "00",
             message: "Welcome back bro, it's nice seeing you again (:",
@@ -103,7 +102,6 @@ class UsersLocalData {
         );
       }
     } catch (e){
-      print(e);
       return UsersModelResponse(
         code: "01",
         message: "There's a problem trying to login your account i am sorry );",
@@ -121,8 +119,6 @@ class UsersLocalData {
         List<Map> resultQuery = List.from(await trx.query('users', where: 'device_id like ?', whereArgs: [deviceInfo.fingerprint]));
 
         List<Map> result = List.from(resultQuery);
-
-        print(result);
 
         return result;
       });
@@ -166,7 +162,6 @@ class UsersLocalData {
         );
       }
     } catch (e){
-      print(e);
       return UsersModelResponse(
         code: "01",
         message: "There's a problem trying to login your account i am sorry );",
@@ -236,7 +231,6 @@ class UsersLocalData {
         );
       }
     } catch (e){
-      print(e);
       return ResponseGeneral(
         code: "01",
         message: "There's a problem creating your account i am sorry );",
