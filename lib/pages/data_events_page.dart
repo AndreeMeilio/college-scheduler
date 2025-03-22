@@ -304,20 +304,13 @@ class _DataEventsPageState extends State<DataEventsPage> {
             builder: (context, state){
               if (state.state is ListEventLoadedState){
                 if (state.data.isNotEmpty){
-                  return ListView.separated(
-                    separatorBuilder: (context, index) {
-                      return Divider(
-                        height: 0.0,
-                        thickness: 8.0,
-                        color: ColorConfig.mainColor,
-                      );
-                    },
+                  return ListView.builder(
                     itemCount: state.data.length,
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       return Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 24.0),
+                        margin: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 16.0),
                         child: ListItemEventDataWidget(
                           data: state.data[index],
                           cubit: _cubit,

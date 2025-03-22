@@ -467,9 +467,12 @@ class _RecentDataEventWidgetState extends State<RecentDataEventWidget> {
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index){
-                      return ListItemEventDataWidget(
-                        data: state.data?[index],
-                        cubit: _cubit,
+                      return Container(
+                        margin: const EdgeInsets.only(bottom: 16.0),
+                        child: ListItemEventDataWidget(
+                          data: state.data?[index],
+                          cubit: _cubit,
+                        ),
                       );
                     },
                   );

@@ -365,8 +365,8 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
                     _descriptionController.clear();
                     _startHourController.clear();
                     _endHourController.clear();
-                    _priorityController.clear();
-                    _statusController.clear();
+                    _priorityController.text = _priority.name.toUpperCase();
+                    _statusController.text = _status.name.toUpperCase();
                     _locationController.clear();
                     _classController.text = "Select Class";
                     _selectedClass = ClassModel(
@@ -427,8 +427,8 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
                       _descriptionController.clear();
                       _startHourController.clear();
                       _endHourController.clear();
-                      _priorityController.clear();
-                      _statusController.clear();
+                      _priorityController.text = _priority.name.toUpperCase();
+                      _statusController.text = _status.name.toUpperCase();
                 
                       _locationController.clear();
                       _classController.text = "Select Class";
