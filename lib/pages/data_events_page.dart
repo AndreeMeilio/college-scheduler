@@ -391,6 +391,7 @@ class ListItemEventDataWidget extends StatelessWidget {
         motion: ScrollMotion(),
         children: [
           SlidableAction(
+            borderRadius: BorderRadius.all(Radius.circular(8.0)),
             onPressed: (context) async{
               final cubitBaseMenu = BlocProvider.of<BaseMenuCubit>(context, listen: false);
               final cubitCreateEventMenu = BlocProvider.of<CreateAndUpdateEventCubit>(context, listen: false);
@@ -399,10 +400,11 @@ class ListItemEventDataWidget extends StatelessWidget {
               cubitBaseMenu.changeIndexActiveMenu(1);
             },
             label: "Edit",
-            backgroundColor: ColorConfig.mainColor.withAlpha(75),
+            backgroundColor: ColorConfig.mainColor,
             icon: Icons.edit,
           ),
           SlidableAction(
+            borderRadius: BorderRadius.all(Radius.circular(8.0)),
             onPressed: (context) async{
               // await cubit.deleteEvent(data: data);
               showModalBottomSheet(

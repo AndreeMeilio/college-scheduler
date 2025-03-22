@@ -146,14 +146,16 @@ class DataClassItemWidget extends StatelessWidget {
         motion: ScrollMotion(),
         children: [
           SlidableAction(
+            borderRadius: BorderRadius.all(Radius.circular(8.0)),
             onPressed: (context) {
               context.push("${ConstantsRouteValue.lecturer}/${ConstantsRouteValue.actionLecturer}", extra: _data);
             },
             label: "Edit",
-            backgroundColor: ColorConfig.mainColor.withAlpha(75),
+            backgroundColor: ColorConfig.mainColor,
             icon: Icons.edit,
           ),
           SlidableAction(
+            borderRadius: BorderRadius.all(Radius.circular(8.0)),
             onPressed: (context) async{
               showModalBottomSheet(
                 context: context,
