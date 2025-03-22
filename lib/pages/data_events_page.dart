@@ -81,285 +81,293 @@ class _DataEventsPageState extends State<DataEventsPage> {
         backgroundColor: ColorConfig.backgroundColor,
         surfaceTintColor: ColorConfig.backgroundColor,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        spacing: 16.0,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: CustomTextFormField(
-                  controller: _searchController,
-                  label: "",
-                  hint: "Search item by Title",
-                  onSubmited: (value) async{
-                    await _cubit.getAllEvent(
-                      searchItem: value,
-                      priorty: _filterSelectedPriority,
-                      status: _filterSelectedStatus
-                    );
-                  },
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(right: 24.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: ColorConfig.mainColor),
-                  borderRadius: BorderRadius.all(Radius.circular(8.0))
-                ),
-                // padding: const EdgeInsets.all(8.0),
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    splashColor: Colors.black.withAlpha(25),
-                    onTap: () async{
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (context){
-                          return Container(
-                            padding: const EdgeInsets.all(24.0),
-                            width: MediaQuery.sizeOf(context).width,
-                            height: MediaQuery.sizeOf(context).height * 0.5,
-                            child: Column(
-                              spacing: 16.0,
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                Expanded(
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                                      spacing: 16.0,
-                                      children: [
-                                        Divider(
-                                          color: ColorConfig.mainColor,
-                                          thickness: 4,
-                                          indent: 125.0,
-                                          endIndent: 125.0,
-                                        ),
-                                        Text(
-                                          "Filter Events",
-                                          style: TextStyleConfig.body1bold,
-                                        ),
-                                        CustomTextFormField(
-                                          controller: _filterDateOfEventController,
-                                          margin: const EdgeInsets.all(0.0),
-                                          label: "Date Of Event",
-                                          hint: "Please input Date Of Event",
-                                          readonly: true,
-                                          onTap: () async{
-                                            final dateByUsers = await showDateRangePicker(
-                                              context: context, 
-                                              firstDate: DateTime(DateTime.now().year - 1),
-                                              lastDate: DateTime(DateTime.now().year + 1),
-                                              selectableDayPredicate: (DateTime day, DateTime? selectedStartDay, DateTime? selectedEndTime){
-                                                if (day.isAfter(DateTime.now().subtract(const Duration(days: 1)))){
-                                                  return true;
-                                                }
-
-                                                return false;
-                                              },
-                                              initialDateRange: _filterDateRangeEvent
-                                            );
-
-                                            if (dateByUsers != null){
-                                              _filterDateOfEventController.text = "${DateFormatUtils.dateFormatyMMdd(date: dateByUsers.start)} to ${DateFormatUtils.dateFormatyMMdd(date: dateByUsers.end)}";
-                                              _filterDateRangeEvent = dateByUsers;
-                                            }
-                                          },
-                                          validator: (value){
-                                            if (value?.isEmpty ?? false){
-                                              return "Please input date of the event";
-                                            }
-
-                                            return null;
-                                          },
-                                        ),
-                                        Row(
-                                          spacing: 16.0,
-                                          children: [
-                                            Expanded(
-                                              child: DropdownMenuComponent(
-                                                margin: const EdgeInsets.all(0.0),
-                                                label: "Priority",
-                                                controller: _filterPriorityController,
-                                                value: _filterSelectedPriority,
-                                                menu: [
-                                                  DropdownMenuEntry(
-                                                    label: "Select Priority",
-                                                    value: PRIORITY.selectPriority,
-                                                    enabled: false
-                                                  ),
-                                                  DropdownMenuEntry(
-                                                    label: "LOW",
-                                                    value: PRIORITY.low,
-                                                  ),
-                                                  DropdownMenuEntry(
-                                                    label: "MEDIUM",
-                                                    value: PRIORITY.medium,
-                                                  ),
-                                                  DropdownMenuEntry(
-                                                    label: "HIGH",
-                                                    value: PRIORITY.high,
-                                                  ),
-                                                ],
-                                                onSelected: (value){
-                                                  _filterSelectedPriority = value;
-                                                },
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: DropdownMenuComponent(
-                                                margin: const EdgeInsets.all(0.0),
-                                                label: "Status",
-                                                controller: _filterStatusController,
-                                                value: _filterSelectedStatus,
-                                                menu: [
-                                                  DropdownMenuEntry(
-                                                    label: "Select Status",
-                                                    value: STATUS.selectStatus,
-                                                    enabled: false
-                                                  ),
-                                                  DropdownMenuEntry(
-                                                    label: "IDLE",
-                                                    value: STATUS.idle,
-                                                  ),
-                                                  DropdownMenuEntry(
-                                                    label: "PROGRESS",
-                                                    value: STATUS.progress,
-                                                  ),
-                                                  DropdownMenuEntry(
-                                                    label: "DONE",
-                                                    value: STATUS.done,
-                                                  ),
-                                                ],
-                                                onSelected: (value){
-                                                  _filterSelectedStatus = value;
-                                                },
-                                              ),
-                                            )
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Row(
-                                  spacing: 16.0,
-                                  children: [
-                                    Expanded(
-                                      child: PrimaryButtonComponent(
-                                        onTap: (){
-                                          _filterDateRangeEvent = null;
-                                          _filterDateOfEventController.clear();
-
-                                          _filterPriorityController.text = "Select Priority";
-                                          _filterStatusController.text = "Select Status";
-                                          _filterSelectedPriority = PRIORITY.selectPriority;
-                                          _filterSelectedStatus = STATUS.selectStatus;
-                                        },
-                                        margin: const EdgeInsets.all(0.0),
-                                        label: "Clear",
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: PrimaryButtonComponent(
-                                        onTap: () async{
-                                          await _cubit.getAllEvent(
-                                            searchItem: _searchController.text,
-                                            priorty: _filterSelectedPriority,
-                                            status: _filterSelectedStatus,
-                                            dateRangeEvent: _filterDateRangeEvent
-                                          );
-
-                                          if (context.mounted){
-                                            context.pop();
-                                          }
-
-                                        },
-                                        margin: const EdgeInsets.all(0.0),
-                                        label: "Submit",
-                                      ),
-                                    )
-                                  ],
-                                )
-                              ],
-                            )
-                          );
-                        }
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/background_image.png"),
+            fit: BoxFit.cover
+          )
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          spacing: 16.0,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: CustomTextFormField(
+                    controller: _searchController,
+                    label: "",
+                    hint: "Search item by Title",
+                    onSubmited: (value) async{
+                      await _cubit.getAllEvent(
+                        searchItem: value,
+                        priorty: _filterSelectedPriority,
+                        status: _filterSelectedStatus
                       );
                     },
-                    child: Container(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Icon(Icons.filter_alt, color: ColorConfig.mainColor,),
-                    ),
                   ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(right: 24.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: ColorConfig.mainColor),
+                    borderRadius: BorderRadius.all(Radius.circular(8.0))
+                  ),
+                  // padding: const EdgeInsets.all(8.0),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      splashColor: Colors.black.withAlpha(25),
+                      onTap: () async{
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (context){
+                            return Container(
+                              padding: const EdgeInsets.all(24.0),
+                              width: MediaQuery.sizeOf(context).width,
+                              height: MediaQuery.sizeOf(context).height * 0.5,
+                              child: Column(
+                                spacing: 16.0,
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  Expanded(
+                                    child: SingleChildScrollView(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                                        spacing: 16.0,
+                                        children: [
+                                          Divider(
+                                            color: ColorConfig.mainColor,
+                                            thickness: 4,
+                                            indent: 125.0,
+                                            endIndent: 125.0,
+                                          ),
+                                          Text(
+                                            "Filter Events",
+                                            style: TextStyleConfig.body1bold,
+                                          ),
+                                          CustomTextFormField(
+                                            controller: _filterDateOfEventController,
+                                            margin: const EdgeInsets.all(0.0),
+                                            label: "Date Of Event",
+                                            hint: "Please input Date Of Event",
+                                            readonly: true,
+                                            onTap: () async{
+                                              final dateByUsers = await showDateRangePicker(
+                                                context: context, 
+                                                firstDate: DateTime(DateTime.now().year - 1),
+                                                lastDate: DateTime(DateTime.now().year + 1),
+                                                selectableDayPredicate: (DateTime day, DateTime? selectedStartDay, DateTime? selectedEndTime){
+                                                  if (day.isAfter(DateTime.now().subtract(const Duration(days: 1)))){
+                                                    return true;
+                                                  }
+        
+                                                  return false;
+                                                },
+                                                initialDateRange: _filterDateRangeEvent
+                                              );
+        
+                                              if (dateByUsers != null){
+                                                _filterDateOfEventController.text = "${DateFormatUtils.dateFormatyMMdd(date: dateByUsers.start)} to ${DateFormatUtils.dateFormatyMMdd(date: dateByUsers.end)}";
+                                                _filterDateRangeEvent = dateByUsers;
+                                              }
+                                            },
+                                            validator: (value){
+                                              if (value?.isEmpty ?? false){
+                                                return "Please input date of the event";
+                                              }
+        
+                                              return null;
+                                            },
+                                          ),
+                                          Row(
+                                            spacing: 16.0,
+                                            children: [
+                                              Expanded(
+                                                child: DropdownMenuComponent(
+                                                  margin: const EdgeInsets.all(0.0),
+                                                  label: "Priority",
+                                                  controller: _filterPriorityController,
+                                                  value: _filterSelectedPriority,
+                                                  menu: [
+                                                    DropdownMenuEntry(
+                                                      label: "Select Priority",
+                                                      value: PRIORITY.selectPriority,
+                                                      enabled: false
+                                                    ),
+                                                    DropdownMenuEntry(
+                                                      label: "LOW",
+                                                      value: PRIORITY.low,
+                                                    ),
+                                                    DropdownMenuEntry(
+                                                      label: "MEDIUM",
+                                                      value: PRIORITY.medium,
+                                                    ),
+                                                    DropdownMenuEntry(
+                                                      label: "HIGH",
+                                                      value: PRIORITY.high,
+                                                    ),
+                                                  ],
+                                                  onSelected: (value){
+                                                    _filterSelectedPriority = value;
+                                                  },
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: DropdownMenuComponent(
+                                                  margin: const EdgeInsets.all(0.0),
+                                                  label: "Status",
+                                                  controller: _filterStatusController,
+                                                  value: _filterSelectedStatus,
+                                                  menu: [
+                                                    DropdownMenuEntry(
+                                                      label: "Select Status",
+                                                      value: STATUS.selectStatus,
+                                                      enabled: false
+                                                    ),
+                                                    DropdownMenuEntry(
+                                                      label: "IDLE",
+                                                      value: STATUS.idle,
+                                                    ),
+                                                    DropdownMenuEntry(
+                                                      label: "PROGRESS",
+                                                      value: STATUS.progress,
+                                                    ),
+                                                    DropdownMenuEntry(
+                                                      label: "DONE",
+                                                      value: STATUS.done,
+                                                    ),
+                                                  ],
+                                                  onSelected: (value){
+                                                    _filterSelectedStatus = value;
+                                                  },
+                                                ),
+                                              )
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Row(
+                                    spacing: 16.0,
+                                    children: [
+                                      Expanded(
+                                        child: PrimaryButtonComponent(
+                                          onTap: (){
+                                            _filterDateRangeEvent = null;
+                                            _filterDateOfEventController.clear();
+        
+                                            _filterPriorityController.text = "Select Priority";
+                                            _filterStatusController.text = "Select Status";
+                                            _filterSelectedPriority = PRIORITY.selectPriority;
+                                            _filterSelectedStatus = STATUS.selectStatus;
+                                          },
+                                          margin: const EdgeInsets.all(0.0),
+                                          label: "Clear",
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: PrimaryButtonComponent(
+                                          onTap: () async{
+                                            await _cubit.getAllEvent(
+                                              searchItem: _searchController.text,
+                                              priorty: _filterSelectedPriority,
+                                              status: _filterSelectedStatus,
+                                              dateRangeEvent: _filterDateRangeEvent
+                                            );
+        
+                                            if (context.mounted){
+                                              context.pop();
+                                            }
+        
+                                          },
+                                          margin: const EdgeInsets.all(0.0),
+                                          label: "Submit",
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              )
+                            );
+                          }
+                        );
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Icon(Icons.filter_alt, color: ColorConfig.mainColor,),
+                      ),
+                    ),
+                  )
                 )
-              )
-            ],
-          ),
-          BlocBuilder<ListEventCubit, StateGeneral>(
-            builder: (context, state){
-              if (state.state is ListEventLoadedState){
-                if (state.data.isNotEmpty){
-                  return ListView.builder(
-                    itemCount: state.data.length,
+              ],
+            ),
+            BlocBuilder<ListEventCubit, StateGeneral>(
+              builder: (context, state){
+                if (state.state is ListEventLoadedState){
+                  if (state.data.isNotEmpty){
+                    return ListView.builder(
+                      itemCount: state.data.length,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 16.0),
+                          child: ListItemEventDataWidget(
+                            data: state.data[index],
+                            cubit: _cubit,
+                          ),
+                        );
+                      },
+                    );
+                  } else {
+                    return Container(
+                      alignment: Alignment.center,
+                      margin: const EdgeInsets.symmetric(vertical: 24.0),
+                      child: Text(
+                        "You Don't Have Any Data On Events",
+                        style: TextStyleConfig.body1bold,
+                      ),
+                    );
+                  }
+                } else if (state.state is ListEventFailedState){
+                  return Container(
+                    margin: const EdgeInsets.only(top: 24.0),
+                    alignment: Alignment.center,
+                    child: Text(
+                      state.message ?? "",
+                      style: TextStyleConfig.body1bold,
+                    ),
+                  );
+                } else {
+                  return ListView.separated(
+                    separatorBuilder: (context, index) {
+                      return Divider(
+                        height: 0.0,
+                        thickness: 8.0,
+                        color: ColorConfig.mainColor,
+                      );
+                    },
+                    itemCount: 2,
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       return Container(
-                        margin: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 16.0),
-                        child: ListItemEventDataWidget(
-                          data: state.data[index],
-                          cubit: _cubit,
-                        ),
+                        margin: const EdgeInsets.symmetric(horizontal: 24.0),
+                        child: ListItemEventDataLoadingWidget(),
                       );
                     },
                   );
-                } else {
-                  return Container(
-                    alignment: Alignment.center,
-                    margin: const EdgeInsets.symmetric(vertical: 24.0),
-                    child: Text(
-                      "You Don't Have Any Data On Events",
-                      style: TextStyleConfig.body1bold,
-                    ),
-                  );
                 }
-              } else if (state.state is ListEventFailedState){
-                return Container(
-                  margin: const EdgeInsets.only(top: 24.0),
-                  alignment: Alignment.center,
-                  child: Text(
-                    state.message ?? "",
-                    style: TextStyleConfig.body1bold,
-                  ),
-                );
-              } else {
-                return ListView.separated(
-                  separatorBuilder: (context, index) {
-                    return Divider(
-                      height: 0.0,
-                      thickness: 8.0,
-                      color: ColorConfig.mainColor,
-                    );
-                  },
-                  itemCount: 2,
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: ListItemEventDataLoadingWidget(),
-                    );
-                  },
-                );
-              }
-            },
-          )
-        ],
+              },
+            )
+          ],
+        ),
       ),
     );
   }
@@ -423,8 +431,8 @@ class ListItemEventDataWidget extends StatelessWidget {
       ),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(color: ColorConfig.mainColor),
+          color: ColorConfig.mainColor,
+          border: Border.all(color: Colors.white),
           borderRadius: BorderRadius.all(Radius.circular(8.0))
         ),
         child: Material(

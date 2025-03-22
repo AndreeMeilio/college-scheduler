@@ -102,245 +102,253 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
         backgroundColor: ColorConfig.backgroundColor,
         title: Text("Input Data Class", style: TextStyleConfig.body1,),
       ),
-      body: Form(
-        key: _formKey,
-        child: Column(
-          spacing: 24.0,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  spacing: 16.0,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    CustomTextFormField(
-                      controller: _nameController,
-                      label: "Class Name",
-                      hint: "Input class name",
-                      validator: (value){
-                        if (_nameController.text.isEmpty){
-                          return "Please input the name of the class";
-                        }
-              
-                        return null;
-                      },
-                      isRequired: true,
-                    ),
-                    BlocBuilder<ListLecturerCubit, StateGeneral>(
-                      builder: (context, state){
-                        if (state.state is ListLecturerLoadedState){
-                          _itemLecturer = List.from([
-                            LecturerModel(
-                              id: 0,
-                              name: "Select Lecturer",
-                              userId: 0
-                            )
-                          ]);
-                          if (state.data.isNotEmpty){
-                            _itemLecturer.addAll(List.from(state.data));
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/background_image.png"),
+            fit: BoxFit.cover
+          )
+        ),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            spacing: 24.0,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    spacing: 16.0,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      CustomTextFormField(
+                        controller: _nameController,
+                        label: "Class Name",
+                        hint: "Input class name",
+                        validator: (value){
+                          if (_nameController.text.isEmpty){
+                            return "Please input the name of the class";
                           }
-                          return DropdownMenuComponent(
-                            label: "Lecturer",
-                            controller: _lectureController,
-                            value: _selectedLecturer,
-                            menu: _itemLecturer.map((data){
-                              return DropdownMenuEntry(
-                                label: data?.name ?? "",
-                                value: data,
-                                enabled: !(data?.name == "Select Lecturer")
-                              );
-                            }).toList(),
-                            onSelected: (value){
-                              _selectedLecturer = value;
-                            },
-                          );
-                        } else {
-                          return Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 24.0),
-                            child: Column(
-                              spacing: 8.0,
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                Text(
-                                  "Lecturer",
-                                  style: TextStyleConfig.body1
-                                ),
-                                Shimmer.fromColors(
-                                  baseColor: Colors.grey,
-                                  highlightColor: Colors.white,
-                                  child: Container(
-                                    color: Colors.grey,
-                                    height: 50.0,
-                                    width: MediaQuery.sizeOf(context).width,
+                
+                          return null;
+                        },
+                        isRequired: true,
+                      ),
+                      BlocBuilder<ListLecturerCubit, StateGeneral>(
+                        builder: (context, state){
+                          if (state.state is ListLecturerLoadedState){
+                            _itemLecturer = List.from([
+                              LecturerModel(
+                                id: 0,
+                                name: "Select Lecturer",
+                                userId: 0
+                              )
+                            ]);
+                            if (state.data.isNotEmpty){
+                              _itemLecturer.addAll(List.from(state.data));
+                            }
+                            return DropdownMenuComponent(
+                              label: "Lecturer",
+                              controller: _lectureController,
+                              value: _selectedLecturer,
+                              menu: _itemLecturer.map((data){
+                                return DropdownMenuEntry(
+                                  label: data?.name ?? "",
+                                  value: data,
+                                  enabled: !(data?.name == "Select Lecturer")
+                                );
+                              }).toList(),
+                              onSelected: (value){
+                                _selectedLecturer = value;
+                              },
+                            );
+                          } else {
+                            return Container(
+                              margin: const EdgeInsets.symmetric(horizontal: 24.0),
+                              child: Column(
+                                spacing: 8.0,
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  Text(
+                                    "Lecturer",
+                                    style: TextStyleConfig.body1
                                   ),
-                                )
-                              ],
+                                  Shimmer.fromColors(
+                                    baseColor: Colors.grey,
+                                    highlightColor: Colors.white,
+                                    child: Container(
+                                      color: Colors.grey,
+                                      height: 50.0,
+                                      width: MediaQuery.sizeOf(context).width,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            );
+                          } 
+                        },
+                      ),
+                      DropdownMenuComponent(
+                        controller: _dayofweekController,
+                        label: "Day",
+                        menu: [
+                          DropdownMenuEntry(
+                            value: DAYOFWEEK.selectDay,
+                            label: "Select Day",
+                            enabled: false
+                          ),
+                          DropdownMenuEntry(
+                            value: DAYOFWEEK.monday,
+                            label: "Monday",
+                          ),
+                          DropdownMenuEntry(
+                            value: DAYOFWEEK.tuesday,
+                            label: "Tuesday",
+                          ),
+                          DropdownMenuEntry(
+                            value: DAYOFWEEK.wednesday,
+                            label: "Wednesday",
+                          ),
+                          DropdownMenuEntry(
+                            value: DAYOFWEEK.thursday,
+                            label: "Thursday",
+                          ),
+                          DropdownMenuEntry(
+                            value: DAYOFWEEK.friday,
+                            label: "Friday",
+                          ),
+                          DropdownMenuEntry(
+                            value: DAYOFWEEK.saturday,
+                            label: "Saturday",
+                          ),
+                          DropdownMenuEntry(
+                            value: DAYOFWEEK.sunday,
+                            label: "Sunday",
+                          ),
+                        ],
+                        value: _dayofweek, 
+                        onSelected: (value){
+                          _dayofweek = value;
+                        },
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: CustomTextFormField(
+                              controller: _startHourController,
+                              label: "Start Hour",
+                              hint: "",
+                              readonly: true,
+                              onTap: () async{
+                                final startHourByUsers = await showTimePicker(
+                                  context: context,
+                                  initialTime: _startHour ?? TimeOfDay.now(),
+                                );
+                
+                                _startHourController.text = startHourByUsers != null ? "${startHourByUsers.hour}:${startHourByUsers.minute}:00" : "";
+                                _startHour = startHourByUsers;
+                              },
+                              isRequired: true,
+                              validator: (value){
+                                if (value?.isEmpty ?? false){
+                                  return "Please input starting time of the class";
+                                }
+                
+                                return null;
+                              },
                             ),
-                          );
-                        } 
-                      },
-                    ),
-                    DropdownMenuComponent(
-                      controller: _dayofweekController,
-                      label: "Day",
-                      menu: [
-                        DropdownMenuEntry(
-                          value: DAYOFWEEK.selectDay,
-                          label: "Select Day",
-                          enabled: false
-                        ),
-                        DropdownMenuEntry(
-                          value: DAYOFWEEK.monday,
-                          label: "Monday",
-                        ),
-                        DropdownMenuEntry(
-                          value: DAYOFWEEK.tuesday,
-                          label: "Tuesday",
-                        ),
-                        DropdownMenuEntry(
-                          value: DAYOFWEEK.wednesday,
-                          label: "Wednesday",
-                        ),
-                        DropdownMenuEntry(
-                          value: DAYOFWEEK.thursday,
-                          label: "Thursday",
-                        ),
-                        DropdownMenuEntry(
-                          value: DAYOFWEEK.friday,
-                          label: "Friday",
-                        ),
-                        DropdownMenuEntry(
-                          value: DAYOFWEEK.saturday,
-                          label: "Saturday",
-                        ),
-                        DropdownMenuEntry(
-                          value: DAYOFWEEK.sunday,
-                          label: "Sunday",
-                        ),
-                      ],
-                      value: _dayofweek, 
-                      onSelected: (value){
-                        _dayofweek = value;
-                      },
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: CustomTextFormField(
-                            controller: _startHourController,
-                            label: "Start Hour",
-                            hint: "",
-                            readonly: true,
-                            onTap: () async{
-                              final startHourByUsers = await showTimePicker(
-                                context: context,
-                                initialTime: _startHour ?? TimeOfDay.now(),
-                              );
-              
-                              _startHourController.text = startHourByUsers != null ? "${startHourByUsers.hour}:${startHourByUsers.minute}:00" : "";
-                              _startHour = startHourByUsers;
-                            },
-                            isRequired: true,
-                            validator: (value){
-                              if (value?.isEmpty ?? false){
-                                return "Please input starting time of the class";
-                              }
-              
-                              return null;
-                            },
                           ),
-                        ),
-                        Expanded(
-                          child: CustomTextFormField(
-                            controller: _endHourController,
-                            label: "End Hour",
-                            hint: "",
-                            readonly: true,
-                            onTap: () async{
-                              final endHourByUsers = await showTimePicker(
-                                context: context,
-                                initialTime: _endHour ?? TimeOfDay.now(),
-                              );
-              
-                              _endHourController.text = endHourByUsers != null ? "${endHourByUsers.hour}:${endHourByUsers.minute}:00" : "";
-                              _endHour = endHourByUsers;
-                            },
-                            isRequired: true,
-                            validator: (value){
-                              if (value?.isEmpty ?? false){
-                                return "Please input ending time of the class";
-                              }
-              
-                              return null;
-                            },
-                          ),
-                        )
-                      ],
-                    ),
-                    const SizedBox(),
-                  ],
+                          Expanded(
+                            child: CustomTextFormField(
+                              controller: _endHourController,
+                              label: "End Hour",
+                              hint: "",
+                              readonly: true,
+                              onTap: () async{
+                                final endHourByUsers = await showTimePicker(
+                                  context: context,
+                                  initialTime: _endHour ?? TimeOfDay.now(),
+                                );
+                
+                                _endHourController.text = endHourByUsers != null ? "${endHourByUsers.hour}:${endHourByUsers.minute}:00" : "";
+                                _endHour = endHourByUsers;
+                              },
+                              isRequired: true,
+                              validator: (value){
+                                if (value?.isEmpty ?? false){
+                                  return "Please input ending time of the class";
+                                }
+                
+                                return null;
+                              },
+                            ),
+                          )
+                        ],
+                      ),
+                      const SizedBox(),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            BlocConsumer<CreateAndUpdateDataClassCubit, StateGeneral>(
-              builder: (context, state){
-                return PrimaryButtonComponent(
-                  onTap: () async{
-                    if (_formKey.currentState?.validate() ?? false){
-                      await _cubit.createAndUpdateClass(
-                        name: _nameController.text,
-                        lecturerName: _lectureController.text.toString() == "Select Lecturer" ? "" : _lectureController.text,
-                        dayofweek: _dayofweek,
-                        startHour: _startHour ?? TimeOfDay.fromDateTime(DateTime.parse("0001-01-01 00:00:00")),
-                        endHour: _endHour ?? TimeOfDay.fromDateTime(DateTime.parse("0001-01-01 00:00:00")),
-                        isEdit: widget.dataClassFromEdit != null,
-                        idClass: widget.dataClassFromEdit?.id
-                      );
-                    } else {
-                      ToastNotifUtils.showError(
-                        context: context,
-                        title: "Create Data Class Failed",
-                        description: "Please fill the required data"
-                      );
-                    }
-                  },
-                  label: "Submit",
-                  width: MediaQuery.sizeOf(context).width * 0.25,
-                );
-              },
-              listener: (context, state){
-                if (state.state is CreateAndUpdateDataClassSuccessState){
-                  ToastNotifUtils.showSuccess(
-                    context: context,
-                    title: "Create Data Class Success",
-                    description: state.message ?? ""
+              BlocConsumer<CreateAndUpdateDataClassCubit, StateGeneral>(
+                builder: (context, state){
+                  return PrimaryButtonComponent(
+                    onTap: () async{
+                      if (_formKey.currentState?.validate() ?? false){
+                        await _cubit.createAndUpdateClass(
+                          name: _nameController.text,
+                          lecturerName: _lectureController.text.toString() == "Select Lecturer" ? "" : _lectureController.text,
+                          dayofweek: _dayofweek,
+                          startHour: _startHour ?? TimeOfDay.fromDateTime(DateTime.parse("0001-01-01 00:00:00")),
+                          endHour: _endHour ?? TimeOfDay.fromDateTime(DateTime.parse("0001-01-01 00:00:00")),
+                          isEdit: widget.dataClassFromEdit != null,
+                          idClass: widget.dataClassFromEdit?.id
+                        );
+                      } else {
+                        ToastNotifUtils.showError(
+                          context: context,
+                          title: "Create Data Class Failed",
+                          description: "Please fill the required data"
+                        );
+                      }
+                    },
+                    label: "Submit",
+                    width: MediaQuery.sizeOf(context).width * 0.25,
                   );
-                  
-                  _nameController.clear();
-                  _lectureController.text = "Select Lecturer";
-                  _selectedLecturer = LecturerModel(
-                    id: 0,
-                    name: "Select Lecturer",
-                    userId: 0
-                  );
-                  _dayofweekController.text = "Select Day";
-                  _dayofweek = DAYOFWEEK.selectDay;
-                  _startHour = TimeOfDay.now();
-                  _endHour = TimeOfDay.now();
-                  _startHourController.clear();
-                  _endHourController.clear();
-                } else if (state.state is CreateAndUpdateDataClassFailedState){
-                  ToastNotifUtils.showError(
-                    context: context,
-                    title: "Create Data Class Failed",
-                    description: state.message ?? ""
-                  );
-                }
-              },
-            ),
-            const SizedBox(),
-          ],
+                },
+                listener: (context, state){
+                  if (state.state is CreateAndUpdateDataClassSuccessState){
+                    ToastNotifUtils.showSuccess(
+                      context: context,
+                      title: "Create Data Class Success",
+                      description: state.message ?? ""
+                    );
+                    
+                    _nameController.clear();
+                    _lectureController.text = "Select Lecturer";
+                    _selectedLecturer = LecturerModel(
+                      id: 0,
+                      name: "Select Lecturer",
+                      userId: 0
+                    );
+                    _dayofweekController.text = "Select Day";
+                    _dayofweek = DAYOFWEEK.selectDay;
+                    _startHour = TimeOfDay.now();
+                    _endHour = TimeOfDay.now();
+                    _startHourController.clear();
+                    _endHourController.clear();
+                  } else if (state.state is CreateAndUpdateDataClassFailedState){
+                    ToastNotifUtils.showError(
+                      context: context,
+                      title: "Create Data Class Failed",
+                      description: state.message ?? ""
+                    );
+                  }
+                },
+              ),
+              const SizedBox(),
+            ],
+          ),
         ),
       ),
     );

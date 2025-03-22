@@ -9,6 +9,7 @@ import 'package:college_scheduler/config/color_config.dart';
 import 'package:college_scheduler/config/constants_route_value.dart';
 import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
+import 'package:college_scheduler/cubit/event/priority_events_cubit.dart';
 import 'package:college_scheduler/cubit/menu/base_menu_cubit.dart';
 import 'package:college_scheduler/cubit/event/create_event_cubit.dart';
 import 'package:college_scheduler/cubit/event/list_event_cubit.dart';
@@ -38,7 +39,8 @@ class DashboardPage extends StatelessWidget {
           spacing: 24.0,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            QuoteWidget(),
+            // QuoteWidget(),
+            const SizedBox(height: 8.0,),
             StatusDashboardWidget(),
             ShortcutMenuWidget(),
             RecentDataEventWidget(),
@@ -60,199 +62,399 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
 
   late DateTime _now;
 
-  late StatusEventsCubit _cubit;
+  late StatusEventsCubit _statusCubit;
+  late PriorityEventsCubit _priorityCubit;
 
   @override
   void initState() {
     super.initState();
     _now = DateTime.now();
 
-    _cubit = BlocProvider.of<StatusEventsCubit>(context, listen: false);
-    _cubit.getStatusAllEvents();
+    _statusCubit = BlocProvider.of<StatusEventsCubit>(context, listen: false);
+    _priorityCubit = BlocProvider.of<PriorityEventsCubit>(context, listen: false);
+
+    _statusCubit.getStatusAllEvents();
+    _priorityCubit.getPriorityAllEvents();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 24.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
+      child: Column(
+        spacing: 16.0,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
-            margin: const EdgeInsets.only(right: 24.0),
-            child: Column(
-              children: [
-                TimeTickingWidget(now: _now,),
-                Text(DateFormatUtils.dateFormatddMMMMy(date: _now), style: TextStyleConfig.heading1bold,)
-              ],
-            ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Container(
+                  margin: const EdgeInsets.only(right: 24.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      TimeTickingWidget(now: _now,),
+                      Text(DateFormatUtils.dateFormatddMMMMy(date: _now), style: TextStyleConfig.heading1bold,)
+                    ],
+                  ),
+                ),
+              ),
+              Text(
+                "Welcome Back! \nMy Friend",
+                style: TextStyleConfig.heading1bold,
+              )
+            ],
           ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                color: ColorConfig.mainColor,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey,
-                    offset: Offset(2.0, 2.0),
-                    blurRadius: 1.0
-                  )
-                ]
+          const SizedBox(height: 8.0,),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            spacing: 8.0,
+            children: [
+              Text(
+                "Data Status",
+                style: TextStyleConfig.body1bold,
               ),
-              child: BlocBuilder<StatusEventsCubit, StateGeneral<StatusEventsState, Map<String, int>>>(
-                builder: (context, state) {
-                  if (state.state is StatusEventsFailedState){
-                    return Center(
-                      child: Text(
-                        state.message ?? "",
-                        style: TextStyleConfig.body1bold,
-                      ),
-                    );
-                  } else if (state.state is StatusEventsLoadedState){
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      spacing: 8.0,
-                      children: [
-                        const SizedBox(),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            spacing: 16.0,
-                            children: [
-                              Text("IDLE", style: TextStyleConfig.body1bold,),
-                              Text("${state.data?['idleCount']}", style: TextStyleConfig.body1bold,),
-                            ],
-                          ),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                  border: Border.all(color: ColorConfig.mainColor),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey,
+                      offset: Offset(2.0, 2.0),
+                      blurRadius: 1.0
+                    )
+                  ]
+                ),
+                child: BlocBuilder<StatusEventsCubit, StateGeneral<StatusEventsState, Map<String, int>>>(
+                  builder: (context, state) {
+                    if (state.state is StatusEventsFailedState){
+                      return Center(
+                        child: Text(
+                          state.message ?? "",
+                          style: TextStyleConfig.body1bold,
                         ),
-                        const Divider(color: Colors.white, height: 0,),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            spacing: 16.0,
-                            children: [
-                              Text("PROGRESS", style: TextStyleConfig.body1bold,),
-                              Text("${state.data?['progressCount']}", style: TextStyleConfig.body1bold,),
-                            ],
+                      );
+                    } else if (state.state is StatusEventsLoadedState){
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        spacing: 8.0,
+                        children: [
+                          const SizedBox(),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              spacing: 16.0,
+                              children: [
+                                Text("IDLE", style: TextStyleConfig.body1bold,),
+                                Text("${state.data?['idleCount']}", style: TextStyleConfig.body1bold,),
+                              ],
+                            ),
                           ),
-                        ),
-                        const Divider(color: Colors.white, height: 0,),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            spacing: 16.0,
-                            children: [
-                              Text("DONE", style: TextStyleConfig.body1bold,),
-                              Text("${state.data?['doneCount']}", style: TextStyleConfig.body1bold,),
-                            ],
+                          const Divider(color: ColorConfig.mainColor, height: 0,),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              spacing: 16.0,
+                              children: [
+                                Text("PROGRESS", style: TextStyleConfig.body1bold,),
+                                Text("${state.data?['progressCount']}", style: TextStyleConfig.body1bold,),
+                              ],
+                            ),
                           ),
-                        ),
-                        const SizedBox(),
-                      ],
-                    );
-                  } else {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      spacing: 8.0,
-                      children: [
-                        const SizedBox(),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            spacing: 16.0,
-                            children: [
-                              Shimmer.fromColors(
-                                baseColor: Colors.grey,
-                                highlightColor: Colors.white,
-                                child: Container(
-                                  height: 16.0,
-                                  width: MediaQuery.sizeOf(context).width * 0.25,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              Shimmer.fromColors(
-                                baseColor: Colors.grey,
-                                highlightColor: Colors.white,
-                                child: Container(
-                                  height: 16.0,
-                                  width: 24.0,
-                                  color: Colors.grey,
-                                ),
-                              )
-                            ],
+                          const Divider(color: ColorConfig.mainColor, height: 0,),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              spacing: 16.0,
+                              children: [
+                                Text("DONE", style: TextStyleConfig.body1bold,),
+                                Text("${state.data?['doneCount']}", style: TextStyleConfig.body1bold,),
+                              ],
+                            ),
                           ),
-                        ),
-                        const Divider(color: Colors.white, height: 0,),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            spacing: 16.0,
-                            children: [
-                              Shimmer.fromColors(
-                                baseColor: Colors.grey,
-                                highlightColor: Colors.white,
-                                child: Container(
-                                  height: 16.0,
-                                  width: MediaQuery.sizeOf(context).width * 0.25,
-                                  color: Colors.grey,
+                          const SizedBox(),
+                        ],
+                      );
+                    } else {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        spacing: 8.0,
+                        children: [
+                          const SizedBox(),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              spacing: 16.0,
+                              children: [
+                                Shimmer.fromColors(
+                                  baseColor: Colors.grey,
+                                  highlightColor: Colors.white,
+                                  child: Container(
+                                    height: 16.0,
+                                    width: MediaQuery.sizeOf(context).width * 0.25,
+                                    color: Colors.grey,
+                                  ),
                                 ),
-                              ),
-                              Shimmer.fromColors(
-                                baseColor: Colors.grey,
-                                highlightColor: Colors.white,
-                                child: Container(
-                                  height: 16.0,
-                                  width: 24.0,
-                                  color: Colors.grey,
-                                ),
-                              )
-                            ],
+                                Shimmer.fromColors(
+                                  baseColor: Colors.grey,
+                                  highlightColor: Colors.white,
+                                  child: Container(
+                                    height: 16.0,
+                                    width: 24.0,
+                                    color: Colors.grey,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                        const Divider(color: Colors.white, height: 0,),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            spacing: 16.0,
-                            children: [
-                              Shimmer.fromColors(
-                                baseColor: Colors.grey,
-                                highlightColor: Colors.white,
-                                child: Container(
-                                  height: 16.0,
-                                  width: MediaQuery.sizeOf(context).width * 0.25,
-                                  color: Colors.grey,
+                          const Divider(color: Colors.white, height: 0,),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              spacing: 16.0,
+                              children: [
+                                Shimmer.fromColors(
+                                  baseColor: Colors.grey,
+                                  highlightColor: Colors.white,
+                                  child: Container(
+                                    height: 16.0,
+                                    width: MediaQuery.sizeOf(context).width * 0.25,
+                                    color: Colors.grey,
+                                  ),
                                 ),
-                              ),
-                              Shimmer.fromColors(
-                                baseColor: Colors.grey,
-                                highlightColor: Colors.white,
-                                child: Container(
-                                  height: 16.0,
-                                  width: 24.0,
-                                  color: Colors.grey,
-                                ),
-                              )
-                            ],
+                                Shimmer.fromColors(
+                                  baseColor: Colors.grey,
+                                  highlightColor: Colors.white,
+                                  child: Container(
+                                    height: 16.0,
+                                    width: 24.0,
+                                    color: Colors.grey,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                        const SizedBox(),
-                      ],
-                    );
+                          const Divider(color: Colors.white, height: 0,),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              spacing: 16.0,
+                              children: [
+                                Shimmer.fromColors(
+                                  baseColor: Colors.grey,
+                                  highlightColor: Colors.white,
+                                  child: Container(
+                                    height: 16.0,
+                                    width: MediaQuery.sizeOf(context).width * 0.25,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                Shimmer.fromColors(
+                                  baseColor: Colors.grey,
+                                  highlightColor: Colors.white,
+                                  child: Container(
+                                    height: 16.0,
+                                    width: 24.0,
+                                    color: Colors.grey,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          const SizedBox(),
+                        ],
+                      );
+                    }
                   }
-                }
+                ),
               ),
-            ),
-          )
+            ],
+          ),
+          // const SizedBox(),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            spacing: 8.0,
+            children: [
+              Text(
+                "Data Priority",
+                style: TextStyleConfig.body1bold,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                  color: ColorConfig.mainColor,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey,
+                      offset: Offset(2.0, 2.0),
+                      blurRadius: 1.0
+                    )
+                  ]
+                ),
+                child: BlocBuilder<PriorityEventsCubit, PriorityEventsStateType>(
+                  builder: (context, state) {
+                    if (state.state is PriorityEventsFailedState){
+                      return Center(
+                        child: Text(
+                          state.message ?? "",
+                          style: TextStyleConfig.body1bold,
+                        ),
+                      );
+                    } else if (state.state is PriorityEventsLoadedState){
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        spacing: 8.0,
+                        children: [
+                          const SizedBox(),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              spacing: 16.0,
+                              children: [
+                                Text("LOW", style: TextStyleConfig.body1bold,),
+                                Text("${state.data?['lowCount']}", style: TextStyleConfig.body1bold,),
+                              ],
+                            ),
+                          ),
+                          const Divider(color: Colors.white, height: 0,),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              spacing: 16.0,
+                              children: [
+                                Text("MEDIUM", style: TextStyleConfig.body1bold,),
+                                Text("${state.data?['mediumCount']}", style: TextStyleConfig.body1bold,),
+                              ],
+                            ),
+                          ),
+                          const Divider(color: Colors.white, height: 0,),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              spacing: 16.0,
+                              children: [
+                                Text("HIGH", style: TextStyleConfig.body1bold,),
+                                Text("${state.data?['highCount']}", style: TextStyleConfig.body1bold,),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(),
+                        ],
+                      );
+                    } else {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        spacing: 8.0,
+                        children: [
+                          const SizedBox(),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              spacing: 16.0,
+                              children: [
+                                Shimmer.fromColors(
+                                  baseColor: Colors.grey,
+                                  highlightColor: Colors.white,
+                                  child: Container(
+                                    height: 16.0,
+                                    width: MediaQuery.sizeOf(context).width * 0.25,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                Shimmer.fromColors(
+                                  baseColor: Colors.grey,
+                                  highlightColor: Colors.white,
+                                  child: Container(
+                                    height: 16.0,
+                                    width: 24.0,
+                                    color: Colors.grey,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          const Divider(color: Colors.white, height: 0,),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              spacing: 16.0,
+                              children: [
+                                Shimmer.fromColors(
+                                  baseColor: Colors.grey,
+                                  highlightColor: Colors.white,
+                                  child: Container(
+                                    height: 16.0,
+                                    width: MediaQuery.sizeOf(context).width * 0.25,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                Shimmer.fromColors(
+                                  baseColor: Colors.grey,
+                                  highlightColor: Colors.white,
+                                  child: Container(
+                                    height: 16.0,
+                                    width: 24.0,
+                                    color: Colors.grey,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          const Divider(color: Colors.white, height: 0,),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              spacing: 16.0,
+                              children: [
+                                Shimmer.fromColors(
+                                  baseColor: Colors.grey,
+                                  highlightColor: Colors.white,
+                                  child: Container(
+                                    height: 16.0,
+                                    width: MediaQuery.sizeOf(context).width * 0.25,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                Shimmer.fromColors(
+                                  baseColor: Colors.grey,
+                                  highlightColor: Colors.white,
+                                  child: Container(
+                                    height: 16.0,
+                                    width: 24.0,
+                                    color: Colors.grey,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          const SizedBox(),
+                        ],
+                      );
+                    }
+                  }
+                ),
+              ),
+            ],
+          ),
         ],
-      ),
-    ) ;
+      )
+    );
   }
 }
 
@@ -261,109 +463,122 @@ class ShortcutMenuWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 24.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: ColorConfig.mainColor),
-        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey,
-            offset: Offset(2.0, 2.0),
-            blurRadius: 1.0
-          )
-        ]
-      ),
-      child: IntrinsicHeight(
-        child: Row(
-          children: [
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                ),
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: (){
-                      context.push(ConstantsRouteValue.events);
-                    },
-                    splashColor: Colors.black.withAlpha(25),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                      child: Text(
-                        "Data Events",
-                        style: TextStyleConfig.body1bold,
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            const VerticalDivider(
-              color: ColorConfig.mainColor, 
-              thickness: 1.0,
-            ),
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                ),
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: (){
-                      context.push(ConstantsRouteValue.clasess);
-                    },
-                    splashColor: Colors.black.withAlpha(25),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                      child: Text(
-                        "Data Class",
-                        style: TextStyleConfig.body1bold,
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            const VerticalDivider(
-              color: ColorConfig.mainColor, 
-              thickness: 1.0,
-            ),
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                ),
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: (){
-                      context.push(ConstantsRouteValue.lecturer);
-                    },
-                    splashColor: Colors.black.withAlpha(25),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                      child: Text(
-                        "Data Lecturer",
-                        style: TextStyleConfig.body1bold,
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
+    return Column(
+      spacing: 8.0,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: Text(
+            "Core Menu",
+            style: TextStyleConfig.body1bold,
+          ),
         ),
-      ),
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 24.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(color: ColorConfig.mainColor),
+            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey,
+                offset: Offset(2.0, 2.0),
+                blurRadius: 1.0
+              )
+            ]
+          ),
+          child: IntrinsicHeight(
+            child: Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                    ),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: (){
+                          context.push(ConstantsRouteValue.events);
+                        },
+                        splashColor: Colors.black.withAlpha(25),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                          child: Text(
+                            "Data Events",
+                            style: TextStyleConfig.body1bold,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const VerticalDivider(
+                  color: ColorConfig.mainColor, 
+                  thickness: 1.0,
+                ),
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                    ),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: (){
+                          context.push(ConstantsRouteValue.clasess);
+                        },
+                        splashColor: Colors.black.withAlpha(25),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                          child: Text(
+                            "Data Class",
+                            style: TextStyleConfig.body1bold,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const VerticalDivider(
+                  color: ColorConfig.mainColor, 
+                  thickness: 1.0,
+                ),
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                    ),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: (){
+                          context.push(ConstantsRouteValue.lecturer);
+                        },
+                        splashColor: Colors.black.withAlpha(25),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                          child: Text(
+                            "Data Lecturer",
+                            style: TextStyleConfig.body1bold,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -445,7 +660,7 @@ class _RecentDataEventWidgetState extends State<RecentDataEventWidget> {
       margin: const EdgeInsets.symmetric(horizontal: 24.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        spacing: 16.0,
+        spacing: 8.0,
         children: [
           Text(
             "Recent Data Events",

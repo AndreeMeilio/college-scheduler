@@ -68,124 +68,132 @@ class _ChangeFullnameUsernamePageState extends State<ChangeFullnameUsernamePage>
           style: TextStyleConfig.body1,
         ),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        spacing: 24.0,
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Form(
-                key: _key,
-                child: Column(
-                  spacing: 16.0,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    CustomTextFormField(
-                      controller: _fullnameController,
-                      label: "Fullname",
-                      hint: "Input your new Fullname",
-                      isRequired: true,
-                      validator: (value){
-                        if (value?.isEmpty ?? false){
-                          return "Please input your new fullname";
-                        }
-
-                        return null;
-                      },
-                    ),
-                    CustomTextFormField(
-                      controller: _usernameController,
-                      label: "Username",
-                      hint: "Input your new Username",
-                      isRequired: true,
-                      validator: (value){
-                        if (value?.isEmpty ?? false){
-                          return "Please input your new username";
-                        }
-
-                        return null;
-                      },
-                    ),
-                    CustomTextFormField(
-                      controller: _passwordController,
-                      label: "Password",
-                      hint: "Input your password for validation account",
-                      isRequired: true,
-                      isPassword: true,
-                      obsureText: _isObscure,
-                      suffixIconOnPressed: (){
-                        setState(() {
-                          _isObscure = !_isObscure;
-                        });
-                      },
-                      validator: (value){
-                        if (value?.isEmpty ?? false){
-                          return "Please input your password for security purpose";
-                        }
-
-                        return null;
-                      },
-                    ),
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: Text(
-                        "For security purpose, please insert your account password, so that we can know this is you who trying to change the username",
-                        style: TextStyleConfig.body1,
-                        textAlign: TextAlign.center,
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/background_image.png"),
+            fit: BoxFit.cover
+          )
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          spacing: 24.0,
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Form(
+                  key: _key,
+                  child: Column(
+                    spacing: 16.0,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      CustomTextFormField(
+                        controller: _fullnameController,
+                        label: "Fullname",
+                        hint: "Input your new Fullname",
+                        isRequired: true,
+                        validator: (value){
+                          if (value?.isEmpty ?? false){
+                            return "Please input your new fullname";
+                          }
+        
+                          return null;
+                        },
                       ),
-                    )
-                  ],
+                      CustomTextFormField(
+                        controller: _usernameController,
+                        label: "Username",
+                        hint: "Input your new Username",
+                        isRequired: true,
+                        validator: (value){
+                          if (value?.isEmpty ?? false){
+                            return "Please input your new username";
+                          }
+        
+                          return null;
+                        },
+                      ),
+                      CustomTextFormField(
+                        controller: _passwordController,
+                        label: "Password",
+                        hint: "Input your password for validation account",
+                        isRequired: true,
+                        isPassword: true,
+                        obsureText: _isObscure,
+                        suffixIconOnPressed: (){
+                          setState(() {
+                            _isObscure = !_isObscure;
+                          });
+                        },
+                        validator: (value){
+                          if (value?.isEmpty ?? false){
+                            return "Please input your password for security purpose";
+                          }
+        
+                          return null;
+                        },
+                      ),
+                      Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 24.0),
+                        child: Text(
+                          "For security purpose, please insert your account password, so that we can know this is you who trying to change the username",
+                          style: TextStyleConfig.body1,
+                          textAlign: TextAlign.center,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          BlocConsumer<ChangeFullnameUsernameCubit, ChangeFullnameUsernameStateType>(
-            builder: (context, state){
-              return PrimaryButtonComponent(
-                onTap: () async{
-                  if (_key.currentState?.validate() ?? false){
-                    await _cubit.changeFullnameUsername(
-                      fullname: _fullnameController.text,
-                      username: _usernameController.text,
-                      password: _passwordController.text
-                    );
-
-                    final prefs = SharedPreferenceConfig();
-
-                    await prefs.clearShared();
-
-                    if (context.mounted){
-                      context.pushReplacement(ConstantsRouteValue.login);
+            BlocConsumer<ChangeFullnameUsernameCubit, ChangeFullnameUsernameStateType>(
+              builder: (context, state){
+                return PrimaryButtonComponent(
+                  onTap: () async{
+                    if (_key.currentState?.validate() ?? false){
+                      await _cubit.changeFullnameUsername(
+                        fullname: _fullnameController.text,
+                        username: _usernameController.text,
+                        password: _passwordController.text
+                      );
+        
+                      final prefs = SharedPreferenceConfig();
+        
+                      await prefs.clearShared();
+        
+                      if (context.mounted){
+                        context.pushReplacement(ConstantsRouteValue.login);
+                      }
+                    } else {
+                      ToastNotifUtils.showError(
+                        context: context,
+                        title: "Change Fullname or Username Failed",
+                        description: "Please fill the required data"
+                      );
                     }
-                  } else {
-                    ToastNotifUtils.showError(
-                      context: context,
-                      title: "Change Fullname or Username Failed",
-                      description: "Please fill the required data"
-                    );
-                  }
-                },
-                label: "Submit Changes",
-              );
-            },
-            listener: (context, state){
-              if (state.state is ChangeFullnameUsernameSuccessState){
-                ToastNotifUtils.showSuccess(
-                  context: context,
-                  title: "Change Fullname or Username Success",
-                  description: state.message ?? ""
+                  },
+                  label: "Submit Changes",
                 );
-              } else if (state.state is ChangeFullnameUsernameFailedState){
-                ToastNotifUtils.showError(
-                  context: context,
-                  title: "Change Fullname or Username Failed",
-                  description: state.message ?? ""
-                );
-              }
-            },
-          ),
-          const SizedBox()
-        ],
+              },
+              listener: (context, state){
+                if (state.state is ChangeFullnameUsernameSuccessState){
+                  ToastNotifUtils.showSuccess(
+                    context: context,
+                    title: "Change Fullname or Username Success",
+                    description: state.message ?? ""
+                  );
+                } else if (state.state is ChangeFullnameUsernameFailedState){
+                  ToastNotifUtils.showError(
+                    context: context,
+                    title: "Change Fullname or Username Failed",
+                    description: state.message ?? ""
+                  );
+                }
+              },
+            ),
+            const SizedBox()
+          ],
+        ),
       ),
     );
   }

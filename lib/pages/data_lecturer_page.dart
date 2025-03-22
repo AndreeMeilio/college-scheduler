@@ -49,71 +49,79 @@ class _DataLecturerPageState extends State<DataLecturerPage> {
         backgroundColor: ColorConfig.backgroundColor,
         title: Text("Data Lecturer", style: TextStyleConfig.body1,),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(
-            child: BlocBuilder<ListLecturerCubit, StateGeneral>(
-              builder: (context, state) {
-                if (state.state is ListLecturerLoadedState){
-                  if (state.data.isNotEmpty){
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/background_image.png"),
+            fit: BoxFit.cover
+          )
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              child: BlocBuilder<ListLecturerCubit, StateGeneral>(
+                builder: (context, state) {
+                  if (state.state is ListLecturerLoadedState){
+                    if (state.data.isNotEmpty){
+                      return ListView.separated(
+                        itemCount: state.data.length,
+                        physics: BouncingScrollPhysics(),
+                        separatorBuilder: (context, index) {
+                          return Divider(color: ColorConfig.backgroundColor, height: 2.0,);
+                        },
+                        itemBuilder: (context, index){
+                          return DataClassItemWidget(
+                            data: state.data[index],
+                            cubit: _cubit,
+                          );
+                        },
+                      );
+                    } else {
+                      return Container(
+                        alignment: Alignment.center,
+                        margin: const EdgeInsets.symmetric(vertical: 24.0),
+                        child: Text(
+                          "You Don't Have Any Data On Lecturer",
+                          style: TextStyleConfig.body1bold,
+                        ),
+                      );
+                    }
+                  } else if (state.state is ListLecturerFailedState){
+                    return Center(
+                      child: Text(
+                        state.message ?? "",
+                        style: TextStyleConfig.body1,
+                      ),
+                    );
+                  } else {
                     return ListView.separated(
-                      itemCount: state.data.length,
-                      physics: BouncingScrollPhysics(),
+                      itemCount: 5,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
                       separatorBuilder: (context, index) {
                         return Divider(color: ColorConfig.backgroundColor, height: 2.0,);
                       },
                       itemBuilder: (context, index){
-                        return DataClassItemWidget(
-                          data: state.data[index],
-                          cubit: _cubit,
-                        );
+                        return DataClassItemLoadingWidget();
                       },
                     );
-                  } else {
-                    return Container(
-                      alignment: Alignment.center,
-                      margin: const EdgeInsets.symmetric(vertical: 24.0),
-                      child: Text(
-                        "You Don't Have Any Data On Lecturer",
-                        style: TextStyleConfig.body1bold,
-                      ),
-                    );
                   }
-                } else if (state.state is ListLecturerFailedState){
-                  return Center(
-                    child: Text(
-                      state.message ?? "",
-                      style: TextStyleConfig.body1,
-                    ),
-                  );
-                } else {
-                  return ListView.separated(
-                    itemCount: 5,
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    separatorBuilder: (context, index) {
-                      return Divider(color: ColorConfig.backgroundColor, height: 2.0,);
-                    },
-                    itemBuilder: (context, index){
-                      return DataClassItemLoadingWidget();
-                    },
-                  );
-                }
-              },
+                },
+              ),
             ),
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 24.0),
-            alignment: Alignment.center,
-            child: PrimaryButtonComponent(
-              label: "Create Data Lecturer",
-              onTap: (){
-                context.push("${ConstantsRouteValue.lecturer}/${ConstantsRouteValue.actionLecturer}");
-              },
-            ),
-          )
-        ],
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 24.0),
+              alignment: Alignment.center,
+              child: PrimaryButtonComponent(
+                label: "Create Data Lecturer",
+                onTap: (){
+                  context.push("${ConstantsRouteValue.lecturer}/${ConstantsRouteValue.actionLecturer}");
+                },
+              ),
+            )
+          ],
+        ),
       )
     );
   }

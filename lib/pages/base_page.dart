@@ -44,79 +44,87 @@ class _BasePageState extends State<BasePage> with TickerProviderStateMixin{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: BlocBuilder<BaseMenuCubit, int>(
-          builder: (context, state) {
-            _menuController.index = state;
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              spacing: 16.0,
-              children: [
-                Expanded(
-                  child: TabBarView(
-                    controller: _menuController,
-                    children: [
-                      DashboardPage(),
-                      InputDataPage(),
-                      SettingsPage()
-                    ],
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/background_image.png"),
+            fit: BoxFit.cover
+          )
+        ),
+        child: SafeArea(
+          child: BlocBuilder<BaseMenuCubit, int>(
+            builder: (context, state) {
+              _menuController.index = state;
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                spacing: 16.0,
+                children: [
+                  Expanded(
+                    child: TabBarView(
+                      controller: _menuController,
+                      children: [
+                        DashboardPage(),
+                        InputDataPage(),
+                        SettingsPage()
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: ColorConfig.mainColor,
-                        spreadRadius: 1,
-                        blurRadius: 6.0,
-                        offset: Offset(-2, 0)
-                      )
-                    ]
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: ColorConfig.mainColor,
+                          spreadRadius: 1,
+                          blurRadius: 6.0,
+                          offset: Offset(-2, 0)
+                        )
+                      ]
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: TabBar(
+                      controller: _menuController,
+                      dividerColor: Colors.transparent,
+                      labelColor: ColorConfig.mainColor,
+                      indicatorColor: ColorConfig.mainColor,
+                      tabs: [
+                        Column(
+                          spacing: 4.0,
+                          children: [
+                            Icon(Icons.home),
+                            Text(
+                              "Home",
+                              style: TextStyleConfig.body1,
+                            )
+                          ],
+                        ),
+                        Column(
+                          spacing: 4.0,
+                          children: [
+                            Icon(Icons.add_circle_outline_rounded),
+                            Text(
+                              "Events",
+                              style: TextStyleConfig.body1,
+                            )
+                          ],
+                        ),
+                        Column(
+                          spacing: 4.0,
+                          children: [
+                            Icon(Icons.settings),
+                            Text(
+                              "Settings",
+                              style: TextStyleConfig.body1,
+                            )
+                          ],
+                        )
+                      ],
+                    ),
                   ),
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: TabBar(
-                    controller: _menuController,
-                    dividerColor: Colors.transparent,
-                    labelColor: ColorConfig.mainColor,
-                    indicatorColor: ColorConfig.mainColor,
-                    tabs: [
-                      Column(
-                        spacing: 4.0,
-                        children: [
-                          Icon(Icons.home),
-                          Text(
-                            "Home",
-                            style: TextStyleConfig.body1,
-                          )
-                        ],
-                      ),
-                      Column(
-                        spacing: 4.0,
-                        children: [
-                          Icon(Icons.add_circle_outline_rounded),
-                          Text(
-                            "Events",
-                            style: TextStyleConfig.body1,
-                          )
-                        ],
-                      ),
-                      Column(
-                        spacing: 4.0,
-                        children: [
-                          Icon(Icons.settings),
-                          Text(
-                            "Settings",
-                            style: TextStyleConfig.body1,
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            );
-          }
+                ],
+              );
+            }
+          ),
         ),
       ),
     );

@@ -59,191 +59,200 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      body: SafeArea(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            spacing: 16.0,
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    spacing: 24.0,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(24.0),
-                        height: MediaQuery.sizeOf(context).height * 0.25,
-                        decoration: const BoxDecoration(
-                          color: ColorConfig.mainColor,
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(24.0),
-                            bottomRight: Radius.circular(24.0)
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/background_image.png"),
+            fit: BoxFit.cover
+          )
+        ),
+        child: SafeArea(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              spacing: 16.0,
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      spacing: 24.0,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(24.0),
+                          height: MediaQuery.sizeOf(context).height * 0.25,
+                          decoration: BoxDecoration(
+                            color: ColorConfig.mainColor,
+                            border: Border.all(color: Colors.white),
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(24.0),
+                              bottomRight: Radius.circular(24.0)
+                            )
+                          ),
+                          child: Column(
+                            spacing: 16.0,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "\"THE PATH TO PARADISE BEGINS IN HELL\"",
+                                style: TextStyle(
+                                  fontSize: 24.0,
+                                  fontWeight: FontWeight.w700,
+                                  fontStyle: FontStyle.italic
+                                ),
+                              ),
+                              Text(
+                                "~ Dante Alighieri",
+                                style: TextStyleConfig.heading1.copyWith(
+                                  fontStyle: FontStyle.italic
+                                ),
+                              ),
+                            ],
                           )
                         ),
-                        child: Column(
-                          spacing: 16.0,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "\"THE PATH TO PARADISE BEGINS IN HELL\"",
-                              style: TextStyle(
-                                fontSize: 24.0,
-                                fontWeight: FontWeight.w700,
-                                fontStyle: FontStyle.italic
-                              ),
-                            ),
-                            Text(
-                              "~ Dante Alighieri",
-                              style: TextStyleConfig.heading1.copyWith(
-                                fontStyle: FontStyle.italic
-                              ),
-                            ),
-                          ],
-                        )
-                      ),
-                      Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 24.0),
-                        child: Text(
-                          "COLLEGE SCHEDULER",
-                          style: TextStyleConfig.heading1bold
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 24.0),
+                          child: Text(
+                            "COLLEGE SCHEDULER",
+                            style: TextStyleConfig.heading1bold
+                          ),
                         ),
-                      ),
-                      CustomTextFormField(
-                        controller: _usernameController,
-                        hint: "Input your username",
-                        label: "Username",
-                        validator: (value){
-                          if (!(value?.isNotEmpty ?? false)){
-                            return "Please input your account username";
-                          }
-                
-                          return null;
-                        },
-                      ),
-                      CustomTextFormField(
-                        controller: _passwordController,
-                        hint: "Input your password",
-                        label: "Password",
-                        obsureText: _obsureText,
-                        validator: (value){
-                          if (!(value?.isNotEmpty ?? false)){
-                            return "Please input your account password";
-                          }
-                
-                          return null;
-                        },
-                        isPassword: _isPassword,
-                        suffixIconOnPressed: (){
-                          setState(() {
-                            _obsureText = !_obsureText;
-                          });
-                        },
-                      ),
-                    ],
+                        CustomTextFormField(
+                          controller: _usernameController,
+                          hint: "Input your username",
+                          label: "Username",
+                          validator: (value){
+                            if (!(value?.isNotEmpty ?? false)){
+                              return "Please input your account username";
+                            }
+                  
+                            return null;
+                          },
+                        ),
+                        CustomTextFormField(
+                          controller: _passwordController,
+                          hint: "Input your password",
+                          label: "Password",
+                          obsureText: _obsureText,
+                          validator: (value){
+                            if (!(value?.isNotEmpty ?? false)){
+                              return "Please input your account password";
+                            }
+                  
+                            return null;
+                          },
+                          isPassword: _isPassword,
+                          suffixIconOnPressed: (){
+                            setState(() {
+                              _obsureText = !_obsureText;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                spacing: 16.0,
-                children: [
-                  BlocConsumer<LoginCubit, StateGeneral>(
-                    builder: (context, state) {
-                      return Row(
-                        children: [
-                          Expanded(
-                            child: PrimaryButtonComponent(
-                              isLoading: state.state is LoginLoadingState,
-                              onTap: () async{
-                                if (_formKey.currentState?.validate() ?? false){
-                                  await _cubit.login(
-                                    username: _usernameController.text, 
-                                    password: _passwordController.text
-                                  );                        
-                                } else {
-                                  ToastNotifUtils.showError(
-                                    context: context,
-                                    title: "Login Failed",
-                                    description: "Please input your credentials"
-                                  );
-                                }
-                              },
-                              label: "Login",
-                            ),
-                          ),
-                          // Container(
-                          //   decoration: BoxDecoration(
-                          //     shape: BoxShape.circle,
-                          //     color: ColorConfig.mainColor
-                          //   ),
-                          //   child: Material(
-                          //     color: Colors.transparent,
-                          //     child: InkWell(
-                          //       onTap: () async{
-                          //         await _cubit.loginFingerprint();
-                          //       },
-                          //       splashColor: Colors.grey.withAlpha(50),
-                          //       borderRadius: BorderRadius.all(Radius.circular(50)),
-                          //       child: Container(
-                          //         padding: const EdgeInsets.all(12.0),
-                          //         child: Icon(Icons.fingerprint),
-                          //       ),
-                          //     ),
-                          //   ),
-                          // ),
-                          // const SizedBox(width: 24.0,)
-                        ],
-                      );
-                    },
-                    listener: (context, state){
-                      if (state.state is LoginSuccessState){
-                        ToastNotifUtils.showSuccess(
-                          context: context,
-                          title: "Login Successfully",
-                          description: state.message ?? ""
-                        );
-
-                        context.pushReplacement(ConstantsRouteValue.baseMenu);
-                      } else if (state.state is LoginFailedState){
-                        ToastNotifUtils.showError(
-                          context: context,
-                          title: "Login Failed",
-                          description: state.message ?? ""
-                        );
-                      }
-                    },
-                  ),
-                  GestureDetector(
-                    onTap: (){
-                      context.push(ConstantsRouteValue.register);
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: RichText(
-                        text: TextSpan(
-                          text: "Don't Have Account? ",
-                          style: TextStyleConfig.body1.copyWith(
-                            color: Colors.black
-                          ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  spacing: 16.0,
+                  children: [
+                    BlocConsumer<LoginCubit, StateGeneral>(
+                      builder: (context, state) {
+                        return Row(
                           children: [
-                            TextSpan(
-                              text: "Register Here",
-                              style: TextStyleConfig.body1.copyWith(
-                                color: ColorConfig.mainColor
+                            Expanded(
+                              child: PrimaryButtonComponent(
+                                isLoading: state.state is LoginLoadingState,
+                                onTap: () async{
+                                  if (_formKey.currentState?.validate() ?? false){
+                                    await _cubit.login(
+                                      username: _usernameController.text, 
+                                      password: _passwordController.text
+                                    );                        
+                                  } else {
+                                    ToastNotifUtils.showError(
+                                      context: context,
+                                      title: "Login Failed",
+                                      description: "Please input your credentials"
+                                    );
+                                  }
+                                },
+                                label: "Login",
+                              ),
+                            ),
+                            // Container(
+                            //   decoration: BoxDecoration(
+                            //     shape: BoxShape.circle,
+                            //     color: ColorConfig.mainColor
+                            //   ),
+                            //   child: Material(
+                            //     color: Colors.transparent,
+                            //     child: InkWell(
+                            //       onTap: () async{
+                            //         await _cubit.loginFingerprint();
+                            //       },
+                            //       splashColor: Colors.grey.withAlpha(50),
+                            //       borderRadius: BorderRadius.all(Radius.circular(50)),
+                            //       child: Container(
+                            //         padding: const EdgeInsets.all(12.0),
+                            //         child: Icon(Icons.fingerprint),
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
+                            // const SizedBox(width: 24.0,)
+                          ],
+                        );
+                      },
+                      listener: (context, state){
+                        if (state.state is LoginSuccessState){
+                          ToastNotifUtils.showSuccess(
+                            context: context,
+                            title: "Login Successfully",
+                            description: state.message ?? ""
+                          );
+        
+                          context.pushReplacement(ConstantsRouteValue.baseMenu);
+                        } else if (state.state is LoginFailedState){
+                          ToastNotifUtils.showError(
+                            context: context,
+                            title: "Login Failed",
+                            description: state.message ?? ""
+                          );
+                        }
+                      },
+                    ),
+                    GestureDetector(
+                      onTap: (){
+                        context.push(ConstantsRouteValue.register);
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: RichText(
+                          text: TextSpan(
+                            text: "Don't Have Account? ",
+                            style: TextStyleConfig.body1.copyWith(
+                              color: Colors.black
+                            ),
+                            children: [
+                              TextSpan(
+                                text: "Register Here",
+                                style: TextStyleConfig.body1.copyWith(
+                                  color: ColorConfig.mainColor
+                                )
                               )
-                            )
-                          ]
+                            ]
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ]
-              ),
-              const SizedBox(height: 24.0,),
-            ],
+                  ]
+                ),
+                const SizedBox(height: 24.0,),
+              ],
+            ),
           ),
         ),
       ),

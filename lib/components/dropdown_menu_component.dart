@@ -39,6 +39,10 @@ class DropdownMenuComponent<T> extends StatelessWidget {
         ),
         const SizedBox(height: 8.0,),
         Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          ),
           margin: _margin ?? const EdgeInsets.symmetric(horizontal: 24.0),
           child: DropdownMenu(
             controller: _controller,

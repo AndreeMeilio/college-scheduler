@@ -28,7 +28,8 @@ class InputDataPage extends StatelessWidget {
           spacing: 24.0,
           // crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            QuoteWidget(),
+            // QuoteWidget(),
+            const SizedBox(height: 8.0,),
             Container(
               alignment: Alignment.centerLeft,
               margin: const EdgeInsets.symmetric(horizontal: 24.0),

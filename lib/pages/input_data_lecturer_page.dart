@@ -59,81 +59,89 @@ class _InputDataLecturerPageState extends State<InputDataLecturerPage> {
           "Input Data Lecturer"
         ),
       ),
-      body: Column(
-        spacing: 24.0,
-        children: [
-          const SizedBox(),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Form(
-                key: _key,
-                child: Column(
-                  spacing: 16.0,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    CustomTextFormField(
-                      controller: _nameController,
-                      hint: "Input Lecturer Name",
-                      label: "Lecturer Name",
-                      validator: (value){
-                        if (value?.isEmpty ?? false){
-                          return "Please input the name of lecturer";
-                        }
-
-                        return null;
-                      },
-                    )
-                  ],
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/background_image.png"),
+            fit: BoxFit.cover
+          )
+        ),
+        child: Column(
+          spacing: 24.0,
+          children: [
+            const SizedBox(),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Form(
+                  key: _key,
+                  child: Column(
+                    spacing: 16.0,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      CustomTextFormField(
+                        controller: _nameController,
+                        hint: "Input Lecturer Name",
+                        label: "Lecturer Name",
+                        validator: (value){
+                          if (value?.isEmpty ?? false){
+                            return "Please input the name of lecturer";
+                          }
+        
+                          return null;
+                        },
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          BlocConsumer<CreateLecturerCubit, StateGeneral>(
-            builder: (context, state){
-              return PrimaryButtonComponent(
-                label: "Submit",
-                isLoading: state.state is CreateLecturerLoadingState,
-                onTap: () async{
-                  if (_key.currentState?.validate() ?? false){
-                    if (widget._data != null){
-                      await _cubit.createLecturer(
-                        lecturerName: _nameController.text,
-                        idLecturer: widget._data?.id,
-                        isEditData: true
-                      );
+            BlocConsumer<CreateLecturerCubit, StateGeneral>(
+              builder: (context, state){
+                return PrimaryButtonComponent(
+                  label: "Submit",
+                  isLoading: state.state is CreateLecturerLoadingState,
+                  onTap: () async{
+                    if (_key.currentState?.validate() ?? false){
+                      if (widget._data != null){
+                        await _cubit.createLecturer(
+                          lecturerName: _nameController.text,
+                          idLecturer: widget._data?.id,
+                          isEditData: true
+                        );
+                      } else {
+                        await _cubit.createLecturer(lecturerName: _nameController.text);
+                      }
                     } else {
-                      await _cubit.createLecturer(lecturerName: _nameController.text);
+                      ToastNotifUtils.showError(
+                        context: context,
+                        title: "Create Data Lecturer Failed",
+                        description: "Please fill the required data"
+                      );
                     }
-                  } else {
-                    ToastNotifUtils.showError(
-                      context: context,
-                      title: "Create Data Lecturer Failed",
-                      description: "Please fill the required data"
-                    );
-                  }
-                },
-              );
-            },
-            listener: (context, state){
-              if (state.state is CreateLecturerSuccessState){
-                ToastNotifUtils.showSuccess(
-                  context: context,
-                  title: "Register Success",
-                  description: state.message ?? ""
+                  },
                 );
-
-                _nameController.clear();
-              } else if (state.state is CreateLecturerFailedState){
-                ToastNotifUtils.showError(
-                  context: context,
-                  title: "Create Data Lecturer Failed",
-                  description: state.message ?? ""
-                );
-              }
-            },
-          ),
-          const SizedBox()
-        ],
+              },
+              listener: (context, state){
+                if (state.state is CreateLecturerSuccessState){
+                  ToastNotifUtils.showSuccess(
+                    context: context,
+                    title: "Register Success",
+                    description: state.message ?? ""
+                  );
+        
+                  _nameController.clear();
+                } else if (state.state is CreateLecturerFailedState){
+                  ToastNotifUtils.showError(
+                    context: context,
+                    title: "Create Data Lecturer Failed",
+                    description: state.message ?? ""
+                  );
+                }
+              },
+            ),
+            const SizedBox()
+          ],
+        ),
       ),
     );
   }

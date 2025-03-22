@@ -39,35 +39,43 @@ class _EventHistoryPageState extends State<EventHistoryPage> {
         backgroundColor: ColorConfig.backgroundColor,
         surfaceTintColor: ColorConfig.backgroundColor,
       ),
-      body: BlocBuilder<EventsLogsCubit, StateGeneral<EventsLogsState, List<LogsModel?>?>>(
-        builder: (context, state){
-          if (state.state is EventsLogsLoadedState){
-            return ListView.builder(
-              itemCount: state.data?.length,
-              itemBuilder: (context, index){
-                return LogsItemComponent(
-                  name: state.data?[index]?.actionName ?? "",
-                  description: state.data?[index]?.description ?? "",
-                  createdAt: state.data?[index]?.createdAt ?? DateTime.parse("0000-00-00"),
-                );
-              },
-            );
-          } else if (state.state is EventsLogsFailedState){
-            return Center(
-              child: Text(
-                state.message ?? "",
-                style: TextStyleConfig.body1bold,
-              ),
-            );
-          } else {
-            return ListView.builder(
-              itemCount: 3,
-              itemBuilder: (context, index){
-                return LogsItemLoadingComponent();
-              },
-            );
-          }
-        },
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/background_image.png"),
+            fit: BoxFit.cover
+          )
+        ),
+        child: BlocBuilder<EventsLogsCubit, StateGeneral<EventsLogsState, List<LogsModel?>?>>(
+          builder: (context, state){
+            if (state.state is EventsLogsLoadedState){
+              return ListView.builder(
+                itemCount: state.data?.length,
+                itemBuilder: (context, index){
+                  return LogsItemComponent(
+                    name: state.data?[index]?.actionName ?? "",
+                    description: state.data?[index]?.description ?? "",
+                    createdAt: state.data?[index]?.createdAt ?? DateTime.parse("0000-00-00"),
+                  );
+                },
+              );
+            } else if (state.state is EventsLogsFailedState){
+              return Center(
+                child: Text(
+                  state.message ?? "",
+                  style: TextStyleConfig.body1bold,
+                ),
+              );
+            } else {
+              return ListView.builder(
+                itemCount: 3,
+                itemBuilder: (context, index){
+                  return LogsItemLoadingComponent();
+                },
+              );
+            }
+          },
+        ),
       ),
     );
   }

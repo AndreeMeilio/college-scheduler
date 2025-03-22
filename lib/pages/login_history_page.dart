@@ -47,44 +47,52 @@ class _LoginHistoryPageState extends State<LoginHistoryPage> {
           style: TextStyleConfig.body1,
         ),
       ),
-      body: BlocBuilder<LoginLogsCubit, StateGeneral<LoginLogsState, List<LogsModel?>?>>(
-        builder: (context, state){
-          if (state.state is LoginLogsLoadedState){
-            if (state.data?.isNotEmpty ?? false){
-            return ListView.builder(
-              itemCount: state.data?.length,
-              itemBuilder: (context, index){
-                return LoginHistoryItemWidget(
-                  logsModel: state.data?[index],
-                );
-              },
-            );
-          } else {
-            return Container(
-              margin: const EdgeInsets.all(24.0),
-              alignment: Alignment.center,
-              child: Text(
-                state.message ?? "",
-                style: TextStyleConfig.body1bold,
-              ),
-            );
-          }
-          } else if (state.state is LoginLogsFailedState){
-            return Center(
-              child: Text(
-                "There's a problem getting login history",
-                style: TextStyleConfig.body1,
-              ),
-            );
-          } else {
-            return ListView.builder(
-              itemCount: 3,
-              itemBuilder: (context, index){
-                return LogsItemLoadingComponent();
-              },
-            );
-          }
-        },
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/background_image.png"),
+            fit: BoxFit.cover
+          )
+        ),
+        child: BlocBuilder<LoginLogsCubit, StateGeneral<LoginLogsState, List<LogsModel?>?>>(
+          builder: (context, state){
+            if (state.state is LoginLogsLoadedState){
+              if (state.data?.isNotEmpty ?? false){
+              return ListView.builder(
+                itemCount: state.data?.length,
+                itemBuilder: (context, index){
+                  return LoginHistoryItemWidget(
+                    logsModel: state.data?[index],
+                  );
+                },
+              );
+            } else {
+              return Container(
+                margin: const EdgeInsets.all(24.0),
+                alignment: Alignment.center,
+                child: Text(
+                  state.message ?? "",
+                  style: TextStyleConfig.body1bold,
+                ),
+              );
+            }
+            } else if (state.state is LoginLogsFailedState){
+              return Center(
+                child: Text(
+                  "There's a problem getting login history",
+                  style: TextStyleConfig.body1,
+                ),
+              );
+            } else {
+              return ListView.builder(
+                itemCount: 3,
+                itemBuilder: (context, index){
+                  return LogsItemLoadingComponent();
+                },
+              );
+            }
+          },
+        ),
       )
     );
   }

@@ -73,137 +73,145 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           style: TextStyleConfig.body1,
         ),
       ),
-      body: Column(
-        spacing: 24.0,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const SizedBox(),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Form(
-                key: _key,
-                child: Column(
-                  spacing: 24.0,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    CustomTextFormField(
-                      controller: _oldPasswordController,
-                      label: "Old Password",
-                      hint: "Input your old password",
-                      isPassword: true,
-                      isRequired: true,
-                      obsureText: isOldPasswordObscure,
-                      suffixIconOnPressed: (){
-                        setState(() {
-                          isOldPasswordObscure = !isOldPasswordObscure;
-                        });
-                      },
-                      validator: (value){
-
-                      },
-                    ),
-                    CustomTextFormField(
-                      controller: _newPasswordController,
-                      label: "New Password",
-                      hint: "Input your new password",
-                      isPassword: true,
-                      isRequired: true,
-                      obsureText: isNewPasswordObscure,
-                      suffixIconOnPressed: (){
-                        setState(() {
-                          isNewPasswordObscure = !isNewPasswordObscure;
-                        });
-                      },
-                      validator: (value){
-                        if (!(value?.isNotEmpty ?? false)){
-                          return "Please input your Password";
-                        } else if (!(_newPasswordController.text.length >= 8)){
-                          return "Password Must Up To 8 Characters";
-                        } else if (!(_newPasswordController.text.contains(RegExp(r'[0-9]+')))) {
-                          return "Password Must Contain Atleats One Number";
-                        } else if (!(_newPasswordController.text.contains(RegExp(r'[^\w\s]')))){
-                          return "Password Must Contain Symbol";
-                        }
-                    
-                        return null;
-                      },
-                      onChanged: (value){
-                        setState(() {
-                          
-                        });
-                      },
-                    ),
-                    PasswordRuleChecker(
-                      password: _newPasswordController.text,
-                    ),
-                    CustomTextFormField(
-                      controller: _confirmNewPasswordController,
-                      label: "Confirm New Password",
-                      hint: "Input confirmation of new password",
-                      isPassword: true,
-                      isRequired: true,
-                      obsureText: isConfirmNewPasswordObscure,
-                      suffixIconOnPressed: (){
-                        setState(() {
-                          isConfirmNewPasswordObscure = !isConfirmNewPasswordObscure;
-                        });
-                      },
-                      validator: (value){
-
-                      },
-                    )
-                  ],
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/background_image.png"),
+            fit: BoxFit.cover
+          )
+        ),
+        child: Column(
+          spacing: 24.0,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const SizedBox(),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Form(
+                  key: _key,
+                  child: Column(
+                    spacing: 24.0,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      CustomTextFormField(
+                        controller: _oldPasswordController,
+                        label: "Old Password",
+                        hint: "Input your old password",
+                        isPassword: true,
+                        isRequired: true,
+                        obsureText: isOldPasswordObscure,
+                        suffixIconOnPressed: (){
+                          setState(() {
+                            isOldPasswordObscure = !isOldPasswordObscure;
+                          });
+                        },
+                        validator: (value){
+        
+                        },
+                      ),
+                      CustomTextFormField(
+                        controller: _newPasswordController,
+                        label: "New Password",
+                        hint: "Input your new password",
+                        isPassword: true,
+                        isRequired: true,
+                        obsureText: isNewPasswordObscure,
+                        suffixIconOnPressed: (){
+                          setState(() {
+                            isNewPasswordObscure = !isNewPasswordObscure;
+                          });
+                        },
+                        validator: (value){
+                          if (!(value?.isNotEmpty ?? false)){
+                            return "Please input your Password";
+                          } else if (!(_newPasswordController.text.length >= 8)){
+                            return "Password Must Up To 8 Characters";
+                          } else if (!(_newPasswordController.text.contains(RegExp(r'[0-9]+')))) {
+                            return "Password Must Contain Atleats One Number";
+                          } else if (!(_newPasswordController.text.contains(RegExp(r'[^\w\s]')))){
+                            return "Password Must Contain Symbol";
+                          }
+                      
+                          return null;
+                        },
+                        onChanged: (value){
+                          setState(() {
+                            
+                          });
+                        },
+                      ),
+                      PasswordRuleChecker(
+                        password: _newPasswordController.text,
+                      ),
+                      CustomTextFormField(
+                        controller: _confirmNewPasswordController,
+                        label: "Confirm New Password",
+                        hint: "Input confirmation of new password",
+                        isPassword: true,
+                        isRequired: true,
+                        obsureText: isConfirmNewPasswordObscure,
+                        suffixIconOnPressed: (){
+                          setState(() {
+                            isConfirmNewPasswordObscure = !isConfirmNewPasswordObscure;
+                          });
+                        },
+                        validator: (value){
+        
+                        },
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          BlocConsumer<ChangePasswordCubit, StateGeneral>(
-            builder: (context, state){
-              return PrimaryButtonComponent(
-                label: "Submit",
-                isLoading: state.state is ChangePasswordLoadingState,
-                onTap: () async{
-                  if (_key.currentState?.validate() ?? false){
-                    await _cubit.changePassword(
-                      oldPassword: _oldPasswordController.text, 
-                      newPassword: _newPasswordController.text
-                    );
-                  } else {
-                    ToastNotifUtils.showError(
-                      context: context,
-                      title: "Register Failed",
-                      description: "Please fill the required field"
-                    );
+            BlocConsumer<ChangePasswordCubit, StateGeneral>(
+              builder: (context, state){
+                return PrimaryButtonComponent(
+                  label: "Submit",
+                  isLoading: state.state is ChangePasswordLoadingState,
+                  onTap: () async{
+                    if (_key.currentState?.validate() ?? false){
+                      await _cubit.changePassword(
+                        oldPassword: _oldPasswordController.text, 
+                        newPassword: _newPasswordController.text
+                      );
+                    } else {
+                      ToastNotifUtils.showError(
+                        context: context,
+                        title: "Register Failed",
+                        description: "Please fill the required field"
+                      );
+                    }
+                  },
+                );
+              },
+              listener: (context, state) async{
+                if (state.state is ChangePasswordSuccessState){
+                  ToastNotifUtils.showSuccess(
+                    context: context,
+                    title: "Register Success",
+                    description: state.message ?? ""
+                  );
+        
+                  final prefs = SharedPreferenceConfig();
+        
+                  await prefs.clearShared();
+        
+                  if (context.mounted){
+                    context.pushReplacement(ConstantsRouteValue.login);
                   }
-                },
-              );
-            },
-            listener: (context, state) async{
-              if (state.state is ChangePasswordSuccessState){
-                ToastNotifUtils.showSuccess(
-                  context: context,
-                  title: "Register Success",
-                  description: state.message ?? ""
-                );
-
-                final prefs = SharedPreferenceConfig();
-
-                await prefs.clearShared();
-
-                if (context.mounted){
-                  context.pushReplacement(ConstantsRouteValue.login);
+                } else if (state.state is ChangePasswordFailedState){
+                  ToastNotifUtils.showError(
+                    context: context,
+                    title: "Register Failed",
+                    description: state.message ?? ""
+                  );
                 }
-              } else if (state.state is ChangePasswordFailedState){
-                ToastNotifUtils.showError(
-                  context: context,
-                  title: "Register Failed",
-                  description: state.message ?? ""
-                );
-              }
-            },
-          ),
-          const SizedBox()
-        ],
+              },
+            ),
+            const SizedBox()
+          ],
+        ),
       )
     );
   }

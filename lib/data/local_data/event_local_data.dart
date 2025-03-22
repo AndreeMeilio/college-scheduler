@@ -317,4 +317,56 @@ class EventLocalData {
       );
     }
   }
+  Future<ResponseGeneral<Map<String, int>>> getPriorityAllEvent() async{
+    try {
+      final db = await _database.getDB();
+      final shared = SharedPreferenceConfig();
+
+      final result = await db.transaction<ResponseGeneral<Map<String, int>>>((trx) async{
+        final userId = await shared.getInt(key: ConstansValue.user_id);
+
+        final query = await trx.rawQuery(
+          """
+            select 
+              count(case when priority = 'LOW' then 1 end) as low_count,
+              count(case when priority = 'MEDIUM' then 1 end) as medium_count,
+              count(case when priority = 'HIGH' then 1 end) as high_count
+            from events where user_id = ?
+          """
+        , [userId]);
+
+        if (query.isNotEmpty){
+          final dataPriority = query.first;
+
+          return ResponseGeneral(
+            code: "00",
+            message: "Getting data status all events success",
+            data: {
+              "lowCount": int.parse(dataPriority['low_count'].toString()),
+              "mediumCount": int.parse(dataPriority['medium_count'].toString()),
+              "highCount": int.parse(dataPriority['high_count'].toString())
+            }
+          );
+        } else {
+          return ResponseGeneral(
+            code: "00",
+            message: "You don't have data status all events",
+            data: {
+              "doneCount": 0,
+              "progressCount": 0,
+              "idleCount": 0
+            }
+          );
+        }
+      });
+
+      return result;
+    } catch (e){
+      return ResponseGeneral(
+        code: "01",
+        message: "There's a problem when getting data status all event",
+        data: {}
+      );
+    }
+  }
 }

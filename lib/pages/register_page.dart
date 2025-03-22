@@ -70,180 +70,188 @@ class _RegisterPageState extends State<RegisterPage> {
           "Register"
         ),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        spacing: 16.0,
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Form(
-                key: _formRegister,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  spacing: 24.0,
-                  children: [
-                    CustomTextFormField(
-                      controller: _fullnameController,
-                      label: "Fullname",
-                      hint: "Input your Fullname",
-                      validator: (value){
-                        if (!(value?.isNotEmpty ?? false)){
-                          return "Please input your Fullname";
-                        }
-                    
-                        return null;
-                      },
-                    ),
-                    CustomTextFormField(
-                      controller: _usernameController,
-                      label: "Username",
-                      hint: "Input your Username",
-                      validator: (value){
-                        if (!(value?.isNotEmpty ?? false)){
-                          return "Please input your Username";
-                        }
-                    
-                        return null;
-                      },
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      spacing: 16.0,
-                      children: [
-                        CustomTextFormField(
-                          controller: _passwordController,
-                          label: "Password",
-                          hint: "Input your Password",
-                          isPassword: true,
-                          obsureText: _isObscure,
-                          suffixIconOnPressed: (){
-                            setState(() {
-                              _isObscure = !_isObscure;
-                            });
-                          },
-                          validator: (value){
-                            if (!(value?.isNotEmpty ?? false)){
-                              return "Please input your Password";
-                            } else if (!(_passwordController.text.length >= 8)){
-                              return "Password Must Up To 8 Characters";
-                            } else if (!(_passwordController.text.contains(RegExp(r'[0-9]+')))) {
-                              return "Password Must Contain Atleats One Number";
-                            } else if (!(_passwordController.text.contains(RegExp(r'[^\w\s]')))){
-                              return "Password Must Contain Symbol";
-                            }
-                        
-                            return null;
-                          },
-                          onChanged: (value){
-                            setState(() {
-                              
-                            });
-                          },
-                        ),
-                        PasswordRuleChecker(
-                          password: _passwordController.text,
-                        ),
-                        CustomTextFormField(
-                          controller: _confirmPasswordController,
-                          label: "Confirmation Password",
-                          hint: "Input your Confirmation Password",
-                          isPassword: true,
-                          obsureText: _isConfirmationObscure,
-                          suffixIconOnPressed: (){
-                            setState(() {
-                              _isConfirmationObscure = !_isConfirmationObscure;
-                            });
-                          },
-                          validator: (value){
-                            if (!(value?.isNotEmpty ?? false)){
-                              return "Please input your Password";
-                            } else if (_passwordController.text != _confirmPasswordController.text){
-                              return "Your password and confirmation password doesn't match";
-                            }
-                        
-                            return null;
-                          },
-                          onChanged: (value){
-                            setState(() {
-                              
-                            });
-                          },
-                        ),
-                      ]
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
-          BlocConsumer<RegisterCubit, StateGeneral>(
-            builder: (context, state) {
-              return PrimaryButtonComponent(
-                isLoading: state.state is RegisterLoadingState,
-                onTap: () async{
-                  if (_formRegister.currentState?.validate() ?? false){
-
-                    await _cubit.registerAccount(
-                      fullname: _fullnameController.text,
-                      username: _usernameController.text,
-                      password: _passwordController.text
-                    );
-                  } else {
-                    ToastNotifUtils.showError(
-                      context: context,
-                      title: "Register Failed",
-                      description: "Please fill the required data"
-                    );
-                  }
-                },
-                label: "Register Account",
-              );
-            },
-            listener: (context, state) {
-              if (state.state is RegisterSuccessState){
-                ToastNotifUtils.showSuccess(
-                  context: context,
-                  title: "Register Success",
-                  description: state.message ?? ""
-                );
-
-                context.pop();
-              } else if (state.state is RegisterFailedState){
-                ToastNotifUtils.showError(
-                  context: context,
-                  title: "Register Failed",
-                  description: state.message ?? ""
-                );
-              }
-            },
-          ),
-          GestureDetector(
-            onTap: (){
-              
-              context.pop();
-            },
-            child: Container(
-              alignment: Alignment.center,
-              child: RichText(
-                text: TextSpan(
-                  text: "Already Have Account? ",
-                  style: TextStyleConfig.body1.copyWith(
-                    color: Colors.black
-                  ),
-                  children: [
-                    TextSpan(
-                      text: "Login Here!",
-                      style: TextStyleConfig.body1.copyWith(
-                        color: ColorConfig.mainColor
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/background_image.png"),
+            fit: BoxFit.cover
+          )
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          spacing: 16.0,
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Form(
+                  key: _formRegister,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    spacing: 24.0,
+                    children: [
+                      CustomTextFormField(
+                        controller: _fullnameController,
+                        label: "Fullname",
+                        hint: "Input your Fullname",
+                        validator: (value){
+                          if (!(value?.isNotEmpty ?? false)){
+                            return "Please input your Fullname";
+                          }
+                      
+                          return null;
+                        },
+                      ),
+                      CustomTextFormField(
+                        controller: _usernameController,
+                        label: "Username",
+                        hint: "Input your Username",
+                        validator: (value){
+                          if (!(value?.isNotEmpty ?? false)){
+                            return "Please input your Username";
+                          }
+                      
+                          return null;
+                        },
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        spacing: 16.0,
+                        children: [
+                          CustomTextFormField(
+                            controller: _passwordController,
+                            label: "Password",
+                            hint: "Input your Password",
+                            isPassword: true,
+                            obsureText: _isObscure,
+                            suffixIconOnPressed: (){
+                              setState(() {
+                                _isObscure = !_isObscure;
+                              });
+                            },
+                            validator: (value){
+                              if (!(value?.isNotEmpty ?? false)){
+                                return "Please input your Password";
+                              } else if (!(_passwordController.text.length >= 8)){
+                                return "Password Must Up To 8 Characters";
+                              } else if (!(_passwordController.text.contains(RegExp(r'[0-9]+')))) {
+                                return "Password Must Contain Atleats One Number";
+                              } else if (!(_passwordController.text.contains(RegExp(r'[^\w\s]')))){
+                                return "Password Must Contain Symbol";
+                              }
+                          
+                              return null;
+                            },
+                            onChanged: (value){
+                              setState(() {
+                                
+                              });
+                            },
+                          ),
+                          PasswordRuleChecker(
+                            password: _passwordController.text,
+                          ),
+                          CustomTextFormField(
+                            controller: _confirmPasswordController,
+                            label: "Confirmation Password",
+                            hint: "Input your Confirmation Password",
+                            isPassword: true,
+                            obsureText: _isConfirmationObscure,
+                            suffixIconOnPressed: (){
+                              setState(() {
+                                _isConfirmationObscure = !_isConfirmationObscure;
+                              });
+                            },
+                            validator: (value){
+                              if (!(value?.isNotEmpty ?? false)){
+                                return "Please input your Password";
+                              } else if (_passwordController.text != _confirmPasswordController.text){
+                                return "Your password and confirmation password doesn't match";
+                              }
+                          
+                              return null;
+                            },
+                            onChanged: (value){
+                              setState(() {
+                                
+                              });
+                            },
+                          ),
+                        ]
                       )
-                    )
-                  ]
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          const SizedBox(height: 24.0,),
-        ],
+            BlocConsumer<RegisterCubit, StateGeneral>(
+              builder: (context, state) {
+                return PrimaryButtonComponent(
+                  isLoading: state.state is RegisterLoadingState,
+                  onTap: () async{
+                    if (_formRegister.currentState?.validate() ?? false){
+        
+                      await _cubit.registerAccount(
+                        fullname: _fullnameController.text,
+                        username: _usernameController.text,
+                        password: _passwordController.text
+                      );
+                    } else {
+                      ToastNotifUtils.showError(
+                        context: context,
+                        title: "Register Failed",
+                        description: "Please fill the required data"
+                      );
+                    }
+                  },
+                  label: "Register Account",
+                );
+              },
+              listener: (context, state) {
+                if (state.state is RegisterSuccessState){
+                  ToastNotifUtils.showSuccess(
+                    context: context,
+                    title: "Register Success",
+                    description: state.message ?? ""
+                  );
+        
+                  context.pop();
+                } else if (state.state is RegisterFailedState){
+                  ToastNotifUtils.showError(
+                    context: context,
+                    title: "Register Failed",
+                    description: state.message ?? ""
+                  );
+                }
+              },
+            ),
+            GestureDetector(
+              onTap: (){
+                
+                context.pop();
+              },
+              child: Container(
+                alignment: Alignment.center,
+                child: RichText(
+                  text: TextSpan(
+                    text: "Already Have Account? ",
+                    style: TextStyleConfig.body1.copyWith(
+                      color: Colors.black
+                    ),
+                    children: [
+                      TextSpan(
+                        text: "Login Here!",
+                        style: TextStyleConfig.body1.copyWith(
+                          color: ColorConfig.mainColor
+                        )
+                      )
+                    ]
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 24.0,),
+          ],
+        ),
       )
     );
   }

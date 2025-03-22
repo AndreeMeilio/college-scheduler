@@ -1,5 +1,6 @@
 
 import 'package:college_scheduler/config/di_config.dart';
+import 'package:college_scheduler/cubit/event/priority_events_cubit.dart';
 import 'package:college_scheduler/cubit/event/status_events_cubit.dart';
 import 'package:college_scheduler/cubit/menu/settings_menu_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -64,6 +65,9 @@ class CubitConfig {
       ),
       BlocProvider<SettingsMenuCubit>(
         create: (context) => SettingsMenuCubit(menuLocalData: sl()),
+      ),
+      BlocProvider<PriorityEventsCubit>(
+        create: (context) => PriorityEventsCubit(eventLocalData: sl())
       )
     ];
   }
