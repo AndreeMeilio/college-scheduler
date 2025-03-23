@@ -101,7 +101,8 @@ class DetailEventPage extends StatelessWidget {
               decoration: BoxDecoration(
                 color: ColorConfig.backgroundColor,
                 border: Border.symmetric(horizontal: BorderSide(
-                  color: ColorConfig.mainColor
+                  color: ColorConfig.mainColor,
+                  width: 1.5
                 ))
               ),
               padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
@@ -165,7 +166,8 @@ class DetailEventPage extends StatelessWidget {
               decoration: BoxDecoration(
                 color: ColorConfig.backgroundColor,
                 border: Border.symmetric(horizontal: BorderSide(
-                  color: ColorConfig.mainColor
+                  color: ColorConfig.mainColor,
+                  width: 1.5
                 ))
               ),
               padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
@@ -188,7 +190,7 @@ class DetailEventPage extends StatelessWidget {
                 margin: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
                 padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
                 decoration: BoxDecoration(
-                  border: Border.all(color: ColorConfig.mainColor),
+                  border: Border.all(color: ColorConfig.mainColor, width: 1.5),
                   borderRadius: BorderRadius.all(Radius.circular(8.0))
                 ),
                 child: SingleChildScrollView(

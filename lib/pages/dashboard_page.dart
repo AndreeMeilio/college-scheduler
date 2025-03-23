@@ -119,15 +119,8 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                  border: Border.all(color: ColorConfig.mainColor),
+                  border: Border.all(color: ColorConfig.mainColor, width: 1.5),
                   color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey,
-                      offset: Offset(2.0, 2.0),
-                      blurRadius: 1.0
-                    )
-                  ]
                 ),
                 child: BlocBuilder<StatusEventsCubit, StateGeneral<StatusEventsState, Map<String, int>>>(
                   builder: (context, state) {
@@ -293,13 +286,7 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(8.0)),
                   color: ColorConfig.mainColor,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey,
-                      offset: Offset(2.0, 2.0),
-                      blurRadius: 1.0
-                    )
-                  ]
+                  border: Border.all(color: Colors.white, width: 1.5)
                 ),
                 child: BlocBuilder<PriorityEventsCubit, PriorityEventsStateType>(
                   builder: (context, state) {
@@ -478,15 +465,8 @@ class ShortcutMenuWidget extends StatelessWidget {
           margin: const EdgeInsets.symmetric(horizontal: 24.0),
           decoration: BoxDecoration(
             color: Colors.white,
-            border: Border.all(color: ColorConfig.mainColor),
+            border: Border.all(color: ColorConfig.mainColor, width: 1.5),
             borderRadius: BorderRadius.all(Radius.circular(8.0)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey,
-                offset: Offset(2.0, 2.0),
-                blurRadius: 1.0
-              )
-            ]
           ),
           child: IntrinsicHeight(
             child: Row(

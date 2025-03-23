@@ -231,13 +231,7 @@ class SettingsDataListItem extends StatelessWidget {
       decoration: BoxDecoration(
         color: _isFeatureIncoming ?? false ? Colors.grey : Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(8.0)),
-        boxShadow: [
-          BoxShadow(
-            color: ColorConfig.mainColor,
-            offset: Offset(2, 2),
-            blurRadius: 1
-          )
-        ]
+        border: Border.all(color: ColorConfig.mainColor, width: 1.5)
       ),
       child: Material(
         color: Colors.transparent,
@@ -256,7 +250,7 @@ class SettingsDataListItem extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      border: Border.all(color: ColorConfig.mainColor),
+                      border: Border.all(color: ColorConfig.mainColor, width: 1.5),
                       borderRadius: BorderRadius.all(Radius.circular(8.0)),
                     ),
                     child: Text(
@@ -293,13 +287,6 @@ class SettingsDataListLoadingItem extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(8.0)),
-        boxShadow: [
-          BoxShadow(
-            color: ColorConfig.mainColor,
-            offset: Offset(2, 2),
-            blurRadius: 1
-          )
-        ]
       ),
       child: Shimmer.fromColors(
         baseColor: Colors.grey,

@@ -240,7 +240,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     children: [
                       TextSpan(
                         text: "Login Here!",
-                        style: TextStyleConfig.body1.copyWith(
+                        style: TextStyleConfig.body1bold.copyWith(
                           color: ColorConfig.mainColor
                         )
                       )

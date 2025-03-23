@@ -25,15 +25,8 @@ class LogsItemComponent extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border.all(color: ColorConfig.mainColor),
+        border: Border.all(color: ColorConfig.mainColor, width: 1.5),
         borderRadius: BorderRadius.all(Radius.circular(8.0)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey,
-            offset: Offset(1, 1),
-            spreadRadius: 1.0
-          )
-        ]
       ),
       child: Column(
         spacing: 16.0,
@@ -75,15 +68,8 @@ class LogsItemLoadingComponent extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border.all(color: ColorConfig.mainColor),
+        border: Border.all(color: ColorConfig.mainColor, width: 1.5),
         borderRadius: BorderRadius.all(Radius.circular(8.0)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey,
-            offset: Offset(1, 1),
-            spreadRadius: 1.0
-          )
-        ]
       ),
       child: Column(
         spacing: 16.0,

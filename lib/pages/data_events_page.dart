@@ -113,7 +113,7 @@ class _DataEventsPageState extends State<DataEventsPage> {
                   margin: const EdgeInsets.only(right: 24.0),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    border: Border.all(color: ColorConfig.mainColor),
+                    border: Border.all(color: ColorConfig.mainColor, width: 1.5),
                     borderRadius: BorderRadius.all(Radius.circular(8.0))
                   ),
                   // padding: const EdgeInsets.all(8.0),
@@ -434,7 +434,7 @@ class ListItemEventDataWidget extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: ColorConfig.mainColor,
-          border: Border.all(color: Colors.white),
+          border: Border.all(color: Colors.white, width: 1.5),
           borderRadius: BorderRadius.all(Radius.circular(8.0))
         ),
         child: Material(

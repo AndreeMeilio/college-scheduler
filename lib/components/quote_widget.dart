@@ -14,13 +14,6 @@ class QuoteWidget extends StatelessWidget {
           bottomLeft: Radius.circular(16.0),
           bottomRight: Radius.circular(16.0)
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey,
-            offset: Offset(2.0, 2.0),
-            blurRadius: 1.0
-          )
-        ]
       ),
       padding: const EdgeInsets.all(24.0),
       child: Column(

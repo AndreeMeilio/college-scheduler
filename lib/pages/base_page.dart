@@ -72,14 +72,6 @@ class _BasePageState extends State<BasePage> with TickerProviderStateMixin{
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: ColorConfig.mainColor,
-                          spreadRadius: 1,
-                          blurRadius: 6.0,
-                          offset: Offset(-2, 0)
-                        )
-                      ]
                     ),
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: TabBar(

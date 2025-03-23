@@ -353,7 +353,7 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
                 child: PrimaryButtonComponent(
                   label: "Clear",
                   width: MediaQuery.sizeOf(context).width * 0.25,
-                  color: Colors.black.withAlpha(1),
+                  color: Colors.grey,
                   onTap: (){
                     _priority = PRIORITY.low;
                     _status = STATUS.idle;

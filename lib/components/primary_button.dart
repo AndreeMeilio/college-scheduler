@@ -12,6 +12,7 @@ class PrimaryButtonComponent extends StatelessWidget {
     Alignment? alignment,
     bool? isLoading,
     Color? color,
+    Color? borderColor,
     EdgeInsets? margin
   }) : _onTap = onTap,
        _label = label,
@@ -20,6 +21,7 @@ class PrimaryButtonComponent extends StatelessWidget {
        _alignment = alignment,
        _isLoading = isLoading,
        _color = color,
+       _borderColor = borderColor,
        _margin = margin;
 
   final Function()? _onTap;
@@ -29,6 +31,7 @@ class PrimaryButtonComponent extends StatelessWidget {
   final Alignment? _alignment;
   final bool? _isLoading;
   final Color? _color;
+  final Color? _borderColor;
   final EdgeInsets? _margin;
 
   @override
@@ -40,16 +43,7 @@ class PrimaryButtonComponent extends StatelessWidget {
       decoration: BoxDecoration(
         color: _color ?? ColorConfig.mainColor,
         borderRadius: BorderRadius.all(Radius.circular(8.0)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey,
-            offset: Offset(
-              2.0,
-              2.0
-            ),
-            spreadRadius: 1.0
-          )
-        ]
+        border: Border.all(color: _borderColor ?? Colors.white, width: 1.5)
       ),
       margin: _margin ?? const EdgeInsets.symmetric(horizontal: 24.0),
       child: _isLoading ?? false

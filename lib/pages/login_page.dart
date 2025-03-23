@@ -84,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
                           height: MediaQuery.sizeOf(context).height * 0.25,
                           decoration: BoxDecoration(
                             color: ColorConfig.mainColor,
-                            border: Border.all(color: Colors.white),
+                            border: Border.all(color: Colors.white, width: 1.5),
                             borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(24.0),
                               bottomRight: Radius.circular(24.0)
@@ -239,7 +239,7 @@ class _LoginPageState extends State<LoginPage> {
                             children: [
                               TextSpan(
                                 text: "Register Here",
-                                style: TextStyleConfig.body1.copyWith(
+                                style: TextStyleConfig.body1bold.copyWith(
                                   color: ColorConfig.mainColor
                                 )
                               )
