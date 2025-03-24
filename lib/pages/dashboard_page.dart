@@ -40,12 +40,58 @@ class DashboardPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // QuoteWidget(),
-            const SizedBox(height: 8.0,),
-            StatusDashboardWidget(),
+            GreetingWidget(),
             ShortcutMenuWidget(),
+            StatusDashboardWidget(),
             RecentDataEventWidget(),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class GreetingWidget extends StatefulWidget {
+  const GreetingWidget({super.key});
+
+  @override
+  State<GreetingWidget> createState() => _GreetingWidgetState();
+}
+
+class _GreetingWidgetState extends State<GreetingWidget> {
+  late DateTime _now;
+
+  @override
+  void initState() {
+    super.initState();
+    _now = DateTime.now();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(24.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Container(
+              margin: const EdgeInsets.only(right: 24.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  TimeTickingWidget(now: _now,),
+                  Text(DateFormatUtils.dateFormatddMMMMy(date: _now), style: TextStyleConfig.heading1bold,)
+                ],
+              ),
+            ),
+          ),
+          Text(
+            "Welcome Back! \nMy Friend",
+            style: TextStyleConfig.heading1bold,
+          )
+        ],
       ),
     );
   }
@@ -59,16 +105,13 @@ class StatusDashboardWidget extends StatefulWidget {
 }
 
 class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
-
-  late DateTime _now;
-
+  
   late StatusEventsCubit _statusCubit;
   late PriorityEventsCubit _priorityCubit;
 
   @override
   void initState() {
     super.initState();
-    _now = DateTime.now();
 
     _statusCubit = BlocProvider.of<StatusEventsCubit>(context, listen: false);
     _priorityCubit = BlocProvider.of<PriorityEventsCubit>(context, listen: false);
@@ -85,29 +128,6 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
         spacing: 16.0,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Container(
-                  margin: const EdgeInsets.only(right: 24.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      TimeTickingWidget(now: _now,),
-                      Text(DateFormatUtils.dateFormatddMMMMy(date: _now), style: TextStyleConfig.heading1bold,)
-                    ],
-                  ),
-                ),
-              ),
-              Text(
-                "Welcome Back! \nMy Friend",
-                style: TextStyleConfig.heading1bold,
-              )
-            ],
-          ),
-          const SizedBox(height: 8.0,),
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             spacing: 8.0,
@@ -119,8 +139,8 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                  border: Border.all(color: ColorConfig.mainColor, width: 1.5),
-                  color: Colors.white,
+                  border: Border.all(color: Colors.white, width: 1.5),
+                  color: ColorConfig.mainColor,
                 ),
                 child: BlocBuilder<StatusEventsCubit, StateGeneral<StatusEventsState, Map<String, int>>>(
                   builder: (context, state) {
@@ -148,7 +168,7 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
                               ],
                             ),
                           ),
-                          const Divider(color: ColorConfig.mainColor, height: 0,),
+                          const Divider(color: Colors.white, height: 0,),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 24.0),
                             child: Row(
@@ -160,7 +180,7 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
                               ],
                             ),
                           ),
-                          const Divider(color: ColorConfig.mainColor, height: 0,),
+                          const Divider(color: Colors.white, height: 0,),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 24.0),
                             child: Row(
@@ -285,8 +305,8 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                  color: ColorConfig.mainColor,
-                  border: Border.all(color: Colors.white, width: 1.5)
+                  color: Colors.white,
+                  border: Border.all(color: ColorConfig.mainColor, width: 1.5)
                 ),
                 child: BlocBuilder<PriorityEventsCubit, PriorityEventsStateType>(
                   builder: (context, state) {
@@ -314,7 +334,7 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
                               ],
                             ),
                           ),
-                          const Divider(color: Colors.white, height: 0,),
+                          const Divider(color: ColorConfig.mainColor, height: 0,),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 24.0),
                             child: Row(
@@ -326,7 +346,7 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
                               ],
                             ),
                           ),
-                          const Divider(color: Colors.white, height: 0,),
+                          const Divider(color: ColorConfig.mainColor, height: 0,),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 24.0),
                             child: Row(
