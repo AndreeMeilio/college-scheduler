@@ -84,28 +84,109 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsMenuButton => 'Settings';
 
   @override
+  String get dataSettingsLabel => 'Data';
+
+  @override
+  String get notificationSettingsLabel => 'Notification';
+
+  @override
+  String get accountSettingsLabel => 'Account';
+
+  @override
+  String get incoming => 'Coming Soon';
+
+  @override
   String get changeFullnameOrUsernameTitle => 'Change Fullname Or Username';
 
   @override
   String get fullnameLabel => 'Fullname';
 
   @override
-  String get fullnamehint => 'Input your new Fullname';
+  String get fullnameHint => 'Input your Fullname';
 
   @override
-  String get fullnameEmptyError => 'Please input your new Fullname';
+  String get fullnameEmpty => 'Please input your Fullname';
+
+  @override
+  String get fullnameNewhint => 'Input your new Fullname';
+
+  @override
+  String get fullnameNewEmptyError => 'Please input your new Fullname';
 
   @override
   String get usernameLabel => 'Username';
 
   @override
-  String get usernameHint => 'Input your new Username';
+  String get usernameEmpty => 'Please input your account username';
 
   @override
-  String get usernameEmptyError => 'Please input your new Username';
+  String get usernameHint => 'Input your Username';
+
+  @override
+  String get usernameNewEmptyError => 'Please input your new Username';
 
   @override
   String get passwordLabel => 'Password';
+
+  @override
+  String get passwordHint => 'Input your password';
+
+  @override
+  String get passwordEmpty => 'Please input your account password';
+
+  @override
+  String get passwordUpTo8 => 'Password Must Up To 8 Characters';
+
+  @override
+  String get passwordContainNumber => 'Password Must Contain At least One Number';
+
+  @override
+  String get passwordContainerSymbol => 'Password Must Contain Symbol';
+
+  @override
+  String get confirmationPasswordTitle => 'Confirmation Password';
+
+  @override
+  String get confirmationPasswordHint => 'Input Your Confirmation Password';
+
+  @override
+  String get confirmationPasswordEmpty => 'Please input your password';
+
+  @override
+  String get passwordAndConfirmationDontMatch => 'Your password and confirmation password doesn\'t match';
+
+  @override
+  String get registerFailed => 'Register Failed';
+
+  @override
+  String get registerAccount => 'Register Account';
+
+  @override
+  String get registerSuccess => 'Register Success';
+
+  @override
+  String get alreadyHaveAccount => 'Already Have Account? ';
+
+  @override
+  String get loginHere => 'Login Here';
+
+  @override
+  String get loginFailed => 'Login Failed';
+
+  @override
+  String get loginEmpty => 'Please input your credentials';
+
+  @override
+  String get loginLabel => 'Login';
+
+  @override
+  String get loginSuccess => 'Login Success';
+
+  @override
+  String get noAccount => 'Don\'t Have Account? ';
+
+  @override
+  String get registerHere => 'Register Here';
 
   @override
   String get passwordChangeFullnameUsernameHint => 'Input your password for validation account';
@@ -120,7 +201,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get changeFullnameUsernameFailedTitle => 'Change Fullname or Username failed';
 
   @override
-  String get emptyFieldError => 'Please fill the requierd data';
+  String get emptyFieldError => 'Please fill the required data';
 
   @override
   String get submitChange => 'Submit Changes';
@@ -234,4 +315,94 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get eventHistory => 'Event History';
+
+  @override
+  String get inputDataClassTitle => 'Input Data Class';
+
+  @override
+  String get classNameHint => 'Input Class Name';
+
+  @override
+  String get classNameEmpty => 'Please input the name of the class';
+
+  @override
+  String get lecturerLabel => 'Lecturer';
+
+  @override
+  String get lecturerSelect => 'Select Lecturer';
+
+  @override
+  String get dayLabel => 'Day';
+
+  @override
+  String get daySelect => 'Select Day';
+
+  @override
+  String get dayMonday => 'Monday';
+
+  @override
+  String get dayTuesday => 'Tuesday';
+
+  @override
+  String get dayWednesday => 'Wednesday';
+
+  @override
+  String get dayThursday => 'Thursday';
+
+  @override
+  String get dayFriday => 'Friday';
+
+  @override
+  String get daySaturday => 'Saturday';
+
+  @override
+  String get daySunday => 'Sunday';
+
+  @override
+  String get startHourEmpty => 'Please input starting time of the class';
+
+  @override
+  String get endHourEmpty => 'Please input ending time of the class';
+
+  @override
+  String get createDataClassFailed => 'Create Data Class Failed';
+
+  @override
+  String get createDataClassSuccess => 'Create Data Class Success';
+
+  @override
+  String get inputDataLecturerTitle => 'Input Data Lecturer';
+
+  @override
+  String get lecturerNameLabel => 'Lecturer Name';
+
+  @override
+  String get lecturerNameHint => 'Input Lecturer Name';
+
+  @override
+  String get lecturerNameEmpty => 'Please input the name of lecturer';
+
+  @override
+  String get lecturerInputFailed => 'Create Data Lecturer Failed';
+
+  @override
+  String get loginHistoryTitle => 'Login History';
+
+  @override
+  String get createEventSchedule => 'Create Event Schedule';
+
+  @override
+  String get titleLabel => 'Title Event';
+
+  @override
+  String get titleHint => 'Input Title Event';
+
+  @override
+  String get titleEmpty => 'Please input the title event';
+
+  @override
+  String get createEventSuccess => 'Successfully Create Event Schedule';
+
+  @override
+  String get createEventFailed => 'Create Event Failed';
 }

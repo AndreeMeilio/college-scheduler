@@ -31,207 +31,378 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String gettingDataSuccess(Object feature) {
-    return 'Successfully getting data $feature';
+    return 'Berhasil mendapatkan data $feature';
   }
 
   @override
   String creatingDataSuccess(Object feature) {
-    return 'Successfully creating data $feature';
+    return 'Berhasil membuat data $feature';
   }
 
   @override
   String updatingDataSuccess(Object feature) {
-    return 'Successfully updating data $feature';
+    return 'Berhasil mengubah data $feature';
   }
 
   @override
   String deletingDataSuccess(Object feature) {
-    return 'Successfully deleting data $feature';
+    return 'Berhasil menghapus data $feature';
   }
 
   @override
   String gettingDataEmpty(Object feature) {
-    return 'You don\'t have data on $feature';
+    return 'Anda tidak memiliki data $feature';
   }
 
   @override
   String gettingDataProblem(Object feature) {
-    return 'There\'s a problem when getting $feature data';
+    return 'Ada masalah saat mendapatkan data $feature';
   }
 
   @override
   String creatingDataProblem(Object feature) {
-    return 'There\'s a problem when creating $feature data';
+    return 'Ada masalah saat membuat data $feature';
   }
 
   @override
   String updatingDataProblem(Object feature) {
-    return 'There\'s a problem when updating $feature data';
+    return 'Ada masalah saat mengubah data $feature';
   }
 
   @override
   String deletingDataProblem(Object feature) {
-    return 'There\'s a problem when deleting $feature data';
+    return 'Ada masalah saat menghapus data $feature';
   }
 
   @override
   String get homeMenuButton => 'Home';
 
   @override
-  String get eventsMenuButton => 'Events';
+  String get eventsMenuButton => 'Acara';
 
   @override
-  String get settingsMenuButton => 'Settings';
+  String get settingsMenuButton => 'Pengaturan';
 
   @override
-  String get changeFullnameOrUsernameTitle => 'Change Fullname Or Username';
+  String get dataSettingsLabel => 'Data';
 
   @override
-  String get fullnameLabel => 'Fullname';
+  String get notificationSettingsLabel => 'Pemberitahuan';
 
   @override
-  String get fullnamehint => 'Input your new Fullname';
+  String get accountSettingsLabel => 'Akun';
 
   @override
-  String get fullnameEmptyError => 'Please input your new Fullname';
+  String get incoming => 'Segera Hadir';
 
   @override
-  String get usernameLabel => 'Username';
+  String get changeFullnameOrUsernameTitle => 'Ubah Nama Lengkap Atau Nama Pengguna';
 
   @override
-  String get usernameHint => 'Input your new Username';
+  String get fullnameLabel => 'Nama Lengkap';
 
   @override
-  String get usernameEmptyError => 'Please input your new Username';
+  String get fullnameHint => 'Masukkan Nama Lengkap Anda';
 
   @override
-  String get passwordLabel => 'Password';
+  String get fullnameEmpty => 'Silakan masukkan Nama Lengkap Anda';
 
   @override
-  String get passwordChangeFullnameUsernameHint => 'Input your password for validation account';
+  String get fullnameNewhint => 'Masukkan Nama Lengkap baru Anda';
 
   @override
-  String get passwordEmptyError => 'Please input your password for security purpose';
+  String get fullnameNewEmptyError => 'Silakan masukkan Nama Lengkap baru Anda';
 
   @override
-  String get changingFullnameUsernamePasswordDisclamer => 'For security purpose, please insert your account password, so that we can know this is you who trying to change the username';
+  String get usernameLabel => 'Nama Pengguna';
 
   @override
-  String get changeFullnameUsernameFailedTitle => 'Change Fullname or Username failed';
+  String get usernameEmpty => 'Silakan masukkan nama pengguna akun Anda';
 
   @override
-  String get emptyFieldError => 'Please fill the requierd data';
+  String get usernameHint => 'Masukkan Nama Pengguna Anda';
 
   @override
-  String get submitChange => 'Submit Changes';
+  String get usernameNewEmptyError => 'Silakan masukkan Nama Pengguna baru Anda';
+
+  @override
+  String get passwordLabel => 'Kata Sandi';
+
+  @override
+  String get passwordHint => 'Masukkan kata sandi Anda';
+
+  @override
+  String get passwordEmpty => 'Silakan masukkan kata sandi akun Anda';
+
+  @override
+  String get passwordUpTo8 => 'Kata Sandi Harus Hingga 8 Karakter';
+
+  @override
+  String get passwordContainNumber => 'Kata Sandi Harus Mengandung Setidaknya Satu Angka';
+
+  @override
+  String get passwordContainerSymbol => 'Kata Sandi Harus Mengandung Simbol';
+
+  @override
+  String get confirmationPasswordTitle => 'Konfirmasi Kata Sandi';
+
+  @override
+  String get confirmationPasswordHint => 'Masukkan Kata Sandi Konfirmasi Anda';
+
+  @override
+  String get confirmationPasswordEmpty => 'Silakan masukkan kata sandi Anda';
+
+  @override
+  String get passwordAndConfirmationDontMatch => 'Kata sandi dan kata sandi konfirmasi Anda tidak cocok';
+
+  @override
+  String get registerFailed => 'Daftar Gagal';
+
+  @override
+  String get registerAccount => 'Daftar Akun';
+
+  @override
+  String get registerSuccess => 'Daftar Berhasil';
+
+  @override
+  String get alreadyHaveAccount => 'Sudah Punya Akun? ';
+
+  @override
+  String get loginHere => 'Masuk di sini';
+
+  @override
+  String get loginFailed => 'Masuk Gagal';
+
+  @override
+  String get loginEmpty => 'Silakan masukkan kredensial Anda';
+
+  @override
+  String get loginLabel => 'Masuk';
+
+  @override
+  String get loginSuccess => 'Masuk Berhasil';
+
+  @override
+  String get noAccount => 'Belum Punya Akun? ';
+
+  @override
+  String get registerHere => 'Daftar Di sini';
+
+  @override
+  String get passwordChangeFullnameUsernameHint => 'Masukkan kata sandi Anda untuk validasi akun';
+
+  @override
+  String get passwordEmptyError => 'Harap masukkan kata sandi Anda untuk tujuan keamanan';
+
+  @override
+  String get changingFullnameUsernamePasswordDisclamer => 'Demi keamanan, mohon masukkan password akun Anda, sehingga kami dapat mengetahui bahwa Andalah yang mencoba mengubah nama pengguna.';
+
+  @override
+  String get changeFullnameUsernameFailedTitle => 'Gagal mengubah Nama Lengkap atau Nama Pengguna';
+
+  @override
+  String get emptyFieldError => 'Silakan isi data yang dibutuhkan';
+
+  @override
+  String get submitChange => 'Kirim Perubahan';
 
   @override
   String greetingFriend(Object user) {
-    return 'Welcome Back! \n$user';
+    return 'Selamat Datang Kembali! \n$user';
   }
 
   @override
   String get dataStatusTitle => 'Data Status';
 
   @override
-  String get idleStatus => 'IDLE';
+  String get idleStatus => 'NGANGGUR';
 
   @override
-  String get progressStatus => 'PROGESS';
+  String get progressStatus => 'PROGRESS';
 
   @override
-  String get doneStatus => 'DONE';
+  String get doneStatus => 'SELESAI';
 
   @override
-  String get dataPriorityTitle => 'Data Priority';
+  String get dataPriorityTitle => 'Data Prioritas';
 
   @override
-  String get lowPriority => 'LOW';
+  String get lowPriority => 'RENDAH';
 
   @override
-  String get mediumPriority => 'MEDIUM';
+  String get mediumPriority => 'SEDANG';
 
   @override
-  String get highPriority => 'HIGH';
+  String get highPriority => 'TINGGI';
 
   @override
-  String get coreMenuTitle => 'Core Menu';
+  String get coreMenuTitle => 'Menu Utama';
 
   @override
-  String get dataClassTitle => 'Data Class';
+  String get dataClassTitle => 'Data Kelas';
 
   @override
-  String get dataEventsTitle => 'Data Events';
+  String get dataEventsTitle => 'Data Acara';
 
   @override
-  String get dataLecturerTitle => 'Data Lecturer';
+  String get dataLecturerTitle => 'Data Dosen';
 
   @override
-  String get recentDataEvents => 'Recent Data Events';
+  String get recentDataEvents => 'Data Acara Terbaru';
 
   @override
-  String get createDataClass => 'Create Data Class';
+  String get createDataClass => 'Buat Data Kelas';
 
   @override
-  String get editButton => 'Edit';
+  String get editButton => 'Ubah';
 
   @override
-  String get deleteButton => 'Delete';
+  String get deleteButton => 'Hapus';
 
   @override
-  String get searchItemByTitle => 'Search Item By Title';
+  String get searchItemByTitle => 'Cari Data Berdasarkan Nama';
 
   @override
-  String get filterEvents => 'Filter Events';
+  String get filterEvents => 'Filter Acara';
 
   @override
-  String get dateOfEventsLabel => 'Date Of Event';
+  String get dateOfEventsLabel => 'Tanggal Acara';
 
   @override
-  String get dateOfEventsHint => 'Please input Date Of Event';
+  String get dateOfEventsHint => 'Silakan masukkan tanggal acara';
 
   @override
-  String get priorityLabel => 'Priority';
+  String get priorityLabel => 'Prioritas';
 
   @override
-  String get prioritySelect => 'Select Priority';
+  String get prioritySelect => 'Pilih Prioritas';
 
   @override
   String get statusLabel => 'Status';
 
   @override
-  String get statusSelect => 'Select Status';
+  String get statusSelect => 'Pilih Status';
 
   @override
-  String get clearButton => 'Clear';
+  String get clearButton => 'Bersihkan';
 
   @override
-  String get submitButton => 'Submit';
+  String get submitButton => 'Kirim';
 
   @override
-  String get deadlineLabel => 'Deadline';
+  String get deadlineLabel => 'Tenggat Waktu';
 
   @override
-  String get createDataLecturer => 'Create Data Lecturer';
+  String get createDataLecturer => 'Buat Data Dosen';
 
   @override
-  String get detailEventTitle => 'Detail Event';
+  String get detailEventTitle => 'Rincian Acara';
 
   @override
-  String get startHourLabel => 'Start Hour';
+  String get startHourLabel => 'Waktu Dimulainya';
 
   @override
-  String get endHourLabel => 'End Hour';
+  String get endHourLabel => 'Waktu Berakhirnya';
 
   @override
-  String get locationLabel => 'Location';
+  String get locationLabel => 'Lokasi';
 
   @override
-  String get classNameLabel => 'Class Name';
+  String get classNameLabel => 'Nama Kelas';
 
   @override
-  String get descriptionLabel => 'Description';
+  String get descriptionLabel => 'Deskripsi';
 
   @override
-  String get eventHistory => 'Event History';
+  String get eventHistory => 'Riwayat Acara';
+
+  @override
+  String get inputDataClassTitle => 'Data Input Kelas';
+
+  @override
+  String get classNameHint => 'Masukkan Nama Kelas';
+
+  @override
+  String get classNameEmpty => 'Silakan masukkan nama kelas';
+
+  @override
+  String get lecturerLabel => 'Dosen';
+
+  @override
+  String get lecturerSelect => 'Pilih Dosen';
+
+  @override
+  String get dayLabel => 'Pilih';
+
+  @override
+  String get daySelect => 'Pilih Hari';
+
+  @override
+  String get dayMonday => 'Senin';
+
+  @override
+  String get dayTuesday => 'Selasa';
+
+  @override
+  String get dayWednesday => 'Rabu';
+
+  @override
+  String get dayThursday => 'Kamis';
+
+  @override
+  String get dayFriday => 'Jumat';
+
+  @override
+  String get daySaturday => 'Sabtu';
+
+  @override
+  String get daySunday => 'Minggu';
+
+  @override
+  String get startHourEmpty => 'Silakan masukkan waktu dimulainya kelas';
+
+  @override
+  String get endHourEmpty => 'Silakan masukkan waktu berakhirnya kelas';
+
+  @override
+  String get createDataClassFailed => 'Buat Data Kelas Gagal';
+
+  @override
+  String get createDataClassSuccess => 'Buat Data Kelas Berhasil';
+
+  @override
+  String get inputDataLecturerTitle => 'Data Input Dosen';
+
+  @override
+  String get lecturerNameLabel => 'Nama Dosen';
+
+  @override
+  String get lecturerNameHint => 'Masukkan Nama Dosen';
+
+  @override
+  String get lecturerNameEmpty => 'Silakan masukkan nama dosen';
+
+  @override
+  String get lecturerInputFailed => 'Buat Data Dosen Gagal';
+
+  @override
+  String get loginHistoryTitle => 'Riwayat Masuk';
+
+  @override
+  String get createEventSchedule => 'Buat Jadwal Acara';
+
+  @override
+  String get titleLabel => 'Judul Acara';
+
+  @override
+  String get titleHint => 'Masukkan Judul Acara';
+
+  @override
+  String get titleEmpty => 'Silakan masukkan Judul Acara';
+
+  @override
+  String get createEventSuccess => 'Berhasil Membuat Jadwal Acara';
+
+  @override
+  String get createEventFailed => 'Pembuatan Acara Gagal';
 }

@@ -209,6 +209,30 @@ abstract class AppLocalizations {
   /// **'Settings'**
   String get settingsMenuButton;
 
+  /// No description provided for @dataSettingsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Data'**
+  String get dataSettingsLabel;
+
+  /// No description provided for @notificationSettingsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification'**
+  String get notificationSettingsLabel;
+
+  /// No description provided for @accountSettingsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get accountSettingsLabel;
+
+  /// No description provided for @incoming.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming Soon'**
+  String get incoming;
+
   /// No description provided for @changeFullnameOrUsernameTitle.
   ///
   /// In en, this message translates to:
@@ -221,17 +245,29 @@ abstract class AppLocalizations {
   /// **'Fullname'**
   String get fullnameLabel;
 
-  /// No description provided for @fullnamehint.
+  /// No description provided for @fullnameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Input your Fullname'**
+  String get fullnameHint;
+
+  /// No description provided for @fullnameEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Please input your Fullname'**
+  String get fullnameEmpty;
+
+  /// No description provided for @fullnameNewhint.
   ///
   /// In en, this message translates to:
   /// **'Input your new Fullname'**
-  String get fullnamehint;
+  String get fullnameNewhint;
 
-  /// No description provided for @fullnameEmptyError.
+  /// No description provided for @fullnameNewEmptyError.
   ///
   /// In en, this message translates to:
   /// **'Please input your new Fullname'**
-  String get fullnameEmptyError;
+  String get fullnameNewEmptyError;
 
   /// No description provided for @usernameLabel.
   ///
@@ -239,23 +275,149 @@ abstract class AppLocalizations {
   /// **'Username'**
   String get usernameLabel;
 
+  /// No description provided for @usernameEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Please input your account username'**
+  String get usernameEmpty;
+
   /// No description provided for @usernameHint.
   ///
   /// In en, this message translates to:
-  /// **'Input your new Username'**
+  /// **'Input your Username'**
   String get usernameHint;
 
-  /// No description provided for @usernameEmptyError.
+  /// No description provided for @usernameNewEmptyError.
   ///
   /// In en, this message translates to:
   /// **'Please input your new Username'**
-  String get usernameEmptyError;
+  String get usernameNewEmptyError;
 
   /// No description provided for @passwordLabel.
   ///
   /// In en, this message translates to:
   /// **'Password'**
   String get passwordLabel;
+
+  /// No description provided for @passwordHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Input your password'**
+  String get passwordHint;
+
+  /// No description provided for @passwordEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Please input your account password'**
+  String get passwordEmpty;
+
+  /// No description provided for @passwordUpTo8.
+  ///
+  /// In en, this message translates to:
+  /// **'Password Must Up To 8 Characters'**
+  String get passwordUpTo8;
+
+  /// No description provided for @passwordContainNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Password Must Contain At least One Number'**
+  String get passwordContainNumber;
+
+  /// No description provided for @passwordContainerSymbol.
+  ///
+  /// In en, this message translates to:
+  /// **'Password Must Contain Symbol'**
+  String get passwordContainerSymbol;
+
+  /// No description provided for @confirmationPasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmation Password'**
+  String get confirmationPasswordTitle;
+
+  /// No description provided for @confirmationPasswordHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Input Your Confirmation Password'**
+  String get confirmationPasswordHint;
+
+  /// No description provided for @confirmationPasswordEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Please input your password'**
+  String get confirmationPasswordEmpty;
+
+  /// No description provided for @passwordAndConfirmationDontMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Your password and confirmation password doesn\'t match'**
+  String get passwordAndConfirmationDontMatch;
+
+  /// No description provided for @registerFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Register Failed'**
+  String get registerFailed;
+
+  /// No description provided for @registerAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Register Account'**
+  String get registerAccount;
+
+  /// No description provided for @registerSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Register Success'**
+  String get registerSuccess;
+
+  /// No description provided for @alreadyHaveAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Already Have Account? '**
+  String get alreadyHaveAccount;
+
+  /// No description provided for @loginHere.
+  ///
+  /// In en, this message translates to:
+  /// **'Login Here'**
+  String get loginHere;
+
+  /// No description provided for @loginFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Login Failed'**
+  String get loginFailed;
+
+  /// No description provided for @loginEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Please input your credentials'**
+  String get loginEmpty;
+
+  /// No description provided for @loginLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get loginLabel;
+
+  /// No description provided for @loginSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Login Success'**
+  String get loginSuccess;
+
+  /// No description provided for @noAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t Have Account? '**
+  String get noAccount;
+
+  /// No description provided for @registerHere.
+  ///
+  /// In en, this message translates to:
+  /// **'Register Here'**
+  String get registerHere;
 
   /// No description provided for @passwordChangeFullnameUsernameHint.
   ///
@@ -284,7 +446,7 @@ abstract class AppLocalizations {
   /// No description provided for @emptyFieldError.
   ///
   /// In en, this message translates to:
-  /// **'Please fill the requierd data'**
+  /// **'Please fill the required data'**
   String get emptyFieldError;
 
   /// No description provided for @submitChange.
@@ -508,6 +670,186 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Event History'**
   String get eventHistory;
+
+  /// No description provided for @inputDataClassTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Input Data Class'**
+  String get inputDataClassTitle;
+
+  /// No description provided for @classNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Input Class Name'**
+  String get classNameHint;
+
+  /// No description provided for @classNameEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Please input the name of the class'**
+  String get classNameEmpty;
+
+  /// No description provided for @lecturerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Lecturer'**
+  String get lecturerLabel;
+
+  /// No description provided for @lecturerSelect.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Lecturer'**
+  String get lecturerSelect;
+
+  /// No description provided for @dayLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Day'**
+  String get dayLabel;
+
+  /// No description provided for @daySelect.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Day'**
+  String get daySelect;
+
+  /// No description provided for @dayMonday.
+  ///
+  /// In en, this message translates to:
+  /// **'Monday'**
+  String get dayMonday;
+
+  /// No description provided for @dayTuesday.
+  ///
+  /// In en, this message translates to:
+  /// **'Tuesday'**
+  String get dayTuesday;
+
+  /// No description provided for @dayWednesday.
+  ///
+  /// In en, this message translates to:
+  /// **'Wednesday'**
+  String get dayWednesday;
+
+  /// No description provided for @dayThursday.
+  ///
+  /// In en, this message translates to:
+  /// **'Thursday'**
+  String get dayThursday;
+
+  /// No description provided for @dayFriday.
+  ///
+  /// In en, this message translates to:
+  /// **'Friday'**
+  String get dayFriday;
+
+  /// No description provided for @daySaturday.
+  ///
+  /// In en, this message translates to:
+  /// **'Saturday'**
+  String get daySaturday;
+
+  /// No description provided for @daySunday.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunday'**
+  String get daySunday;
+
+  /// No description provided for @startHourEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Please input starting time of the class'**
+  String get startHourEmpty;
+
+  /// No description provided for @endHourEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Please input ending time of the class'**
+  String get endHourEmpty;
+
+  /// No description provided for @createDataClassFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Data Class Failed'**
+  String get createDataClassFailed;
+
+  /// No description provided for @createDataClassSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Data Class Success'**
+  String get createDataClassSuccess;
+
+  /// No description provided for @inputDataLecturerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Input Data Lecturer'**
+  String get inputDataLecturerTitle;
+
+  /// No description provided for @lecturerNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Lecturer Name'**
+  String get lecturerNameLabel;
+
+  /// No description provided for @lecturerNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Input Lecturer Name'**
+  String get lecturerNameHint;
+
+  /// No description provided for @lecturerNameEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Please input the name of lecturer'**
+  String get lecturerNameEmpty;
+
+  /// No description provided for @lecturerInputFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Data Lecturer Failed'**
+  String get lecturerInputFailed;
+
+  /// No description provided for @loginHistoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Login History'**
+  String get loginHistoryTitle;
+
+  /// No description provided for @createEventSchedule.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Event Schedule'**
+  String get createEventSchedule;
+
+  /// No description provided for @titleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Title Event'**
+  String get titleLabel;
+
+  /// No description provided for @titleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Input Title Event'**
+  String get titleHint;
+
+  /// No description provided for @titleEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Please input the title event'**
+  String get titleEmpty;
+
+  /// No description provided for @createEventSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Successfully Create Event Schedule'**
+  String get createEventSuccess;
+
+  /// No description provided for @createEventFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Event Failed'**
+  String get createEventFailed;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
