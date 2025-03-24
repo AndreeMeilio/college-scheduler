@@ -125,7 +125,7 @@ class _InputDataLecturerPageState extends State<InputDataLecturerPage> {
                 if (state.state is CreateLecturerSuccessState){
                   ToastNotifUtils.showSuccess(
                     context: context,
-                    title: "Register Success",
+                    title: "Create Data Lecturer Success",
                     description: state.message ?? ""
                   );
         
