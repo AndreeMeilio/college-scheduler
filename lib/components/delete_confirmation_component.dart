@@ -44,7 +44,7 @@ class DeleteConfirmationComponent extends StatelessWidget {
               Expanded(
                 child: PrimaryButtonComponent(
                   label: "Cancel",
-                  color: Colors.grey,
+                  color: ColorConfig.greyColor,
                   onTap: onCancel
                 ),
               ),

@@ -139,7 +139,7 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                  border: Border.all(color: Colors.white, width: 1.5),
+                  border: Border.all(color: ColorConfig.whiteColor, width: 1.5),
                   color: ColorConfig.mainColor,
                 ),
                 child: BlocBuilder<StatusEventsCubit, StateGeneral<StatusEventsState, Map<String, int>>>(
@@ -168,7 +168,7 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
                               ],
                             ),
                           ),
-                          const Divider(color: Colors.white, height: 0,),
+                          const Divider(color: ColorConfig.whiteColor, height: 0,),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 24.0),
                             child: Row(
@@ -180,7 +180,7 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
                               ],
                             ),
                           ),
-                          const Divider(color: Colors.white, height: 0,),
+                          const Divider(color: ColorConfig.whiteColor, height: 0,),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 24.0),
                             child: Row(
@@ -208,27 +208,27 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
                               spacing: 16.0,
                               children: [
                                 Shimmer.fromColors(
-                                  baseColor: Colors.grey,
-                                  highlightColor: Colors.white,
+                                  baseColor: ColorConfig.greyColor,
+                                  highlightColor: ColorConfig.whiteColor,
                                   child: Container(
                                     height: 16.0,
                                     width: MediaQuery.sizeOf(context).width * 0.25,
-                                    color: Colors.grey,
+                                    color: ColorConfig.greyColor,
                                   ),
                                 ),
                                 Shimmer.fromColors(
-                                  baseColor: Colors.grey,
-                                  highlightColor: Colors.white,
+                                  baseColor: ColorConfig.greyColor,
+                                  highlightColor: ColorConfig.whiteColor,
                                   child: Container(
                                     height: 16.0,
                                     width: 24.0,
-                                    color: Colors.grey,
+                                    color: ColorConfig.greyColor,
                                   ),
                                 )
                               ],
                             ),
                           ),
-                          const Divider(color: Colors.white, height: 0,),
+                          const Divider(color: ColorConfig.whiteColor, height: 0,),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 24.0),
                             child: Row(
@@ -236,27 +236,27 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
                               spacing: 16.0,
                               children: [
                                 Shimmer.fromColors(
-                                  baseColor: Colors.grey,
-                                  highlightColor: Colors.white,
+                                  baseColor: ColorConfig.greyColor,
+                                  highlightColor: ColorConfig.whiteColor,
                                   child: Container(
                                     height: 16.0,
                                     width: MediaQuery.sizeOf(context).width * 0.25,
-                                    color: Colors.grey,
+                                    color: ColorConfig.greyColor,
                                   ),
                                 ),
                                 Shimmer.fromColors(
-                                  baseColor: Colors.grey,
-                                  highlightColor: Colors.white,
+                                  baseColor: ColorConfig.greyColor,
+                                  highlightColor: ColorConfig.whiteColor,
                                   child: Container(
                                     height: 16.0,
                                     width: 24.0,
-                                    color: Colors.grey,
+                                    color: ColorConfig.greyColor,
                                   ),
                                 )
                               ],
                             ),
                           ),
-                          const Divider(color: Colors.white, height: 0,),
+                          const Divider(color: ColorConfig.whiteColor, height: 0,),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 24.0),
                             child: Row(
@@ -264,21 +264,21 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
                               spacing: 16.0,
                               children: [
                                 Shimmer.fromColors(
-                                  baseColor: Colors.grey,
-                                  highlightColor: Colors.white,
+                                  baseColor: ColorConfig.greyColor,
+                                  highlightColor: ColorConfig.whiteColor,
                                   child: Container(
                                     height: 16.0,
                                     width: MediaQuery.sizeOf(context).width * 0.25,
-                                    color: Colors.grey,
+                                    color: ColorConfig.greyColor,
                                   ),
                                 ),
                                 Shimmer.fromColors(
-                                  baseColor: Colors.grey,
-                                  highlightColor: Colors.white,
+                                  baseColor: ColorConfig.greyColor,
+                                  highlightColor: ColorConfig.whiteColor,
                                   child: Container(
                                     height: 16.0,
                                     width: 24.0,
-                                    color: Colors.grey,
+                                    color: ColorConfig.greyColor,
                                   ),
                                 )
                               ],
@@ -305,7 +305,7 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                  color: Colors.white,
+                  color: ColorConfig.whiteColor,
                   border: Border.all(color: ColorConfig.mainColor, width: 1.5)
                 ),
                 child: BlocBuilder<PriorityEventsCubit, PriorityEventsStateType>(
@@ -374,27 +374,27 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
                               spacing: 16.0,
                               children: [
                                 Shimmer.fromColors(
-                                  baseColor: Colors.grey,
-                                  highlightColor: Colors.white,
+                                  baseColor: ColorConfig.greyColor,
+                                  highlightColor: ColorConfig.whiteColor,
                                   child: Container(
                                     height: 16.0,
                                     width: MediaQuery.sizeOf(context).width * 0.25,
-                                    color: Colors.grey,
+                                    color: ColorConfig.greyColor,
                                   ),
                                 ),
                                 Shimmer.fromColors(
-                                  baseColor: Colors.grey,
-                                  highlightColor: Colors.white,
+                                  baseColor: ColorConfig.greyColor,
+                                  highlightColor: ColorConfig.whiteColor,
                                   child: Container(
                                     height: 16.0,
                                     width: 24.0,
-                                    color: Colors.grey,
+                                    color: ColorConfig.greyColor,
                                   ),
                                 )
                               ],
                             ),
                           ),
-                          const Divider(color: Colors.white, height: 0,),
+                          const Divider(color: ColorConfig.whiteColor, height: 0,),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 24.0),
                             child: Row(
@@ -402,27 +402,27 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
                               spacing: 16.0,
                               children: [
                                 Shimmer.fromColors(
-                                  baseColor: Colors.grey,
-                                  highlightColor: Colors.white,
+                                  baseColor: ColorConfig.greyColor,
+                                  highlightColor: ColorConfig.whiteColor,
                                   child: Container(
                                     height: 16.0,
                                     width: MediaQuery.sizeOf(context).width * 0.25,
-                                    color: Colors.grey,
+                                    color: ColorConfig.greyColor,
                                   ),
                                 ),
                                 Shimmer.fromColors(
-                                  baseColor: Colors.grey,
-                                  highlightColor: Colors.white,
+                                  baseColor: ColorConfig.greyColor,
+                                  highlightColor: ColorConfig.whiteColor,
                                   child: Container(
                                     height: 16.0,
                                     width: 24.0,
-                                    color: Colors.grey,
+                                    color: ColorConfig.greyColor,
                                   ),
                                 )
                               ],
                             ),
                           ),
-                          const Divider(color: Colors.white, height: 0,),
+                          const Divider(color: ColorConfig.whiteColor, height: 0,),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 24.0),
                             child: Row(
@@ -430,21 +430,21 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
                               spacing: 16.0,
                               children: [
                                 Shimmer.fromColors(
-                                  baseColor: Colors.grey,
-                                  highlightColor: Colors.white,
+                                  baseColor: ColorConfig.greyColor,
+                                  highlightColor: ColorConfig.whiteColor,
                                   child: Container(
                                     height: 16.0,
                                     width: MediaQuery.sizeOf(context).width * 0.25,
-                                    color: Colors.grey,
+                                    color: ColorConfig.greyColor,
                                   ),
                                 ),
                                 Shimmer.fromColors(
-                                  baseColor: Colors.grey,
-                                  highlightColor: Colors.white,
+                                  baseColor: ColorConfig.greyColor,
+                                  highlightColor: ColorConfig.whiteColor,
                                   child: Container(
                                     height: 16.0,
                                     width: 24.0,
-                                    color: Colors.grey,
+                                    color: ColorConfig.greyColor,
                                   ),
                                 )
                               ],
@@ -484,7 +484,7 @@ class ShortcutMenuWidget extends StatelessWidget {
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 24.0),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: ColorConfig.whiteColor,
             border: Border.all(color: ColorConfig.mainColor, width: 1.5),
             borderRadius: BorderRadius.all(Radius.circular(8.0)),
           ),
@@ -494,7 +494,7 @@ class ShortcutMenuWidget extends StatelessWidget {
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: ColorConfig.whiteColor,
                       borderRadius: BorderRadius.all(Radius.circular(8.0)),
                     ),
                     child: Material(
@@ -503,7 +503,7 @@ class ShortcutMenuWidget extends StatelessWidget {
                         onTap: (){
                           context.push(ConstantsRouteValue.events);
                         },
-                        splashColor: Colors.black.withAlpha(25),
+                        splashColor: ColorConfig.blackTransparent,
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                           child: Text(
@@ -523,7 +523,7 @@ class ShortcutMenuWidget extends StatelessWidget {
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: ColorConfig.whiteColor,
                       borderRadius: BorderRadius.all(Radius.circular(8.0)),
                     ),
                     child: Material(
@@ -532,7 +532,7 @@ class ShortcutMenuWidget extends StatelessWidget {
                         onTap: (){
                           context.push(ConstantsRouteValue.clasess);
                         },
-                        splashColor: Colors.black.withAlpha(25),
+                        splashColor: ColorConfig.blackTransparent,
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                           child: Text(
@@ -552,7 +552,7 @@ class ShortcutMenuWidget extends StatelessWidget {
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: ColorConfig.whiteColor,
                       borderRadius: BorderRadius.all(Radius.circular(8.0)),
                     ),
                     child: Material(
@@ -561,7 +561,7 @@ class ShortcutMenuWidget extends StatelessWidget {
                         onTap: (){
                           context.push(ConstantsRouteValue.lecturer);
                         },
-                        splashColor: Colors.black.withAlpha(25),
+                        splashColor: ColorConfig.blackTransparent,
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                           child: Text(

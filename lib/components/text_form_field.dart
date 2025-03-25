@@ -66,7 +66,7 @@ class CustomTextFormField extends StatelessWidget {
               children: _isRequired ?? false ? [
                 TextSpan(
                   text: " *",
-                  style: TextStyleConfig.body2.copyWith(color: Colors.red)
+                  style: TextStyleConfig.body2.copyWith(color: ColorConfig.redColor)
                 )
               ] : null
             ),
@@ -75,7 +75,7 @@ class CustomTextFormField extends StatelessWidget {
         _label == "" || _label.isEmpty ? const SizedBox.shrink() : const SizedBox(height: 8.0,),
         Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: ColorConfig.whiteColor,
             borderRadius: BorderRadius.all(Radius.circular(8.0)),
           ),
           margin: _margin ?? const EdgeInsets.symmetric(horizontal: 24.0),
@@ -95,14 +95,12 @@ class CustomTextFormField extends StatelessWidget {
               ),
               focusedErrorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                borderSide: BorderSide(color: Colors.red, width: 1.5),
+                borderSide: BorderSide(color: ColorConfig.redColor, width: 1.5),
               ),
               fillColor: ColorConfig.mainColor,
               hintText: _hint,
               hintStyle: TextStyleConfig.body2.copyWith(
-                color: Colors.black.withAlpha(
-                  125
-                )
+                color: ColorConfig.blackTransparent
               ),
               suffixIcon: _isPassword 
                 ? IconButton(

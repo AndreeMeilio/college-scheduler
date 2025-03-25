@@ -173,7 +173,7 @@ class DataClassItemWidget extends StatelessWidget {
               );
             },
             label: "Delete",
-            backgroundColor: Colors.red,
+            backgroundColor: ColorConfig.redColor,
             icon: Icons.edit,
           ),
         ],
@@ -255,21 +255,21 @@ class DataClassItemLoadingWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Shimmer.fromColors(
-            baseColor: Colors.grey,
-            highlightColor: Colors.white,
+            baseColor: ColorConfig.greyColor,
+            highlightColor: ColorConfig.whiteColor,
             child: Container(
               width: MediaQuery.sizeOf(context).width * 0.4,
               height: 10.0,
-              color: Colors.grey,
+              color: ColorConfig.greyColor,
             )
           ),
           Shimmer.fromColors(
-            baseColor: Colors.grey,
-            highlightColor: Colors.white,
+            baseColor: ColorConfig.greyColor,
+            highlightColor: ColorConfig.whiteColor,
             child: Container(
               width: MediaQuery.sizeOf(context).width * 0.5,
               height: 10.0,
-              color: Colors.grey,
+              color: ColorConfig.greyColor,
             )
           ),
           const SizedBox(height: 4.0,),
@@ -281,12 +281,12 @@ class DataClassItemLoadingWidget extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.center,
                   child: Shimmer.fromColors(
-                    baseColor: Colors.grey,
-                    highlightColor: Colors.white,
+                    baseColor: ColorConfig.greyColor,
+                    highlightColor: ColorConfig.whiteColor,
                     child: Container(
                       width: MediaQuery.sizeOf(context).width * 0.4,
                       height: 10.0,
-                      color: Colors.grey,
+                      color: ColorConfig.greyColor,
                     )
                   ),
                 )
@@ -296,12 +296,12 @@ class DataClassItemLoadingWidget extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.center,
                   child: Shimmer.fromColors(
-                    baseColor: Colors.grey,
-                    highlightColor: Colors.white,
+                    baseColor: ColorConfig.greyColor,
+                    highlightColor: ColorConfig.whiteColor,
                     child: Container(
                       width: MediaQuery.sizeOf(context).width * 0.4,
                       height: 10.0,
-                      color: Colors.grey,
+                      color: ColorConfig.greyColor,
                     )
                   ),
                 )
@@ -315,12 +315,12 @@ class DataClassItemLoadingWidget extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.center,
                   child: Shimmer.fromColors(
-                    baseColor: Colors.grey,
-                    highlightColor: Colors.white,
+                    baseColor: ColorConfig.greyColor,
+                    highlightColor: ColorConfig.whiteColor,
                     child: Container(
                       width: MediaQuery.sizeOf(context).width * 0.4,
                       height: 10.0,
-                      color: Colors.grey,
+                      color: ColorConfig.greyColor,
                     )
                   ),
                 )

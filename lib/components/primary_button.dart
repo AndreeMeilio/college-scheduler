@@ -43,7 +43,7 @@ class PrimaryButtonComponent extends StatelessWidget {
       decoration: BoxDecoration(
         color: _color ?? ColorConfig.mainColor,
         borderRadius: BorderRadius.all(Radius.circular(8.0)),
-        border: Border.all(color: _borderColor ?? Colors.white, width: 1.5)
+        border: Border.all(color: _borderColor ?? ColorConfig.whiteColor, width: 1.5)
       ),
       margin: _margin ?? const EdgeInsets.symmetric(horizontal: 24.0),
       child: _isLoading ?? false
@@ -63,7 +63,7 @@ class PrimaryButtonComponent extends StatelessWidget {
             child: InkWell(
               onTap: _onTap,
               borderRadius: BorderRadius.all(Radius.circular(8.0)),
-              splashColor: Colors.white24,
+              splashColor: ColorConfig.whiteTransparent,
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 14.0),
                 alignment: Alignment.center,

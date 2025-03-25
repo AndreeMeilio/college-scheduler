@@ -1,4 +1,5 @@
 
+import 'package:college_scheduler/config/color_config.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:flutter/material.dart';
 import 'package:toastification/toastification.dart';
@@ -16,7 +17,7 @@ class ToastNotifUtils{
       type: ToastificationType.error,
       title: Text(title, style: TextStyleConfig.body1bold,),
       description: Text(description, style: TextStyleConfig.body1,),
-      primaryColor: Colors.red
+      primaryColor: ColorConfig.redColor
     ); 
   }
 
@@ -32,7 +33,7 @@ class ToastNotifUtils{
       type: ToastificationType.success,
       title: Text(title, style: TextStyleConfig.body1bold,),
       description: Text(description, style: TextStyleConfig.body1,),
-      primaryColor: Colors.green
+      primaryColor: ColorConfig.greenColor
     ); 
   }
 }

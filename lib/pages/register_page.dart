@@ -235,7 +235,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   text: TextSpan(
                     text: "Already Have Account? ",
                     style: TextStyleConfig.body1.copyWith(
-                      color: Colors.black
+                      color: ColorConfig.blackColor
                     ),
                     children: [
                       TextSpan(
@@ -299,14 +299,14 @@ class PasswordRuleChecker extends StatelessWidget {
             margin: const EdgeInsets.symmetric(vertical: 4.0),
             child: Row(
               children: [
-                Icon(Icons.check_circle_outline, color: _passwordRule[key]["activate"] ? ColorConfig.mainColor : Colors.grey,),
+                Icon(Icons.check_circle_outline, color: _passwordRule[key]["activate"] ? ColorConfig.mainColor : ColorConfig.greyColor,),
                 const SizedBox(width: 16.0,),
                 Expanded(
                   child: Text(
                     _passwordRule[key]["label"],
                     style: TextStyle(
                       fontSize: 16.0,
-                      color: _passwordRule[key]["activate"] ? ColorConfig.mainColor : Colors.grey,
+                      color: _passwordRule[key]["activate"] ? ColorConfig.mainColor : ColorConfig.greyColor,
                     ),
                   ),
                 )

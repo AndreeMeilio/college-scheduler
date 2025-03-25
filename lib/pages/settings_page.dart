@@ -229,7 +229,7 @@ class SettingsDataListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: _isFeatureIncoming ?? false ? Colors.grey : Colors.white,
+        color: _isFeatureIncoming ?? false ? ColorConfig.greyColor : ColorConfig.whiteColor,
         borderRadius: BorderRadius.all(Radius.circular(8.0)),
         border: Border.all(color: ColorConfig.mainColor, width: 1.5)
       ),
@@ -249,7 +249,7 @@ class SettingsDataListItem extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: ColorConfig.whiteColor,
                       border: Border.all(color: ColorConfig.mainColor, width: 1.5),
                       borderRadius: BorderRadius.all(Radius.circular(8.0)),
                     ),
@@ -263,7 +263,7 @@ class SettingsDataListItem extends StatelessWidget {
             )
           : InkWell(
               onTap: _onTap,
-              splashColor: Colors.black.withAlpha(25),
+              splashColor: ColorConfig.blackTransparent,
               borderRadius: BorderRadius.all(Radius.circular(8.0)),
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
@@ -285,17 +285,17 @@ class SettingsDataListLoadingItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: ColorConfig.whiteColor,
         borderRadius: BorderRadius.all(Radius.circular(8.0)),
       ),
       child: Shimmer.fromColors(
-        baseColor: Colors.grey,
-        highlightColor: Colors.white,
+        baseColor: ColorConfig.greyColor,
+        highlightColor: ColorConfig.whiteColor,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
           height: 12.0,
           width: MediaQuery.sizeOf(context).width * 0.25,
-          color: Colors.grey,
+          color: ColorConfig.greyColor,
         ),
       )
     );

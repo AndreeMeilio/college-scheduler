@@ -84,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
                           height: MediaQuery.sizeOf(context).height * 0.25,
                           decoration: BoxDecoration(
                             color: ColorConfig.mainColor,
-                            border: Border.all(color: Colors.white, width: 1.5),
+                            border: Border.all(color: ColorConfig.whiteColor, width: 1.5),
                             borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(24.0),
                               bottomRight: Radius.circular(24.0)
@@ -193,7 +193,7 @@ class _LoginPageState extends State<LoginPage> {
                             //       onTap: () async{
                             //         await _cubit.loginFingerprint();
                             //       },
-                            //       splashColor: Colors.grey.withAlpha(50),
+                            //       splashColor: ColorConfig.greyColor,
                             //       borderRadius: BorderRadius.all(Radius.circular(50)),
                             //       child: Container(
                             //         padding: const EdgeInsets.all(12.0),
@@ -234,7 +234,7 @@ class _LoginPageState extends State<LoginPage> {
                           text: TextSpan(
                             text: "Don't Have Account? ",
                             style: TextStyleConfig.body1.copyWith(
-                              color: Colors.black
+                              color: ColorConfig.blackColor
                             ),
                             children: [
                               TextSpan(

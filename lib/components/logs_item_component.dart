@@ -24,7 +24,7 @@ class LogsItemComponent extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
       padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: ColorConfig.whiteColor,
         border: Border.all(color: ColorConfig.mainColor, width: 1.5),
         borderRadius: BorderRadius.all(Radius.circular(8.0)),
       ),
@@ -67,7 +67,7 @@ class LogsItemLoadingComponent extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
       padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: ColorConfig.whiteColor,
         border: Border.all(color: ColorConfig.mainColor, width: 1.5),
         borderRadius: BorderRadius.all(Radius.circular(8.0)),
       ),
@@ -79,20 +79,20 @@ class LogsItemLoadingComponent extends StatelessWidget {
             spacing: 16.0,
             children: [
               Shimmer.fromColors(
-                baseColor: Colors.grey,
-                highlightColor: Colors.white,
+                baseColor: ColorConfig.greyColor,
+                highlightColor: ColorConfig.whiteColor,
                 child: Container(
-                  color: Colors.grey,
+                  color: ColorConfig.greyColor,
                   height: 10.0,
                   width: MediaQuery.sizeOf(context).width * 0.2,
                 ),
               ),
               Expanded(
                 child: Shimmer.fromColors(
-                  baseColor: Colors.grey,
-                  highlightColor: Colors.white,
+                  baseColor: ColorConfig.greyColor,
+                  highlightColor: ColorConfig.whiteColor,
                   child: Container(
-                    color: Colors.grey,
+                    color: ColorConfig.greyColor,
                     height: 10.0,
                     width: MediaQuery.sizeOf(context).width * 0.2,
                   ),
@@ -101,10 +101,10 @@ class LogsItemLoadingComponent extends StatelessWidget {
             ],
           ),
           Shimmer.fromColors(
-            baseColor: Colors.grey,
-            highlightColor: Colors.white,
+            baseColor: ColorConfig.greyColor,
+            highlightColor: ColorConfig.whiteColor,
             child: Container(
-              color: Colors.grey,
+              color: ColorConfig.greyColor,
               height: 25.0,
               width: MediaQuery.sizeOf(context).width,
             ),

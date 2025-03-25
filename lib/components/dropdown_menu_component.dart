@@ -40,7 +40,7 @@ class DropdownMenuComponent<T> extends StatelessWidget {
         const SizedBox(height: 8.0,),
         Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: ColorConfig.whiteColor,
             borderRadius: BorderRadius.all(Radius.circular(8.0)),
           ),
           margin: _margin ?? const EdgeInsets.symmetric(horizontal: 24.0),
@@ -65,7 +65,7 @@ class DropdownMenuComponent<T> extends StatelessWidget {
               ),
               focusedErrorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                borderSide: BorderSide(color: Colors.red, width: 1.5)
+                borderSide: BorderSide(color: ColorConfig.redColor, width: 1.5)
               ),
               fillColor: ColorConfig.mainColor,
             ),

@@ -176,7 +176,7 @@ class DataClassItemWidget extends StatelessWidget {
               );
             },
             label: "Delete",
-            backgroundColor: Colors.red,
+            backgroundColor: ColorConfig.redColor,
             icon: Icons.edit,
           ),
         ],
@@ -210,12 +210,12 @@ class DataClassItemLoadingWidget extends StatelessWidget {
       ),
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
       child: Shimmer.fromColors(
-        baseColor: Colors.grey,
-        highlightColor: Colors.white,
+        baseColor: ColorConfig.greyColor,
+        highlightColor: ColorConfig.whiteColor,
         child: Container(
           width: MediaQuery.sizeOf(context).width * 0.4,
           height: 10.0,
-          color: Colors.grey,
+          color: ColorConfig.greyColor,
         )
       ),
     );

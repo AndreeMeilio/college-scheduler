@@ -112,7 +112,7 @@ class _DataEventsPageState extends State<DataEventsPage> {
                 Container(
                   margin: const EdgeInsets.only(right: 24.0),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: ColorConfig.whiteColor,
                     border: Border.all(color: ColorConfig.mainColor, width: 1.5),
                     borderRadius: BorderRadius.all(Radius.circular(8.0))
                   ),
@@ -120,7 +120,7 @@ class _DataEventsPageState extends State<DataEventsPage> {
                   child: Material(
                     color: Colors.transparent,
                     child: InkWell(
-                      splashColor: Colors.black.withAlpha(25),
+                      splashColor: ColorConfig.blackTransparent,
                       onTap: () async{
                         showModalBottomSheet(
                           context: context,
@@ -268,7 +268,7 @@ class _DataEventsPageState extends State<DataEventsPage> {
                                           },
                                           margin: const EdgeInsets.all(0.0),
                                           label: "Clear",
-                                          color: Colors.grey,
+                                          color: ColorConfig.greyColor,
                                         ),
                                       ),
                                       Expanded(
@@ -426,7 +426,7 @@ class ListItemEventDataWidget extends StatelessWidget {
               );
             },
             label: "Delete",
-            backgroundColor: Colors.red,
+            backgroundColor: ColorConfig.redColor,
             icon: Icons.edit,
           ),
         ],
@@ -434,13 +434,13 @@ class ListItemEventDataWidget extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: ColorConfig.mainColor,
-          border: Border.all(color: Colors.white, width: 1.5),
+          border: Border.all(color: ColorConfig.whiteColor, width: 1.5),
           borderRadius: BorderRadius.all(Radius.circular(8.0))
         ),
         child: Material(
           color: Colors.transparent,
           child: InkWell(
-            splashColor: Colors.black.withAlpha(25),
+            splashColor: ColorConfig.blackTransparent,
             onTap: (){
               context.push("${ConstantsRouteValue.events}/${ConstantsRouteValue.detailEvents}", extra: data);
             },
@@ -489,12 +489,12 @@ class ListItemEventDataLoadingWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white
+        color: ColorConfig.whiteColor
       ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          splashColor: Colors.black.withAlpha(25),
+          splashColor: ColorConfig.blackTransparent,
           onTap: (){
 
           },
@@ -504,30 +504,30 @@ class ListItemEventDataLoadingWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Shimmer.fromColors(
-                  baseColor: Colors.grey.withAlpha(150),
-                  highlightColor: Colors.white,
+                  baseColor: ColorConfig.greyColor.withAlpha(150),
+                  highlightColor: ColorConfig.whiteColor,
                   child: Container(
-                    color: Colors.grey,
+                    color: ColorConfig.greyColor,
                     height: 10.0,
                     width: MediaQuery.sizeOf(context).width * 0.75,
                   )
                 ),
                 const SizedBox(height: 8.0,),
                 Shimmer.fromColors(
-                  baseColor: Colors.grey.withAlpha(150),
-                  highlightColor: Colors.white,
+                  baseColor: ColorConfig.greyColor.withAlpha(150),
+                  highlightColor: ColorConfig.whiteColor,
                   child: Container(
-                    color: Colors.grey,
+                    color: ColorConfig.greyColor,
                     height: 10.0,
                     width: MediaQuery.sizeOf(context).width * 0.5,
                   ),
                 ),
                 const SizedBox(height: 32.0,),
                 Shimmer.fromColors(
-                  baseColor: Colors.grey.withAlpha(150),
-                  highlightColor: Colors.white,
+                  baseColor: ColorConfig.greyColor.withAlpha(150),
+                  highlightColor: ColorConfig.whiteColor,
                   child: Container(
-                    color: Colors.grey,
+                    color: ColorConfig.greyColor,
                     height: 10.0,
                     width: MediaQuery.sizeOf(context).width * 0.25,
                   ),

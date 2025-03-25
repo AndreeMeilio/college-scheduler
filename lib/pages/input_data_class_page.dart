@@ -174,10 +174,10 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
                                     style: TextStyleConfig.body1
                                   ),
                                   Shimmer.fromColors(
-                                    baseColor: Colors.grey,
-                                    highlightColor: Colors.white,
+                                    baseColor: ColorConfig.greyColor,
+                                    highlightColor: ColorConfig.whiteColor,
                                     child: Container(
-                                      color: Colors.grey,
+                                      color: ColorConfig.greyColor,
                                       height: 50.0,
                                       width: MediaQuery.sizeOf(context).width,
                                     ),

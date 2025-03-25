@@ -276,10 +276,10 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
                         style: TextStyleConfig.body1
                       ),
                       Shimmer.fromColors(
-                        baseColor: Colors.grey,
-                        highlightColor: Colors.white,
+                        baseColor: ColorConfig.greyColor,
+                        highlightColor: ColorConfig.whiteColor,
                         child: Container(
-                          color: Colors.grey,
+                          color: ColorConfig.greyColor,
                           height: 50.0,
                           width: MediaQuery.sizeOf(context).width,
                         ),
@@ -353,7 +353,7 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
                 child: PrimaryButtonComponent(
                   label: "Clear",
                   width: MediaQuery.sizeOf(context).width * 0.25,
-                  color: Colors.grey,
+                  color: ColorConfig.greyColor,
                   onTap: (){
                     _priority = PRIORITY.low;
                     _status = STATUS.idle;
