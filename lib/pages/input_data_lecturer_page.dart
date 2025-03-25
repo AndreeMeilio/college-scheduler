@@ -3,6 +3,7 @@ import 'package:college_scheduler/components/primary_button.dart';
 import 'package:college_scheduler/components/text_form_field.dart';
 import 'package:college_scheduler/config/color_config.dart';
 import 'package:college_scheduler/config/state_general.dart';
+import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:college_scheduler/cubit/lecturer/create_lecturer_cubit.dart';
 import 'package:college_scheduler/data/models/lecturer_model.dart';
 import 'package:college_scheduler/utils/toast_notif_utils.dart';
@@ -56,7 +57,8 @@ class _InputDataLecturerPageState extends State<InputDataLecturerPage> {
         surfaceTintColor: ColorConfig.backgroundColor,
         backgroundColor: ColorConfig.backgroundColor,
         title: Text(
-          "Input Data Lecturer"
+          "Input Data Lecturer",
+          style: TextStyleConfig.body1,
         ),
       ),
       body: Container(

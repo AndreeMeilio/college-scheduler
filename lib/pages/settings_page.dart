@@ -254,7 +254,7 @@ class SettingsDataListItem extends StatelessWidget {
                       borderRadius: BorderRadius.all(Radius.circular(8.0)),
                     ),
                     child: Text(
-                      "Incoming",
+                      "Coming Soon",
                       style: TextStyleConfig.body1,
                     ),
                   )

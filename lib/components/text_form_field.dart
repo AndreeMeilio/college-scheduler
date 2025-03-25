@@ -75,7 +75,6 @@ class CustomTextFormField extends StatelessWidget {
         _label == "" || _label.isEmpty ? const SizedBox.shrink() : const SizedBox(height: 8.0,),
         Container(
           decoration: BoxDecoration(
-            color: ColorConfig.whiteColor,
             borderRadius: BorderRadius.all(Radius.circular(8.0)),
           ),
           margin: _margin ?? const EdgeInsets.symmetric(horizontal: 24.0),
@@ -97,11 +96,13 @@ class CustomTextFormField extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(8.0)),
                 borderSide: BorderSide(color: ColorConfig.redColor, width: 1.5),
               ),
-              fillColor: ColorConfig.mainColor,
+              fillColor: ColorConfig.whiteColor,
+              filled: true,
               hintText: _hint,
               hintStyle: TextStyleConfig.body2.copyWith(
                 color: ColorConfig.blackTransparent
               ),
+              errorStyle: TextStyleConfig.body2.copyWith(color: ColorConfig.redColor),
               suffixIcon: _isPassword 
                 ? IconButton(
                   onPressed: _suffixIconOnPressed,
