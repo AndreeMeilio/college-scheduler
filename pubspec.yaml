@@ -103,11 +103,5 @@ flutter:
   # see https://flutter.dev/to/font-from-package
 
 flutter_native_splash:
-  color: "#84CDEE"
-  image: "assets/logo.png"
-  color_dark: "#84CDEE"
-  android_12:
-    color: "#84CDEE"
-    image: "assets/logo.png"
-    color_dark: "#84CDEE"
+  background_image: "assets/background_image_splash.png"
   web: false
