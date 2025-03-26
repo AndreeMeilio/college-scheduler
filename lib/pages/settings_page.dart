@@ -5,6 +5,7 @@ import 'package:college_scheduler/config/generated/app_localizations.dart';
 import 'package:college_scheduler/config/shared_preference.dart';
 import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
+import 'package:college_scheduler/cubit/language_locale_cubit.dart';
 import 'package:college_scheduler/cubit/menu/settings_menu_cubit.dart';
 import 'package:college_scheduler/data/models/menu_model.dart';
 import 'package:college_scheduler/pages/change_fullname_username_page.dart';
@@ -20,8 +21,23 @@ import 'package:go_router/go_router.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shimmer/shimmer.dart';
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
+
+  @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
+
+  late LanguageLocaleCubit _cubit;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _cubit = BlocProvider.of<LanguageLocaleCubit>(context, listen: false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,13 +51,45 @@ class SettingsPage extends StatelessWidget {
             const SizedBox(
               height: 8.0,
             ),
-            Container(
-              alignment: Alignment.centerLeft,
-              margin: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: Text(
-                AppLocalizations.of(context)?.settingsMenuButton ?? "Settings",
-                style: TextStyleConfig.heading1,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  alignment: Alignment.centerLeft,
+                  margin: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Text(
+                    AppLocalizations.of(context)?.settingsMenuButton ?? "Settings",
+                    style: TextStyleConfig.heading1,
+                  ),
+                ),
+                BlocBuilder<LanguageLocaleCubit, Locale>(
+                  builder: (context, state){
+                    return GestureDetector(
+                      onTap: (){
+                        try {
+                          late Locale changeLocale;
+
+                          if (state.languageCode == "en"){
+                            changeLocale = Locale("id");
+                          } else {
+                            changeLocale = Locale("en");
+                          }
+                          _cubit.changeLocale(changeLocale);
+                          print("test");
+                        } catch (e){
+                          print(e);
+                        }
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(right: 24.0),
+                        width: 30.0,
+                        height: 30.0,
+                        child: Image.asset(state.languageCode == "en" ? "assets/united-states.png" : "assets/indonesia.png"),
+                      )
+                    );
+                  },
+                )
+              ],
             ),
             SettingsListWidget(),
             const SizedBox()
@@ -200,7 +248,7 @@ class SettingsDataSectionWidget extends StatelessWidget {
                     if (_dataMenu[index] != null && (_dataMenu[index]?.route?.isNotEmpty ?? false)) context.push(_dataMenu[index]!.route!);
                   }
                 },
-                menu: _dataMenu[index]?.name ?? "",
+                menu: AppLocalizations.of(context)?.menuSettingsLabel(_dataMenu[index]?.name ?? "") ?? _dataMenu[index]?.name ?? "",
                 isFeatureIncoming: _dataMenu[index]?.isIncoming,
               );
             },

@@ -3,6 +3,7 @@ import 'package:college_scheduler/components/primary_button.dart';
 import 'package:college_scheduler/components/text_form_field.dart';
 import 'package:college_scheduler/config/color_config.dart';
 import 'package:college_scheduler/config/constants_route_value.dart';
+import 'package:college_scheduler/config/generated/app_localizations.dart';
 import 'package:college_scheduler/config/shared_preference.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:college_scheduler/cubit/users/change_fullname_username_cubit.dart';
@@ -64,7 +65,7 @@ class _ChangeFullnameUsernamePageState extends State<ChangeFullnameUsernamePage>
         surfaceTintColor: ColorConfig.backgroundColor,
         backgroundColor: ColorConfig.backgroundColor,
         title: Text(
-          "Change Fullname Or Username",
+          AppLocalizations.of(context)?.changeFullnameOrUsernameTitle ?? "Change Fullname Or Username",
           style: TextStyleConfig.body1,
         ),
       ),
@@ -89,12 +90,12 @@ class _ChangeFullnameUsernamePageState extends State<ChangeFullnameUsernamePage>
                     children: [
                       CustomTextFormField(
                         controller: _fullnameController,
-                        label: "Fullname",
-                        hint: "Input your new Fullname",
+                        label: AppLocalizations.of(context)?.fullnameLabel ?? "Fullname",
+                        hint: AppLocalizations.of(context)?.fullnameNewhint ?? "Input your new Fullname",
                         isRequired: true,
                         validator: (value){
                           if (value?.isEmpty ?? false){
-                            return "Please input your new fullname";
+                            return AppLocalizations.of(context)?.fullnameNewEmptyError ?? "Please input your new fullname";
                           }
         
                           return null;
@@ -102,12 +103,12 @@ class _ChangeFullnameUsernamePageState extends State<ChangeFullnameUsernamePage>
                       ),
                       CustomTextFormField(
                         controller: _usernameController,
-                        label: "Username",
-                        hint: "Input your new Username",
+                        label: AppLocalizations.of(context)?.usernameLabel ?? "Username",
+                        hint: AppLocalizations.of(context)?.usernameNewHint ?? "Input your new Username",
                         isRequired: true,
                         validator: (value){
                           if (value?.isEmpty ?? false){
-                            return "Please input your new username";
+                            return AppLocalizations.of(context)?.usernameNewEmptyError ?? "Please input your new username";
                           }
         
                           return null;
@@ -115,8 +116,8 @@ class _ChangeFullnameUsernamePageState extends State<ChangeFullnameUsernamePage>
                       ),
                       CustomTextFormField(
                         controller: _passwordController,
-                        label: "Password",
-                        hint: "Input your password for validation account",
+                        label: AppLocalizations.of(context)?.passwordLabel ?? "Password",
+                        hint: AppLocalizations.of(context)?.passwordChangeFullnameUsernameHint ?? "Input your password for validation account",
                         isRequired: true,
                         isPassword: true,
                         obsureText: _isObscure,
@@ -127,7 +128,7 @@ class _ChangeFullnameUsernamePageState extends State<ChangeFullnameUsernamePage>
                         },
                         validator: (value){
                           if (value?.isEmpty ?? false){
-                            return "Please input your password for security purpose";
+                            return AppLocalizations.of(context)?.passwordEmptyError ?? "Please input your password for security purpose";
                           }
         
                           return null;
@@ -136,7 +137,7 @@ class _ChangeFullnameUsernamePageState extends State<ChangeFullnameUsernamePage>
                       Container(
                         margin: const EdgeInsets.symmetric(horizontal: 24.0),
                         child: Text(
-                          "For security purpose, please insert your account password, so that we can know this is you who trying to change the username",
+                          AppLocalizations.of(context)?.changingFullnameUsernamePasswordDisclamer ?? "For security purpose, please insert your account password, so that we can know this is you who trying to change the username",
                           style: TextStyleConfig.body1,
                           textAlign: TextAlign.center,
                         ),
@@ -167,25 +168,25 @@ class _ChangeFullnameUsernamePageState extends State<ChangeFullnameUsernamePage>
                     } else {
                       ToastNotifUtils.showError(
                         context: context,
-                        title: "Change Fullname or Username Failed",
-                        description: "Please fill the required data"
+                        title: AppLocalizations.of(context)?.actionFeatureFailed(AppLocalizations.of(context)?.changeFullnameOrUsernameTitle ?? "") ?? "Change Fullname or Username Failed",
+                        description: AppLocalizations.of(context)?.emptyFieldError ?? "Please fill the required data"
                       );
                     }
                   },
-                  label: "Submit Changes",
+                  label: AppLocalizations.of(context)?.submitChange ?? "Submit Changes",
                 );
               },
               listener: (context, state){
                 if (state.state is ChangeFullnameUsernameSuccessState){
                   ToastNotifUtils.showSuccess(
                     context: context,
-                    title: "Change Fullname or Username Success",
+                    title: AppLocalizations.of(context)?.actionFeatureSuccess(AppLocalizations.of(context)?.changeFullnameOrUsernameTitle ?? "") ?? "Change Fullname or Username Success",
                     description: state.message ?? ""
                   );
                 } else if (state.state is ChangeFullnameUsernameFailedState){
                   ToastNotifUtils.showError(
                     context: context,
-                    title: "Change Fullname or Username Failed",
+                    title: AppLocalizations.of(context)?.actionFeatureFailed(AppLocalizations.of(context)?.changeFullnameOrUsernameTitle ?? "") ?? "Change Fullname or Username Failed",
                     description: state.message ?? ""
                   );
                 }

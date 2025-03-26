@@ -88,9 +88,11 @@ class _GreetingWidgetState extends State<GreetingWidget> {
               ),
             ),
           ),
-          Text(
-            AppLocalizations.of(context)?.greetingFriend("My Friend") ?? "Welcome Back! \nMy Friend",
-            style: TextStyleConfig.heading1bold,
+          Expanded(
+            child: Text(
+              AppLocalizations.of(context)?.greetingFriend("My Friend") ?? "Welcome Back! \nMy Friend",
+              style: TextStyleConfig.heading1bold,
+            ),
           )
         ],
       ),

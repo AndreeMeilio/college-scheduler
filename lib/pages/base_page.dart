@@ -1,4 +1,5 @@
 import 'package:college_scheduler/config/color_config.dart';
+import 'package:college_scheduler/config/generated/app_localizations.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:college_scheduler/cubit/menu/base_menu_cubit.dart';
 import 'package:college_scheduler/cubit/event/create_event_cubit.dart';
@@ -85,7 +86,7 @@ class _BasePageState extends State<BasePage> with TickerProviderStateMixin{
                           children: [
                             Icon(Icons.home),
                             Text(
-                              "Home",
+                              AppLocalizations.of(context)?.homeMenuButton ?? "Home",
                               style: TextStyleConfig.body1,
                             )
                           ],
@@ -95,7 +96,7 @@ class _BasePageState extends State<BasePage> with TickerProviderStateMixin{
                           children: [
                             Icon(Icons.add_circle_outline_rounded),
                             Text(
-                              "Events",
+                              AppLocalizations.of(context)?.eventsMenuButton ?? "Events",
                               style: TextStyleConfig.body1,
                             )
                           ],
@@ -105,7 +106,7 @@ class _BasePageState extends State<BasePage> with TickerProviderStateMixin{
                           children: [
                             Icon(Icons.settings),
                             Text(
-                              "Settings",
+                              AppLocalizations.of(context)?.settingsMenuButton ?? "Settings",
                               style: TextStyleConfig.body1,
                             )
                           ],

@@ -83,7 +83,7 @@
         }
     },
 
-    "homeMenuButton" : "Home",
+    "homeMenuButton" : "Beranda",
     "eventsMenuButton": "Acara",
     "settingsMenuButton": "Pengaturan",
 
@@ -101,6 +101,7 @@
     "usernameLabel": "Nama Pengguna",
     "usernameEmpty": "Silakan masukkan nama pengguna akun Anda",
     "usernameHint": "Masukkan Nama Pengguna Anda",
+    "usernameNewHint": "Masukan nama pengguna baru",
     "usernameNewEmptyError" : "Silakan masukkan Nama Pengguna baru Anda",
     "passwordLabel" : "Kata Sandi",
     "passwordHint": "Masukkan kata sandi Anda",
@@ -142,7 +143,7 @@
     },
 
     "dataStatusTitle": "Data Status",
-    "idleStatus" : "NGANGGUR",
+    "idleStatus" : "BELUM DIMULAI",
     "progressStatus" : "PROGRESS",
     "doneStatus" : "SELESAI",
 
@@ -232,5 +233,23 @@
             "example": "Login"
         }
     },
-    "to": "Sampai"
+    "to": "Sampai",
+    
+    "menuSettingsLabel": "{menu, select, menuDataClass{Data Kelas} menuDataLecturer{Data Dosen} menuEventHistory{Riwayat Acara} menuReminderEvent{Pengingat Acara} menuReminderInput{Pengingat Masukkan Data} menuChangePassword{Ganti Kata Sandi} menuChangeFullnameOrUsername{Ganti Nama Lengkap Atau Nama Pengguna} menuLoginHistory{Riwayat Masuk} menuExportDatabase{Ekspor Database} menuImportDatabase{Impor Database} menuLogout{Keluar} other{}}",
+    "@menuSettingsLabel":{
+        "description": "Translate Menu Settings",
+        "placeholders": {
+            "menu":{
+                "type": "String"
+            }
+        }
+    },
+    "quoteDante": "\"JALAN MENUJU SURGA DIMULAI DI NERAKA\"",
+    "changePasswordTitle": "Ganti Kata Sandi",
+    "oldPasswordLabel": "Kata Sandi Lama",
+    "newPaswordLabel": "Kata Sandi Baru",
+    "confirmNewPasswordLabel": "Konfirmasi Kata Sandi Baru",
+    "oldPasswordHint": "Masukan kata sandi lama",
+    "newPasswordHint": "Masukan kata sandi baru",
+    "confirmNewPasswordHint": "Masukkan konfirmasi kata sandi baru"
 }

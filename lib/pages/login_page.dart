@@ -97,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                "\"THE PATH TO PARADISE BEGINS IN HELL\"",
+                                AppLocalizations.of(context)?.quoteDante ?? "\"THE PATH TO PARADISE BEGINS IN HELL\"",
                                 style: TextStyle(
                                   fontSize: 24.0,
                                   fontWeight: FontWeight.w700,

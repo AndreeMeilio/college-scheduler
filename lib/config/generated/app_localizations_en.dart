@@ -123,6 +123,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get usernameHint => 'Input your Username';
 
   @override
+  String get usernameNewHint => 'Input your new Username';
+
+  @override
   String get usernameNewEmptyError => 'Please input your new Username';
 
   @override
@@ -215,7 +218,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dataStatusTitle => 'Data Status';
 
   @override
-  String get idleStatus => 'IDLE';
+  String get idleStatus => 'NOT STARTED';
 
   @override
   String get progressStatus => 'PROGESS';
@@ -421,4 +424,50 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get to => 'To';
+
+  @override
+  String menuSettingsLabel(String menu) {
+    String _temp0 = intl.Intl.selectLogic(
+      menu,
+      {
+        'menuDataClass': 'Data Class',
+        'menuDataLecturer': 'Data Lecturer',
+        'menuEventHistory': 'Event History',
+        'menuReminderEvent': 'Reminder Event',
+        'menuReminderInput': 'Reminder Input',
+        'menuChangePassword': 'Change Password',
+        'menuChangeFullnameOrUsername': 'Change Fullname Or Username',
+        'menuLoginHistory': 'Login History',
+        'menuExportDatabase': 'Export Database',
+        'menuImportDatabase': 'Import Database',
+        'menuLogout': 'Logout',
+        'other': '',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get quoteDante => 'THE PATH TO PARADISE BEGINS IN HELL';
+
+  @override
+  String get changePasswordTitle => 'Change Password';
+
+  @override
+  String get oldPasswordLabel => 'Old Password';
+
+  @override
+  String get newPaswordLabel => 'New Password';
+
+  @override
+  String get confirmNewPasswordLabel => 'Confirm New Password';
+
+  @override
+  String get oldPasswordHint => 'Input your old password';
+
+  @override
+  String get newPasswordHint => 'Input your new password';
+
+  @override
+  String get confirmNewPasswordHint => 'Input confirmation of new password';
 }

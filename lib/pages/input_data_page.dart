@@ -99,7 +99,7 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
     _priorityController = TextEditingController();
     _statusController = TextEditingController();
     _locationController = TextEditingController();
-    _classController = TextEditingController(text: "Select Class");
+    _classController = TextEditingController();
 
     _priority = PRIORITY.low;
     _status = STATUS.idle;
@@ -108,7 +108,6 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
     _classCubit = BlocProvider.of<ListDataClassCubit>(context, listen: false);
 
     _classCubit.getAllData();
-    _selectedClass = ClassModel(name: "Select Class");
 
     if (_cubit.tempDataEvent != null){
       final data = _cubit.tempDataEvent;
@@ -242,6 +241,9 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
           BlocBuilder<ListDataClassCubit, StateGeneral>(
             builder: (context, state){
               if (state.state is ListDataClassLoadedState){
+                _selectedClass = ClassModel(
+                  name: AppLocalizations.of(context)?.selectClassLabel ?? "Select Class"
+                );
                 _itemLecturer = List.from([
                   ClassModel(
                     name: AppLocalizations.of(context)?.selectClassLabel ?? "Select Class"
@@ -251,7 +253,7 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
                   _itemLecturer.addAll(List.from(state.data));
                 }
                 return DropdownMenuComponent(
-                  label: AppLocalizations.of(context)?.lecturerLabel ?? "Lecturer",
+                  label: AppLocalizations.of(context)?.dataClassTitle ?? "Data Class",
                   controller: _classController,
                   value: _selectedClass,
                   menu: _itemLecturer.map((data){
@@ -273,7 +275,7 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Text(
-                        AppLocalizations.of(context)?.lecturerLabel ?? "Lecturer",
+                        AppLocalizations.of(context)?.dataClassTitle ?? "Data Class",
                         style: TextStyleConfig.body1
                       ),
                       Shimmer.fromColors(

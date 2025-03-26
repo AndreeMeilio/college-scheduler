@@ -1,6 +1,7 @@
 
 import 'package:college_scheduler/components/logs_item_component.dart';
 import 'package:college_scheduler/config/color_config.dart';
+import 'package:college_scheduler/config/generated/app_localizations.dart';
 import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:college_scheduler/cubit/logs/login_logs_cubit.dart';
@@ -43,7 +44,7 @@ class _LoginHistoryPageState extends State<LoginHistoryPage> {
         surfaceTintColor: ColorConfig.backgroundColor,
         backgroundColor: ColorConfig.backgroundColor,
         title: Text(
-          "Login History",
+          AppLocalizations.of(context)?.loginHistoryTitle ?? "Login History",
           style: TextStyleConfig.body1,
         ),
       ),
@@ -79,7 +80,7 @@ class _LoginHistoryPageState extends State<LoginHistoryPage> {
             } else if (state.state is LoginLogsFailedState){
               return Center(
                 child: Text(
-                  "There's a problem getting login history",
+                  AppLocalizations.of(context)?.gettingDataProblem(AppLocalizations.of(context)?.loginHistoryTitle ?? "") ?? "There's a problem when getting login history data",
                   style: TextStyleConfig.body1,
                 ),
               );

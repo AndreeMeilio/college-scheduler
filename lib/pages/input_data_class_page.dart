@@ -138,6 +138,11 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
                       BlocBuilder<ListLecturerCubit, StateGeneral>(
                         builder: (context, state){
                           if (state.state is ListLecturerLoadedState){
+                            _selectedLecturer = LecturerModel(
+                              id: 0,
+                              name: AppLocalizations.of(context)?.lecturerSelect ?? "Select Lecturer",
+                              userId: 0
+                            );
                             _itemLecturer = List.from([
                               LecturerModel(
                                 id: 0,

@@ -3,6 +3,7 @@ import 'package:college_scheduler/components/primary_button.dart';
 import 'package:college_scheduler/components/text_form_field.dart';
 import 'package:college_scheduler/config/color_config.dart';
 import 'package:college_scheduler/config/constants_route_value.dart';
+import 'package:college_scheduler/config/generated/app_localizations.dart';
 import 'package:college_scheduler/config/shared_preference.dart';
 import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
@@ -69,7 +70,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
         surfaceTintColor: ColorConfig.backgroundColor,
         backgroundColor: ColorConfig.backgroundColor,
         title: Text(
-          "Change Password",
+          AppLocalizations.of(context)?.changePasswordTitle ?? "Change Password",
           style: TextStyleConfig.body1,
         ),
       ),
@@ -95,8 +96,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     children: [
                       CustomTextFormField(
                         controller: _oldPasswordController,
-                        label: "Old Password",
-                        hint: "Input your old password",
+                        label: AppLocalizations.of(context)?.oldPasswordLabel ?? "Old Password",
+                        hint: AppLocalizations.of(context)?.oldPasswordHint ?? "Input your old password",
                         isPassword: true,
                         isRequired: true,
                         obsureText: isOldPasswordObscure,
@@ -106,13 +107,15 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                           });
                         },
                         validator: (value){
-        
+                          if (!(value?.isNotEmpty ?? false)){
+                            return AppLocalizations.of(context)?.passwordEmptyError ?? "Please input your Password";
+                          }
                         },
                       ),
                       CustomTextFormField(
                         controller: _newPasswordController,
-                        label: "New Password",
-                        hint: "Input your new password",
+                        label: AppLocalizations.of(context)?.newPaswordLabel ?? "New Password",
+                        hint: AppLocalizations.of(context)?.newPasswordHint ?? "Input your new password",
                         isPassword: true,
                         isRequired: true,
                         obsureText: isNewPasswordObscure,
@@ -123,13 +126,13 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                         },
                         validator: (value){
                           if (!(value?.isNotEmpty ?? false)){
-                            return "Please input your Password";
+                            return AppLocalizations.of(context)?.passwordEmptyError ?? "Please input your Password";
                           } else if (!(_newPasswordController.text.length >= 8)){
-                            return "Password Must Up To 8 Characters";
+                            return AppLocalizations.of(context)?.passwordUpTo8 ?? "Password Must Up To 8 Characters";
                           } else if (!(_newPasswordController.text.contains(RegExp(r'[0-9]+')))) {
-                            return "Password Must Contain Atleats One Number";
+                            return AppLocalizations.of(context)?.passwordContainNumber ?? "Password Must Contain Atleats One Number";
                           } else if (!(_newPasswordController.text.contains(RegExp(r'[^\w\s]')))){
-                            return "Password Must Contain Symbol";
+                            return AppLocalizations.of(context)?.passwordContainerSymbol ?? "Password Must Contain Symbol";
                           }
                       
                           return null;
@@ -145,8 +148,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       ),
                       CustomTextFormField(
                         controller: _confirmNewPasswordController,
-                        label: "Confirm New Password",
-                        hint: "Input confirmation of new password",
+                        label: AppLocalizations.of(context)?.confirmNewPasswordLabel ?? "Confirm New Password",
+                        hint: AppLocalizations.of(context)?.confirmNewPasswordHint ?? "Input confirmation of new password",
                         isPassword: true,
                         isRequired: true,
                         obsureText: isConfirmNewPasswordObscure,
@@ -167,7 +170,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             BlocConsumer<ChangePasswordCubit, StateGeneral>(
               builder: (context, state){
                 return PrimaryButtonComponent(
-                  label: "Submit",
+                  label: AppLocalizations.of(context)?.submitButton ?? "Submit",
                   isLoading: state.state is ChangePasswordLoadingState,
                   onTap: () async{
                     if (_key.currentState?.validate() ?? false){
@@ -178,7 +181,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     } else {
                       ToastNotifUtils.showError(
                         context: context,
-                        title: "Register Failed",
+                        title: AppLocalizations.of(context)?.actionFeatureFailed(AppLocalizations.of(context)?.changePasswordTitle ?? "") ?? "Change Password Failed",
                         description: "Please fill the required field"
                       );
                     }
@@ -189,7 +192,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 if (state.state is ChangePasswordSuccessState){
                   ToastNotifUtils.showSuccess(
                     context: context,
-                    title: "Register Success",
+                    title: AppLocalizations.of(context)?.actionFeatureSuccess(AppLocalizations.of(context)?.changePasswordTitle ?? "") ?? "Change Password Success",
                     description: state.message ?? ""
                   );
         
@@ -203,7 +206,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 } else if (state.state is ChangePasswordFailedState){
                   ToastNotifUtils.showError(
                     context: context,
-                    title: "Register Failed",
+                    title: AppLocalizations.of(context)?.actionFeatureFailed(AppLocalizations.of(context)?.changePasswordTitle ?? "") ?? "Change Password Failed",
                     description: state.message ?? ""
                   );
                 }
@@ -225,15 +228,15 @@ class PasswordRuleChecker extends StatelessWidget {
 
   final Map<String, dynamic> _passwordRule = Map.from({
     "firstRule" : Map.from({
-      "label": "Password Must Up To 8 Characters",
+      "label": "passwordUpTo8",
       "activate" : false
     }),
     "secondRule" : Map.from({
-      "label" : "Password Must Contain Atleast One Number",
+      "label" : "passwordContainNumber",
       "activate" : false
     }),
     "thirdRule" : Map.from({
-      "label" : "Password Must Contain Symbol",
+      "label" : "passwordContainerSymbol",
       "activate" : false 
     }),
   });
@@ -263,7 +266,7 @@ class PasswordRuleChecker extends StatelessWidget {
                 const SizedBox(width: 16.0,),
                 Expanded(
                   child: Text(
-                    _passwordRule[key]["label"],
+                    changeLabelPassword(context, _passwordRule[key]["label"]),
                     style: TextStyle(
                       fontSize: 16.0,
                       color: _passwordRule[key]["activate"] ? ColorConfig.mainColor : ColorConfig.blackTransparent,
@@ -276,5 +279,22 @@ class PasswordRuleChecker extends StatelessWidget {
         }).toList()
       )
     );
+  }
+
+  String changeLabelPassword(BuildContext context, String label){
+    String result = "";
+    switch(label){
+      case "passwordUpTo8":
+        result = AppLocalizations.of(context)?.passwordUpTo8 ?? "Password Must Up To 8 Characters";
+        break;
+      case "passwordContainNumber":
+        result = AppLocalizations.of(context)?.passwordContainerSymbol ?? "Password Must Contain At least One Number";
+        break;
+      case "passwordContainerSymbol":
+        result = AppLocalizations.of(context)?.passwordContainerSymbol ?? "Password Must Contain Symbol";
+        break;
+    }
+
+    return result;
   }
 }

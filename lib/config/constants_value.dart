@@ -1,6 +1,6 @@
 
 class ConstansValue {
-  static const int databaseVersion = 2;
+  static const int databaseVersion = 3;
   static const String databaseFilename = 'college_scheduler.db';
 
   //Shared Preference Key

@@ -16,6 +16,9 @@ class DatabaseVersionScheme {
       case 2:
         await databaseVersion_2();
         break;
+      case 3:
+        await databaseVersion_3();
+        break;
     }
   }
 
@@ -201,14 +204,118 @@ class DatabaseVersionScheme {
         "updated_at": DateTime.now().toString()
       });
       batch.insert("menu", {
-        "name": "Logout",
-        "route": "/logout",
-        "isIncoming": 0,
+        "name": "menuImportDatabase",
+        "route": "/import-db",
+        "isIncoming": 1,
         "show_order": 205,
         "parent_menu": "account",
         "created_at": DateTime.now().toString(),
         "updated_at": DateTime.now().toString()
       });
+      batch.insert("menu", {
+        "name": "Logout",
+        "route": "/logout",
+        "isIncoming": 0,
+        "show_order": 299,
+        "parent_menu": "account",
+        "created_at": DateTime.now().toString(),
+        "updated_at": DateTime.now().toString()
+      });
+
+      await batch.commit();
+    });
+  }
+
+  Future<void> databaseVersion_3() async{
+    await _db.transaction((trx) async{
+      Batch batch = trx.batch();
+
+      // MENU DATA  
+      batch.update("menu", {
+        "name": "menuDataClass",
+        "route": "/class",
+        "isIncoming": 0,
+        "show_order": 1,
+        "parent_menu": "data",
+        "updated_at": DateTime.now().toString()
+      }, where: "name = ?", whereArgs: ["Data Class"]);
+      batch.update("menu", {
+        "name": "menuDataLecturer",
+        "route": "/lecturer",
+        "isIncoming": 0,
+        "show_order": 2,
+        "parent_menu": "data",
+        "updated_at": DateTime.now().toString()
+      }, where: "name = ?", whereArgs: ["Data lecturer"]);
+      batch.update("menu", {
+        "name": "menuEventHistory",
+        "route": "/events/history",
+        "isIncoming": 0,
+        "show_order": 3,
+        "parent_menu": "data",
+        "updated_at": DateTime.now().toString()
+      }, where: "name = ?", whereArgs: ["Event History"]);
+
+      //MENU NOTIFICATION
+      batch.update("menu", {
+        "name": "menuReminderEvent",
+        "route": "-",
+        "isIncoming": 1,
+        "show_order": 101,
+        "parent_menu": "notification",
+        "updated_at": DateTime.now().toString()
+      }, where: "name = ?", whereArgs: ["Reminder Event"]);
+      batch.update("menu", {
+        "name": "menuReminderInput",
+        "route": "-",
+        "isIncoming": 1,
+        "show_order": 102,
+        "parent_menu": "notification",
+        "updated_at": DateTime.now().toString()
+      }, where: "name = ?", whereArgs: ["Reminder Input"]);
+
+
+      //MENU ACCOUNT
+      batch.update("menu", {
+        "name": "menuChangePassword",
+        "route": "/change-password",
+        "isIncoming": 0,
+        "show_order": 201,
+        "parent_menu": "account",
+        "updated_at": DateTime.now().toString()
+      }, where: "name = ?", whereArgs: ["Change Password"]);
+      batch.update("menu", {
+        "name": "menuChangeFullnameOrUsername",
+        "route": "/change-fullname-or-username",
+        "isIncoming": 0,
+        "show_order": 202,
+        "parent_menu": "account",
+        "updated_at": DateTime.now().toString()
+      }, where: "name = ?", whereArgs: ["Change Fullname Or Username"]);
+      batch.update("menu", {
+        "name": "menuLoginHistory",
+        "route": "/login/history",
+        "isIncoming": 0,
+        "show_order": 203,
+        "parent_menu": "account",
+        "updated_at": DateTime.now().toString()
+      }, where: "name = ?", whereArgs: ["Login History"]);
+      batch.update("menu", {
+        "name": "menuExportDatabase",
+        "route": "/export-db",
+        "isIncoming": 1,
+        "show_order": 204,
+        "parent_menu": "account",
+        "updated_at": DateTime.now().toString()
+      }, where: "name = ?", whereArgs: ["Export Database"]);
+      batch.update("menu", {
+        "name": "menuLogout",
+        "route": "/logout",
+        "isIncoming": 0,
+        "show_order": 299,
+        "parent_menu": "account",
+        "updated_at": DateTime.now().toString()
+      }, where: "name = ?", whereArgs: ["Logout"]);
 
       await batch.commit();
     });

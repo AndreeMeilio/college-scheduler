@@ -2,6 +2,7 @@
 import 'package:college_scheduler/components/primary_button.dart';
 import 'package:college_scheduler/components/text_form_field.dart';
 import 'package:college_scheduler/config/color_config.dart';
+import 'package:college_scheduler/config/generated/app_localizations.dart';
 import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:college_scheduler/cubit/lecturer/create_lecturer_cubit.dart';
@@ -57,7 +58,7 @@ class _InputDataLecturerPageState extends State<InputDataLecturerPage> {
         surfaceTintColor: ColorConfig.backgroundColor,
         backgroundColor: ColorConfig.backgroundColor,
         title: Text(
-          "Input Data Lecturer",
+          AppLocalizations.of(context)?.inputDataLecturerTitle ?? "Input Data Lecturer",
           style: TextStyleConfig.body1,
         ),
       ),
@@ -82,11 +83,11 @@ class _InputDataLecturerPageState extends State<InputDataLecturerPage> {
                     children: [
                       CustomTextFormField(
                         controller: _nameController,
-                        hint: "Input Lecturer Name",
-                        label: "Lecturer Name",
+                        hint: AppLocalizations.of(context)?.lecturerNameHint ?? "Input Lecturer Name",
+                        label: AppLocalizations.of(context)?.lecturerNameLabel ?? "Lecturer Name",
                         validator: (value){
                           if (value?.isEmpty ?? false){
-                            return "Please input the name of lecturer";
+                            return AppLocalizations.of(context)?.lecturerNameEmpty ?? "Please input the name of lecturer";
                           }
         
                           return null;
@@ -100,7 +101,7 @@ class _InputDataLecturerPageState extends State<InputDataLecturerPage> {
             BlocConsumer<CreateLecturerCubit, StateGeneral>(
               builder: (context, state){
                 return PrimaryButtonComponent(
-                  label: "Submit",
+                  label: AppLocalizations.of(context)?.submitButton ?? "Submit",
                   isLoading: state.state is CreateLecturerLoadingState,
                   onTap: () async{
                     if (_key.currentState?.validate() ?? false){
@@ -116,8 +117,8 @@ class _InputDataLecturerPageState extends State<InputDataLecturerPage> {
                     } else {
                       ToastNotifUtils.showError(
                         context: context,
-                        title: "Create Data Lecturer Failed",
-                        description: "Please fill the required data"
+                        title: AppLocalizations.of(context)?.actionFeatureFailed(AppLocalizations.of(context)?.createDataLecturer ?? "") ?? "Create Data Lecturer Failed",
+                        description: AppLocalizations.of(context)?.emptyFieldError ?? "Please fill the required data"
                       );
                     }
                   },
@@ -127,7 +128,7 @@ class _InputDataLecturerPageState extends State<InputDataLecturerPage> {
                 if (state.state is CreateLecturerSuccessState){
                   ToastNotifUtils.showSuccess(
                     context: context,
-                    title: "Create Data Lecturer Success",
+                    title: AppLocalizations.of(context)?.actionFeatureSuccess(AppLocalizations.of(context)?.createDataLecturer ?? "") ?? "Create Data Lecturer Success",
                     description: state.message ?? ""
                   );
         
@@ -135,7 +136,7 @@ class _InputDataLecturerPageState extends State<InputDataLecturerPage> {
                 } else if (state.state is CreateLecturerFailedState){
                   ToastNotifUtils.showError(
                     context: context,
-                    title: "Create Data Lecturer Failed",
+                    title: AppLocalizations.of(context)?.actionFeatureFailed(AppLocalizations.of(context)?.createDataLecturer ?? "") ?? "Create Data Lecturer Failed",
                     description: state.message ?? ""
                   );
                 }

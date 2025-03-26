@@ -101,6 +101,7 @@
     "usernameLabel": "Username",
     "usernameEmpty": "Please input your account username",
     "usernameHint": "Input your Username",
+    "usernameNewHint": "Input your new Username",
     "usernameNewEmptyError" : "Please input your new Username",
     "passwordLabel" : "Password",
     "passwordHint": "Input your password",
@@ -141,7 +142,7 @@
     },
 
     "dataStatusTitle": "Data Status",
-    "idleStatus" : "IDLE",
+    "idleStatus" : "NOT STARTED",
     "progressStatus" : "PROGESS",
     "doneStatus" : "DONE",
 
@@ -233,5 +234,24 @@
             "example": "Login"
         }
     },
-    "to": "To"
+    "to": "To",
+
+    "menuSettingsLabel": "{menu, select, menuDataClass{Data Class} menuDataLecturer{Data Lecturer} menuEventHistory{Event History} menuReminderEvent{Reminder Event} menuReminderInput{Reminder Input} menuChangePassword{Change Password} menuChangeFullnameOrUsername{Change Fullname Or Username} menuLoginHistory{Login History} menuExportDatabase{Export Database} menuImportDatabase{Import Database} menuLogout{Logout} other{}}",
+    "@menuSettingsLabel":{
+        "description": "Translate Menu Settings",
+        "placeholders": {
+            "menu":{
+                "type": "String"
+            }
+        }
+    },
+    "quoteDante": "THE PATH TO PARADISE BEGINS IN HELL",
+    "changePasswordTitle": "Change Password",
+    "oldPasswordLabel": "Old Password",
+    "newPaswordLabel": "New Password",
+    "confirmNewPasswordLabel": "Confirm New Password",
+    "oldPasswordHint": "Input your old password",
+    "newPasswordHint": "Input your new password",
+    "confirmNewPasswordHint": "Input confirmation of new password"
+
 }

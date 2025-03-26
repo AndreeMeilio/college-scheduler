@@ -2,6 +2,7 @@
 import 'package:college_scheduler/config/di_config.dart';
 import 'package:college_scheduler/cubit/event/priority_events_cubit.dart';
 import 'package:college_scheduler/cubit/event/status_events_cubit.dart';
+import 'package:college_scheduler/cubit/language_locale_cubit.dart';
 import 'package:college_scheduler/cubit/menu/settings_menu_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:college_scheduler/cubit/menu/base_menu_cubit.dart';
@@ -68,6 +69,9 @@ class CubitConfig {
       ),
       BlocProvider<PriorityEventsCubit>(
         create: (context) => PriorityEventsCubit(eventLocalData: sl())
+      ),
+      BlocProvider<LanguageLocaleCubit>(
+        create: (context) => LanguageLocaleCubit(),
       )
     ];
   }

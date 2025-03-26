@@ -75,7 +75,7 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get homeMenuButton => 'Home';
+  String get homeMenuButton => 'Beranda';
 
   @override
   String get eventsMenuButton => 'Acara';
@@ -121,6 +121,9 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get usernameHint => 'Masukkan Nama Pengguna Anda';
+
+  @override
+  String get usernameNewHint => 'Masukan nama pengguna baru';
 
   @override
   String get usernameNewEmptyError => 'Silakan masukkan Nama Pengguna baru Anda';
@@ -215,7 +218,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get dataStatusTitle => 'Data Status';
 
   @override
-  String get idleStatus => 'NGANGGUR';
+  String get idleStatus => 'BELUM DIMULAI';
 
   @override
   String get progressStatus => 'PROGRESS';
@@ -421,4 +424,50 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get to => 'Sampai';
+
+  @override
+  String menuSettingsLabel(String menu) {
+    String _temp0 = intl.Intl.selectLogic(
+      menu,
+      {
+        'menuDataClass': 'Data Kelas',
+        'menuDataLecturer': 'Data Dosen',
+        'menuEventHistory': 'Riwayat Acara',
+        'menuReminderEvent': 'Pengingat Acara',
+        'menuReminderInput': 'Pengingat Masukkan Data',
+        'menuChangePassword': 'Ganti Kata Sandi',
+        'menuChangeFullnameOrUsername': 'Ganti Nama Lengkap Atau Nama Pengguna',
+        'menuLoginHistory': 'Riwayat Masuk',
+        'menuExportDatabase': 'Ekspor Database',
+        'menuImportDatabase': 'Impor Database',
+        'menuLogout': 'Keluar',
+        'other': '',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get quoteDante => '\"JALAN MENUJU SURGA DIMULAI DI NERAKA\"';
+
+  @override
+  String get changePasswordTitle => 'Ganti Kata Sandi';
+
+  @override
+  String get oldPasswordLabel => 'Kata Sandi Lama';
+
+  @override
+  String get newPaswordLabel => 'Kata Sandi Baru';
+
+  @override
+  String get confirmNewPasswordLabel => 'Konfirmasi Kata Sandi Baru';
+
+  @override
+  String get oldPasswordHint => 'Masukan kata sandi lama';
+
+  @override
+  String get newPasswordHint => 'Masukan kata sandi baru';
+
+  @override
+  String get confirmNewPasswordHint => 'Masukkan konfirmasi kata sandi baru';
 }

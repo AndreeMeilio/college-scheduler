@@ -287,6 +287,12 @@ abstract class AppLocalizations {
   /// **'Input your Username'**
   String get usernameHint;
 
+  /// No description provided for @usernameNewHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Input your new Username'**
+  String get usernameNewHint;
+
   /// No description provided for @usernameNewEmptyError.
   ///
   /// In en, this message translates to:
@@ -470,7 +476,7 @@ abstract class AppLocalizations {
   /// No description provided for @idleStatus.
   ///
   /// In en, this message translates to:
-  /// **'IDLE'**
+  /// **'NOT STARTED'**
   String get idleStatus;
 
   /// No description provided for @progressStatus.
@@ -874,6 +880,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'To'**
   String get to;
+
+  /// Translate Menu Settings
+  ///
+  /// In en, this message translates to:
+  /// **'{menu, select, menuDataClass{Data Class} menuDataLecturer{Data Lecturer} menuEventHistory{Event History} menuReminderEvent{Reminder Event} menuReminderInput{Reminder Input} menuChangePassword{Change Password} menuChangeFullnameOrUsername{Change Fullname Or Username} menuLoginHistory{Login History} menuExportDatabase{Export Database} menuImportDatabase{Import Database} menuLogout{Logout} other{}}'**
+  String menuSettingsLabel(String menu);
+
+  /// No description provided for @quoteDante.
+  ///
+  /// In en, this message translates to:
+  /// **'THE PATH TO PARADISE BEGINS IN HELL'**
+  String get quoteDante;
+
+  /// No description provided for @changePasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Password'**
+  String get changePasswordTitle;
+
+  /// No description provided for @oldPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Old Password'**
+  String get oldPasswordLabel;
+
+  /// No description provided for @newPaswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'New Password'**
+  String get newPaswordLabel;
+
+  /// No description provided for @confirmNewPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm New Password'**
+  String get confirmNewPasswordLabel;
+
+  /// No description provided for @oldPasswordHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Input your old password'**
+  String get oldPasswordHint;
+
+  /// No description provided for @newPasswordHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Input your new password'**
+  String get newPasswordHint;
+
+  /// No description provided for @confirmNewPasswordHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Input confirmation of new password'**
+  String get confirmNewPasswordHint;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -31,8 +31,8 @@ class ToastNotifUtils{
       autoCloseDuration: const Duration(seconds: 3),
       style: ToastificationStyle.fillColored,
       type: ToastificationType.success,
-      title: Text(title, style: TextStyleConfig.body1bold,),
-      description: Text(description, style: TextStyleConfig.body1,),
+      title: Text(title, style: TextStyleConfig.body1bold.copyWith(color: ColorConfig.whiteColor),),
+      description: Text(description, style: TextStyleConfig.body1.copyWith(color: ColorConfig.whiteColor),),
       primaryColor: ColorConfig.greenColor
     ); 
   }
