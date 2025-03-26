@@ -1,6 +1,7 @@
 
 import 'package:college_scheduler/components/logs_item_component.dart';
 import 'package:college_scheduler/config/color_config.dart';
+import 'package:college_scheduler/config/generated/app_localizations.dart';
 import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:college_scheduler/cubit/logs/event_logs_cubit.dart';
@@ -33,7 +34,7 @@ class _EventHistoryPageState extends State<EventHistoryPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Event History",
+          AppLocalizations.of(context)?.eventHistory ?? "Event History",
           style: TextStyleConfig.body1,
         ),
         backgroundColor: ColorConfig.backgroundColor,

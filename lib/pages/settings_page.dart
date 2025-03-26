@@ -1,6 +1,7 @@
 import 'package:college_scheduler/components/quote_widget.dart';
 import 'package:college_scheduler/config/color_config.dart';
 import 'package:college_scheduler/config/constants_route_value.dart';
+import 'package:college_scheduler/config/generated/app_localizations.dart';
 import 'package:college_scheduler/config/shared_preference.dart';
 import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
@@ -38,7 +39,7 @@ class SettingsPage extends StatelessWidget {
               alignment: Alignment.centerLeft,
               margin: const EdgeInsets.symmetric(horizontal: 24.0),
               child: Text(
-                "Settings",
+                AppLocalizations.of(context)?.settingsMenuButton ?? "Settings",
                 style: TextStyleConfig.heading1,
               ),
             ),
@@ -98,15 +99,15 @@ class _SettingsListWidgetState extends State<SettingsListWidget> {
 
             List dataMenu = List.from([
               {
-                "label": "Data",
+                "label": AppLocalizations.of(context)?.dataSettingsLabel ?? "Data",
                 "item" : dataListMenu
               },
               {
-                "label": "Notification",
+                "label": AppLocalizations.of(context)?.notificationSettingsLabel ?? "Notification",
                 "item" : notificationListMenu
               },
               {
-                "label": "Account",
+                "label": AppLocalizations.of(context)?.accountSettingsLabel ?? "Account",
                 "item" : accountListMenu
               },
             ]);
@@ -134,7 +135,7 @@ class _SettingsListWidgetState extends State<SettingsListWidget> {
           } else {
             return Center(
               child: Text(
-                "You don't have data on settings menu",
+                AppLocalizations.of(context)?.gettingDataEmpty(AppLocalizations.of(context)?.settingsMenuButton ?? "") ?? "You don't have data on Settings",
                 style: TextStyleConfig.body1bold,
               ),
             );
@@ -254,7 +255,7 @@ class SettingsDataListItem extends StatelessWidget {
                       borderRadius: BorderRadius.all(Radius.circular(8.0)),
                     ),
                     child: Text(
-                      "Coming Soon",
+                      AppLocalizations.of(context)?.incoming ?? "Coming Soon",
                       style: TextStyleConfig.body1,
                     ),
                   )

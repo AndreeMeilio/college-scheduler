@@ -7,6 +7,7 @@ import 'package:college_scheduler/components/quote_widget.dart';
 import 'package:college_scheduler/components/text_form_field.dart';
 import 'package:college_scheduler/config/color_config.dart';
 import 'package:college_scheduler/config/constants_route_value.dart';
+import 'package:college_scheduler/config/generated/app_localizations.dart';
 import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:college_scheduler/cubit/event/priority_events_cubit.dart';
@@ -88,7 +89,7 @@ class _GreetingWidgetState extends State<GreetingWidget> {
             ),
           ),
           Text(
-            "Welcome Back! \nMy Friend",
+            AppLocalizations.of(context)?.greetingFriend("My Friend") ?? "Welcome Back! \nMy Friend",
             style: TextStyleConfig.heading1bold,
           )
         ],
@@ -133,7 +134,7 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
             spacing: 8.0,
             children: [
               Text(
-                "Data Status",
+                AppLocalizations.of(context)?.dataStatusTitle ?? "Data Status",
                 style: TextStyleConfig.body1bold,
               ),
               Container(
@@ -163,7 +164,7 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               spacing: 16.0,
                               children: [
-                                Text("IDLE", style: TextStyleConfig.body1bold,),
+                                Text( AppLocalizations.of(context)?.idleStatus ?? "IDLE", style: TextStyleConfig.body1bold,),
                                 Text("${state.data?['idleCount']}", style: TextStyleConfig.body1bold,),
                               ],
                             ),
@@ -175,7 +176,7 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               spacing: 16.0,
                               children: [
-                                Text("PROGRESS", style: TextStyleConfig.body1bold,),
+                                Text( AppLocalizations.of(context)?.progressStatus ?? "PROGRESS", style: TextStyleConfig.body1bold,),
                                 Text("${state.data?['progressCount']}", style: TextStyleConfig.body1bold,),
                               ],
                             ),
@@ -187,7 +188,7 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               spacing: 16.0,
                               children: [
-                                Text("DONE", style: TextStyleConfig.body1bold,),
+                                Text(AppLocalizations.of(context)?.doneStatus ?? "DONE", style: TextStyleConfig.body1bold,),
                                 Text("${state.data?['doneCount']}", style: TextStyleConfig.body1bold,),
                               ],
                             ),
@@ -299,7 +300,7 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
             spacing: 8.0,
             children: [
               Text(
-                "Data Priority",
+                AppLocalizations.of(context)?.dataPriorityTitle ?? "Data Priority",
                 style: TextStyleConfig.body1bold,
               ),
               Container(
@@ -329,7 +330,7 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               spacing: 16.0,
                               children: [
-                                Text("LOW", style: TextStyleConfig.body1bold,),
+                                Text(AppLocalizations.of(context)?.lowPriority ?? "LOW", style: TextStyleConfig.body1bold,),
                                 Text("${state.data?['lowCount']}", style: TextStyleConfig.body1bold,),
                               ],
                             ),
@@ -341,7 +342,7 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               spacing: 16.0,
                               children: [
-                                Text("MEDIUM", style: TextStyleConfig.body1bold,),
+                                Text(AppLocalizations.of(context)?.mediumPriority ?? "MEDIUM", style: TextStyleConfig.body1bold,),
                                 Text("${state.data?['mediumCount']}", style: TextStyleConfig.body1bold,),
                               ],
                             ),
@@ -353,7 +354,7 @@ class _StatusDashboardWidgetState extends State<StatusDashboardWidget> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               spacing: 16.0,
                               children: [
-                                Text("HIGH", style: TextStyleConfig.body1bold,),
+                                Text(AppLocalizations.of(context)?.highPriority ?? "HIGH", style: TextStyleConfig.body1bold,),
                                 Text("${state.data?['highCount']}", style: TextStyleConfig.body1bold,),
                               ],
                             ),
@@ -477,7 +478,7 @@ class ShortcutMenuWidget extends StatelessWidget {
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Text(
-            "Core Menu",
+            AppLocalizations.of(context)?.coreMenuTitle ?? "Core Menu",
             style: TextStyleConfig.body1bold,
           ),
         ),
@@ -507,7 +508,7 @@ class ShortcutMenuWidget extends StatelessWidget {
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                           child: Text(
-                            "Data Events",
+                            AppLocalizations.of(context)?.dataEventsTitle ?? "Data Events",
                             style: TextStyleConfig.body1bold,
                             textAlign: TextAlign.center,
                           ),
@@ -536,7 +537,7 @@ class ShortcutMenuWidget extends StatelessWidget {
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                           child: Text(
-                            "Data Class",
+                            AppLocalizations.of(context)?.dataClassTitle ?? "Data Class",
                             style: TextStyleConfig.body1bold,
                             textAlign: TextAlign.center,
                           ),
@@ -565,7 +566,7 @@ class ShortcutMenuWidget extends StatelessWidget {
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                           child: Text(
-                            "Data Lecturer",
+                            AppLocalizations.of(context)?.dataLecturerTitle ?? "Data Lecturer",
                             style: TextStyleConfig.body1bold,
                             textAlign: TextAlign.center,
                           ),
@@ -663,7 +664,7 @@ class _RecentDataEventWidgetState extends State<RecentDataEventWidget> {
         spacing: 8.0,
         children: [
           Text(
-            "Recent Data Events",
+            AppLocalizations.of(context)?.recentDataEvents ?? "Recent Data Events",
             style: TextStyleConfig.body1bold,
           ),
           BlocBuilder<ListEventCubit, StateGeneral>(

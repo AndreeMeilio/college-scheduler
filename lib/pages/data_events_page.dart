@@ -5,6 +5,7 @@ import 'package:college_scheduler/components/primary_button.dart';
 import 'package:college_scheduler/components/text_form_field.dart';
 import 'package:college_scheduler/config/color_config.dart';
 import 'package:college_scheduler/config/constants_route_value.dart';
+import 'package:college_scheduler/config/generated/app_localizations.dart';
 import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:college_scheduler/cubit/menu/base_menu_cubit.dart';
@@ -75,7 +76,7 @@ class _DataEventsPageState extends State<DataEventsPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Data Events",
+          AppLocalizations.of(context)?.dataEventsTitle ?? "Data Events",
           style: TextStyleConfig.body1,
         ),
         backgroundColor: ColorConfig.backgroundColor,
@@ -99,7 +100,7 @@ class _DataEventsPageState extends State<DataEventsPage> {
                   child: CustomTextFormField(
                     controller: _searchController,
                     label: "",
-                    hint: "Search item by Title",
+                    hint: AppLocalizations.of(context)?.searchItemByTitle ?? "Search item by Title",
                     onSubmited: (value) async{
                       await _cubit.getAllEvent(
                         searchItem: value,
@@ -146,14 +147,14 @@ class _DataEventsPageState extends State<DataEventsPage> {
                                             endIndent: 125.0,
                                           ),
                                           Text(
-                                            "Filter Events",
+                                            AppLocalizations.of(context)?.filterEvents ?? "Filter Events",
                                             style: TextStyleConfig.body1bold,
                                           ),
                                           CustomTextFormField(
                                             controller: _filterDateOfEventController,
                                             margin: const EdgeInsets.all(0.0),
-                                            label: "Date Of Event",
-                                            hint: "Please input Date Of Event",
+                                            label: AppLocalizations.of(context)?.dateOfEventsLabel ?? "Date Of Event",
+                                            hint: AppLocalizations.of(context)?.dateOfEventsHint ?? "Please input Date Of Event",
                                             readonly: true,
                                             onTap: () async{
                                               final dateByUsers = await showDateRangePicker(
@@ -177,7 +178,7 @@ class _DataEventsPageState extends State<DataEventsPage> {
                                             },
                                             validator: (value){
                                               if (value?.isEmpty ?? false){
-                                                return "Please input date of the event";
+                                                return AppLocalizations.of(context)?.dateOfEventsHint ?? "Please input date of the event";
                                               }
         
                                               return null;
@@ -189,25 +190,25 @@ class _DataEventsPageState extends State<DataEventsPage> {
                                               Expanded(
                                                 child: DropdownMenuComponent(
                                                   margin: const EdgeInsets.all(0.0),
-                                                  label: "Priority",
+                                                  label: AppLocalizations.of(context)?.priorityLabel ?? "Data Priority",
                                                   controller: _filterPriorityController,
                                                   value: _filterSelectedPriority,
                                                   menu: [
                                                     DropdownMenuEntry(
-                                                      label: "Select Priority",
+                                                      label: AppLocalizations.of(context)?.prioritySelect ?? "Select Priority",
                                                       value: PRIORITY.selectPriority,
                                                       enabled: false
                                                     ),
                                                     DropdownMenuEntry(
-                                                      label: "LOW",
+                                                      label: AppLocalizations.of(context)?.lowPriority ?? "LOW",
                                                       value: PRIORITY.low,
                                                     ),
                                                     DropdownMenuEntry(
-                                                      label: "MEDIUM",
+                                                      label: AppLocalizations.of(context)?.mediumPriority ?? "MEDIUM",
                                                       value: PRIORITY.medium,
                                                     ),
                                                     DropdownMenuEntry(
-                                                      label: "HIGH",
+                                                      label: AppLocalizations.of(context)?.highPriority ?? "HIGH",
                                                       value: PRIORITY.high,
                                                     ),
                                                   ],
@@ -219,25 +220,25 @@ class _DataEventsPageState extends State<DataEventsPage> {
                                               Expanded(
                                                 child: DropdownMenuComponent(
                                                   margin: const EdgeInsets.all(0.0),
-                                                  label: "Status",
+                                                  label: AppLocalizations.of(context)?.dataStatusTitle ?? "Data Status",
                                                   controller: _filterStatusController,
                                                   value: _filterSelectedStatus,
                                                   menu: [
                                                     DropdownMenuEntry(
-                                                      label: "Select Status",
+                                                      label: AppLocalizations.of(context)?.statusSelect ?? "Select Status",
                                                       value: STATUS.selectStatus,
                                                       enabled: false
                                                     ),
                                                     DropdownMenuEntry(
-                                                      label: "IDLE",
+                                                      label: AppLocalizations.of(context)?.idleStatus ?? "IDLE",
                                                       value: STATUS.idle,
                                                     ),
                                                     DropdownMenuEntry(
-                                                      label: "PROGRESS",
+                                                      label: AppLocalizations.of(context)?.progressStatus ?? "PROGRESS",
                                                       value: STATUS.progress,
                                                     ),
                                                     DropdownMenuEntry(
-                                                      label: "DONE",
+                                                      label: AppLocalizations.of(context)?.doneStatus ?? "DONE",
                                                       value: STATUS.done,
                                                     ),
                                                   ],
@@ -261,13 +262,13 @@ class _DataEventsPageState extends State<DataEventsPage> {
                                             _filterDateRangeEvent = null;
                                             _filterDateOfEventController.clear();
         
-                                            _filterPriorityController.text = "Select Priority";
-                                            _filterStatusController.text = "Select Status";
+                                            _filterPriorityController.text = AppLocalizations.of(context)?.prioritySelect ?? "Select Priority";
+                                            _filterStatusController.text = AppLocalizations.of(context)?.statusSelect ?? "Select Status";
                                             _filterSelectedPriority = PRIORITY.selectPriority;
                                             _filterSelectedStatus = STATUS.selectStatus;
                                           },
                                           margin: const EdgeInsets.all(0.0),
-                                          label: "Clear",
+                                          label: AppLocalizations.of(context)?.clearButton ?? "Clear",
                                           color: ColorConfig.greyColor,
                                         ),
                                       ),
@@ -287,7 +288,7 @@ class _DataEventsPageState extends State<DataEventsPage> {
         
                                           },
                                           margin: const EdgeInsets.all(0.0),
-                                          label: "Submit",
+                                          label: AppLocalizations.of(context)?.submitButton ?? "Submit",
                                         ),
                                       )
                                     ],
@@ -330,7 +331,7 @@ class _DataEventsPageState extends State<DataEventsPage> {
                       alignment: Alignment.center,
                       margin: const EdgeInsets.symmetric(vertical: 24.0),
                       child: Text(
-                        "You Don't Have Any Data On Events",
+                        AppLocalizations.of(context)?.gettingDataEmpty(AppLocalizations.of(context)?.dataEventsTitle ?? "") ?? "You Don't Have Data On Events",
                         style: TextStyleConfig.body1bold,
                       ),
                     );
@@ -425,7 +426,7 @@ class ListItemEventDataWidget extends StatelessWidget {
                 }
               );
             },
-            label: "Delete",
+            label: AppLocalizations.of(context)?.deleteButton ?? "Delete",
             backgroundColor: ColorConfig.redColor,
             icon: Icons.edit,
           ),
@@ -455,7 +456,7 @@ class ListItemEventDataWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 8.0,),
                   Text(
-                    "Deadline : ${DateFormatUtils.dateFormatddMMMMy(date: data.dateOfEvent ?? DateTime.parse("0000-00-00"))}",
+                    "${AppLocalizations.of(context)?.deadlineLabel} : ${DateFormatUtils.dateFormatddMMMMy(date: data.dateOfEvent ?? DateTime.parse("0000-00-00"))}",
                     style: TextStyleConfig.body2,
                   ),
                   const SizedBox(height: 32.0,),
@@ -463,11 +464,11 @@ class ListItemEventDataWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Priority : ${data.priority?.name.toUpperCase()}",
+                        "${AppLocalizations.of(context)?.priorityLabel} : ${data.priority?.name.toUpperCase()}",
                         style: TextStyleConfig.body2,
                       ),
                       Text(
-                        "Status : ${data.status?.name.toUpperCase()}",
+                        "${AppLocalizations.of(context)?.statusLabel} : ${data.status?.name.toUpperCase()}",
                         style: TextStyleConfig.body2,
                       ),
                     ],

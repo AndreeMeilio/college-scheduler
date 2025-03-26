@@ -1,4 +1,5 @@
 import 'package:college_scheduler/config/color_config.dart';
+import 'package:college_scheduler/config/generated/app_localizations.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:college_scheduler/data/models/event_model.dart';
 import 'package:college_scheduler/utils/date_format_utils.dart';
@@ -20,7 +21,7 @@ class DetailEventPage extends StatelessWidget {
         surfaceTintColor: ColorConfig.backgroundColor,
         backgroundColor: ColorConfig.backgroundColor,
         title: Text(
-          "Detail Event",
+          AppLocalizations.of(context)?.detailEventTitle ?? "Detail Event",
           style: TextStyleConfig.body1,
         ),
       ),
@@ -53,7 +54,7 @@ class DetailEventPage extends StatelessWidget {
                       spacing: 4.0,
                       children: [
                         Text(
-                          "Date Of Event",
+                          AppLocalizations.of(context)?.dateOfEventsLabel ?? "Date Of Event",
                           style: TextStyleConfig.body1bold,
                         ),
                         Text(
@@ -68,7 +69,7 @@ class DetailEventPage extends StatelessWidget {
                       spacing: 4.0,
                       children: [
                         Text(
-                          "Start Hour",
+                          AppLocalizations.of(context)?.startHourLabel ?? "Start Hour",
                           style: TextStyleConfig.body1bold,
                         ),
                         Text(
@@ -83,7 +84,7 @@ class DetailEventPage extends StatelessWidget {
                       spacing: 4.0,
                       children: [
                         Text(
-                          "End Hour",
+                          AppLocalizations.of(context)?.endHourLabel ?? "End Hour",
                           style: TextStyleConfig.body1bold,
                         ),
                         Text(
@@ -113,7 +114,7 @@ class DetailEventPage extends StatelessWidget {
                       spacing: 4.0,
                       children: [
                         Text(
-                          "Priority",
+                          AppLocalizations.of(context)?.priorityLabel ?? "Priority",
                           style: TextStyleConfig.body1bold,
                         ),
                         Text(
@@ -128,7 +129,7 @@ class DetailEventPage extends StatelessWidget {
                       spacing: 4.0,
                       children: [
                         Text(
-                          "Status",
+                          AppLocalizations.of(context)?.statusLabel ?? "Status",
                           style: TextStyleConfig.body1bold,
                         ),
                         Text(
@@ -151,7 +152,7 @@ class DetailEventPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    "Location",
+                    AppLocalizations.of(context)?.locationLabel ?? "Location",
                     style: TextStyleConfig.body1bold,
                   ),
                   Text(
@@ -175,7 +176,7 @@ class DetailEventPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    "Class Name",
+                    AppLocalizations.of(context)?.classNameLabel ?? "Class Name",
                     style: TextStyleConfig.body1bold,
                   ),
                   Text(
@@ -198,7 +199,7 @@ class DetailEventPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     spacing: 8.0,
                     children: [
-                      Text("Description", style: TextStyleConfig.body1bold,),
+                      Text(AppLocalizations.of(context)?.descriptionLabel ?? "Description", style: TextStyleConfig.body1bold,),
                       Text(data.description ?? "", style: TextStyleConfig.body1, textAlign: TextAlign.justify,)
                     ],
                   ),

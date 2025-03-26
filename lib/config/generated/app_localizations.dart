@@ -344,7 +344,7 @@ abstract class AppLocalizations {
   /// No description provided for @confirmationPasswordEmpty.
   ///
   /// In en, this message translates to:
-  /// **'Please input your password'**
+  /// **'Please input your confirmation password'**
   String get confirmationPasswordEmpty;
 
   /// No description provided for @passwordAndConfirmationDontMatch.
@@ -623,6 +623,12 @@ abstract class AppLocalizations {
   /// **'Deadline'**
   String get deadlineLabel;
 
+  /// No description provided for @selectClassLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Class'**
+  String get selectClassLabel;
+
   /// No description provided for @createDataLecturer.
   ///
   /// In en, this message translates to:
@@ -850,6 +856,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Create Event Failed'**
   String get createEventFailed;
+
+  /// Action Success Title
+  ///
+  /// In en, this message translates to:
+  /// **'{action} Success'**
+  String actionFeatureSuccess(Object action);
+
+  /// Action Failed Title
+  ///
+  /// In en, this message translates to:
+  /// **'{action} Failed'**
+  String actionFeatureFailed(Object action);
+
+  /// No description provided for @to.
+  ///
+  /// In en, this message translates to:
+  /// **'To'**
+  String get to;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

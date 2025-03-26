@@ -2,6 +2,7 @@ import 'package:college_scheduler/components/delete_confirmation_component.dart'
 import 'package:college_scheduler/components/primary_button.dart';
 import 'package:college_scheduler/config/color_config.dart';
 import 'package:college_scheduler/config/constants_route_value.dart';
+import 'package:college_scheduler/config/generated/app_localizations.dart';
 import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:college_scheduler/cubit/class/list_data_class_cubit.dart';
@@ -44,7 +45,7 @@ class _DataClassPageState extends State<DataClassPage> {
       appBar: AppBar(
         surfaceTintColor: ColorConfig.backgroundColor,
         backgroundColor: ColorConfig.backgroundColor,
-        title: Text("Data Class", style: TextStyleConfig.body1,),
+        title: Text(AppLocalizations.of(context)?.dataClassTitle ?? "Data Class", style: TextStyleConfig.body1,),
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -79,7 +80,7 @@ class _DataClassPageState extends State<DataClassPage> {
                         alignment: Alignment.center,
                         margin: const EdgeInsets.symmetric(vertical: 24.0),
                         child: Text(
-                          "You Don't Have Any Data On Class",
+                          AppLocalizations.of(context)?.gettingDataEmpty(AppLocalizations.of(context)?.dataClassTitle ?? "Data Class") ?? "You Don't Have Any Data On Class",
                           style: TextStyleConfig.body1bold,
                         ),
                       );
@@ -111,7 +112,7 @@ class _DataClassPageState extends State<DataClassPage> {
               margin: const EdgeInsets.symmetric(vertical: 24.0),
               alignment: Alignment.center,
               child: PrimaryButtonComponent(
-                label: "Create Data Class",
+                label: AppLocalizations.of(context)?.createDataClass ?? "Create Data Class",
                 onTap: (){
                   context.push("${ConstantsRouteValue.clasess}/${ConstantsRouteValue.actionClasess}");
                 },
@@ -147,7 +148,7 @@ class DataClassItemWidget extends StatelessWidget {
             onPressed: (context) {
               context.push("${ConstantsRouteValue.clasess}/${ConstantsRouteValue.actionClasess}", extra: _data);
             },
-            label: "Edit",
+            label: AppLocalizations.of(context)?.editButton ?? "Edit",
             backgroundColor: ColorConfig.mainColor,
             icon: Icons.edit,
           ),
@@ -172,7 +173,7 @@ class DataClassItemWidget extends StatelessWidget {
                 }
               );
             },
-            label: "Delete",
+            label: AppLocalizations.of(context)?.deleteButton ?? "Delete",
             backgroundColor: ColorConfig.redColor,
             icon: Icons.edit,
           ),
@@ -217,7 +218,7 @@ class DataClassItemWidget extends StatelessWidget {
                   )
                 ),
                 Text(
-                  "to",
+                  AppLocalizations.of(context)?.to ?? "To",
                   style: TextStyleConfig.body1,
                 ),
                 Expanded(
@@ -307,7 +308,7 @@ class DataClassItemLoadingWidget extends StatelessWidget {
                 )
               ),
               Text(
-                "to",
+                AppLocalizations.of(context)?.to ?? "To",
                 style: TextStyleConfig.body1,
               ),
               Expanded(

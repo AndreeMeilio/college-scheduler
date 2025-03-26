@@ -3,6 +3,7 @@ import 'package:college_scheduler/components/text_button_component.dart';
 import 'package:college_scheduler/components/text_form_field.dart';
 import 'package:college_scheduler/config/color_config.dart';
 import 'package:college_scheduler/config/constants_route_value.dart';
+import 'package:college_scheduler/config/generated/app_localizations.dart';
 import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:college_scheduler/cubit/users/login_cubit.dart';
@@ -67,7 +68,8 @@ class _RegisterPageState extends State<RegisterPage> {
         surfaceTintColor: ColorConfig.backgroundColor,
         backgroundColor: ColorConfig.backgroundColor,
         title: Text(
-          "Register"
+          AppLocalizations.of(context)?.registerAccount ?? "Register Account",
+          style: TextStyleConfig.body1,
         ),
       ),
       body: Container(
@@ -91,11 +93,11 @@ class _RegisterPageState extends State<RegisterPage> {
                     children: [
                       CustomTextFormField(
                         controller: _fullnameController,
-                        label: "Fullname",
-                        hint: "Input your Fullname",
+                        label: AppLocalizations.of(context)?.fullnameLabel ?? "Fullname",
+                        hint: AppLocalizations.of(context)?.fullnameHint ?? "Input your Fullname",
                         validator: (value){
                           if (!(value?.isNotEmpty ?? false)){
-                            return "Please input your Fullname";
+                            return AppLocalizations.of(context)?.fullnameEmpty ?? "Please input your Fullname";
                           }
                       
                           return null;
@@ -103,11 +105,11 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       CustomTextFormField(
                         controller: _usernameController,
-                        label: "Username",
-                        hint: "Input your Username",
+                        label: AppLocalizations.of(context)?.usernameLabel ?? "Username",
+                        hint: AppLocalizations.of(context)?.usernameHint ?? "Input your Username",
                         validator: (value){
                           if (!(value?.isNotEmpty ?? false)){
-                            return "Please input your Username";
+                            return AppLocalizations.of(context)?.usernameEmpty ?? "Please input your Username";
                           }
                       
                           return null;
@@ -119,8 +121,8 @@ class _RegisterPageState extends State<RegisterPage> {
                         children: [
                           CustomTextFormField(
                             controller: _passwordController,
-                            label: "Password",
-                            hint: "Input your Password",
+                            label: AppLocalizations.of(context)?.passwordLabel ?? "Password",
+                            hint: AppLocalizations.of(context)?.passwordHint ?? "Input your Password",
                             isPassword: true,
                             obsureText: _isObscure,
                             suffixIconOnPressed: (){
@@ -130,13 +132,13 @@ class _RegisterPageState extends State<RegisterPage> {
                             },
                             validator: (value){
                               if (!(value?.isNotEmpty ?? false)){
-                                return "Please input your Password";
+                                return AppLocalizations.of(context)?.passwordEmpty ?? "Please input your Password";
                               } else if (!(_passwordController.text.length >= 8)){
-                                return "Password Must Up To 8 Characters";
+                                return AppLocalizations.of(context)?.passwordUpTo8 ?? "Password Must Up To 8 Characters";
                               } else if (!(_passwordController.text.contains(RegExp(r'[0-9]+')))) {
-                                return "Password Must Contain Atleats One Number";
+                                return AppLocalizations.of(context)?.passwordContainNumber ?? "Password Must Contain Atleats One Number";
                               } else if (!(_passwordController.text.contains(RegExp(r'[^\w\s]')))){
-                                return "Password Must Contain Symbol";
+                                return AppLocalizations.of(context)?.passwordContainerSymbol ?? "Password Must Contain Symbol";
                               }
                           
                               return null;
@@ -152,8 +154,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                           CustomTextFormField(
                             controller: _confirmPasswordController,
-                            label: "Confirmation Password",
-                            hint: "Input your Confirmation Password",
+                            label: AppLocalizations.of(context)?.confirmationPasswordTitle ?? "Confirmation Password",
+                            hint: AppLocalizations.of(context)?.confirmationPasswordHint ?? "Input your Confirmation Password",
                             isPassword: true,
                             obsureText: _isConfirmationObscure,
                             suffixIconOnPressed: (){
@@ -163,9 +165,9 @@ class _RegisterPageState extends State<RegisterPage> {
                             },
                             validator: (value){
                               if (!(value?.isNotEmpty ?? false)){
-                                return "Please input your Password";
+                                return AppLocalizations.of(context)?.confirmationPasswordEmpty ?? "Please input your confirmation Password";
                               } else if (_passwordController.text != _confirmPasswordController.text){
-                                return "Your password and confirmation password doesn't match";
+                                return AppLocalizations.of(context)?.passwordAndConfirmationDontMatch ?? "Your password and confirmation password doesn't match";
                               }
                           
                               return null;
@@ -198,19 +200,19 @@ class _RegisterPageState extends State<RegisterPage> {
                     } else {
                       ToastNotifUtils.showError(
                         context: context,
-                        title: "Register Failed",
-                        description: "Please fill the required data"
+                        title: AppLocalizations.of(context)?.actionFeatureFailed(AppLocalizations.of(context)?.registerAccount ?? "") ?? "Register Failed",
+                        description: AppLocalizations.of(context)?.emptyFieldError ?? "Please fill the required data"
                       );
                     }
                   },
-                  label: "Register Account",
+                  label: AppLocalizations.of(context)?.registerAccount ?? "Register Account",
                 );
               },
               listener: (context, state) {
                 if (state.state is RegisterSuccessState){
                   ToastNotifUtils.showSuccess(
                     context: context,
-                    title: "Register Success",
+                    title: AppLocalizations.of(context)?.actionFeatureSuccess(AppLocalizations.of(context)?.registerAccount ?? "") ?? "Register Success",
                     description: state.message ?? ""
                   );
         
@@ -218,7 +220,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 } else if (state.state is RegisterFailedState){
                   ToastNotifUtils.showError(
                     context: context,
-                    title: "Register Failed",
+                    title: AppLocalizations.of(context)?.actionFeatureFailed(AppLocalizations.of(context)?.registerAccount ?? "") ?? "Register Failed",
                     description: state.message ?? ""
                   );
                 }
@@ -233,13 +235,13 @@ class _RegisterPageState extends State<RegisterPage> {
                 alignment: Alignment.center,
                 child: RichText(
                   text: TextSpan(
-                    text: "Already Have Account? ",
+                    text: AppLocalizations.of(context)?.alreadyHaveAccount ?? "Already Have Account? ",
                     style: TextStyleConfig.body1.copyWith(
                       color: ColorConfig.blackColor
                     ),
                     children: [
                       TextSpan(
-                        text: "Login Here!",
+                        text: AppLocalizations.of(context)?.loginHere ?? "Login Here!",
                         style: TextStyleConfig.body1bold.copyWith(
                           color: ColorConfig.mainColor
                         )
@@ -265,20 +267,38 @@ class PasswordRuleChecker extends StatelessWidget {
 
   final Map<String, dynamic> _passwordRule = Map.from({
     "firstRule" : Map.from({
-      "label": "Password Must Up To 8 Characters",
+      "label": "passwordUpTo8",
       "activate" : false
     }),
     "secondRule" : Map.from({
-      "label" : "Password Must Contain Atleast One Number",
+      "label" : "passwordContainNumber",
       "activate" : false
     }),
     "thirdRule" : Map.from({
-      "label" : "Password Must Contain Symbol",
+      "label" : "passwordContainerSymbol",
       "activate" : false 
     }),
   });
 
   final String _password;
+
+  String passwordLocalization(BuildContext context, String label){
+    String result = "";
+
+    switch(label){
+      case "passwordUpTo8":
+        result = AppLocalizations.of(context)?.passwordUpTo8 ?? "Password Must Up To 8 Characters";
+        break;
+      case "passwordContainNumber":
+        result = AppLocalizations.of(context)?.passwordContainNumber ?? "Password Must Contain At least One Number";
+        break;
+      case "passwordContainerSymbol":
+        result = AppLocalizations.of(context)?.passwordContainerSymbol ?? "Password Must Contain Symbol";
+        break;
+    }
+
+    return result;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -303,7 +323,7 @@ class PasswordRuleChecker extends StatelessWidget {
                 const SizedBox(width: 16.0,),
                 Expanded(
                   child: Text(
-                    _passwordRule[key]["label"],
+                    passwordLocalization(context, _passwordRule[key]["label"]),
                     style: TextStyle(
                       fontSize: 16.0,
                       color: _passwordRule[key]["activate"] ? ColorConfig.mainColor : ColorConfig.blackTransparent,

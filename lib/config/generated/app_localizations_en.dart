@@ -150,7 +150,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get confirmationPasswordHint => 'Input Your Confirmation Password';
 
   @override
-  String get confirmationPasswordEmpty => 'Please input your password';
+  String get confirmationPasswordEmpty => 'Please input your confirmation password';
 
   @override
   String get passwordAndConfirmationDontMatch => 'Your password and confirmation password doesn\'t match';
@@ -293,6 +293,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deadlineLabel => 'Deadline';
 
   @override
+  String get selectClassLabel => 'Select Class';
+
+  @override
   String get createDataLecturer => 'Create Data Lecturer';
 
   @override
@@ -405,4 +408,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get createEventFailed => 'Create Event Failed';
+
+  @override
+  String actionFeatureSuccess(Object action) {
+    return '$action Success';
+  }
+
+  @override
+  String actionFeatureFailed(Object action) {
+    return '$action Failed';
+  }
+
+  @override
+  String get to => 'To';
 }

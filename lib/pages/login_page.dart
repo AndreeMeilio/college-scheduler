@@ -3,6 +3,7 @@ import 'package:college_scheduler/components/text_button_component.dart';
 import 'package:college_scheduler/components/text_form_field.dart';
 import 'package:college_scheduler/config/color_config.dart';
 import 'package:college_scheduler/config/constants_route_value.dart';
+import 'package:college_scheduler/config/generated/app_localizations.dart';
 import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:college_scheduler/cubit/users/login_cubit.dart';
@@ -115,17 +116,17 @@ class _LoginPageState extends State<LoginPage> {
                         Container(
                           margin: const EdgeInsets.symmetric(horizontal: 24.0),
                           child: Text(
-                            "COLLEGE SCHEDULER",
+                            AppLocalizations.of(context)?.title ?? "College Scheduler",
                             style: TextStyleConfig.heading1bold
                           ),
                         ),
                         CustomTextFormField(
                           controller: _usernameController,
-                          hint: "Input your username",
-                          label: "Username",
+                          hint: AppLocalizations.of(context)?.usernameHint ?? "Input your username",
+                          label: AppLocalizations.of(context)?.usernameLabel ?? "Username",
                           validator: (value){
                             if (!(value?.isNotEmpty ?? false)){
-                              return "Please input your account username";
+                              return AppLocalizations.of(context)?.usernameEmpty ?? "Please input your account username";
                             }
                   
                             return null;
@@ -133,12 +134,12 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         CustomTextFormField(
                           controller: _passwordController,
-                          hint: "Input your password",
-                          label: "Password",
+                          hint: AppLocalizations.of(context)?.passwordHint ?? "Input your password",
+                          label: AppLocalizations.of(context)?.passwordLabel ?? "Password",
                           obsureText: _obsureText,
                           validator: (value){
                             if (!(value?.isNotEmpty ?? false)){
-                              return "Please input your account password";
+                              return AppLocalizations.of(context)?.passwordEmpty ?? "Please input your account password";
                             }
                   
                             return null;
@@ -174,12 +175,12 @@ class _LoginPageState extends State<LoginPage> {
                                   } else {
                                     ToastNotifUtils.showError(
                                       context: context,
-                                      title: "Login Failed",
-                                      description: "Please input your credentials"
+                                      title: AppLocalizations.of(context)?.actionFeatureFailed(AppLocalizations.of(context)?.loginLabel ?? "Login") ?? "Login Failed",
+                                      description: AppLocalizations.of(context)?.loginEmpty ?? "Please input your credentials"
                                     );
                                   }
                                 },
-                                label: "Login",
+                                label: AppLocalizations.of(context)?.loginLabel ?? "Login",
                               ),
                             ),
                             // Container(
@@ -210,7 +211,7 @@ class _LoginPageState extends State<LoginPage> {
                         if (state.state is LoginSuccessState){
                           ToastNotifUtils.showSuccess(
                             context: context,
-                            title: "Login Successfully",
+                            title: AppLocalizations.of(context)?.actionFeatureSuccess(AppLocalizations.of(context)?.loginLabel ?? "Login") ?? "Login Successfully",
                             description: state.message ?? ""
                           );
         
@@ -218,7 +219,7 @@ class _LoginPageState extends State<LoginPage> {
                         } else if (state.state is LoginFailedState){
                           ToastNotifUtils.showError(
                             context: context,
-                            title: "Login Failed",
+                            title: AppLocalizations.of(context)?.actionFeatureFailed(AppLocalizations.of(context)?.loginLabel ?? "Login") ?? "Login Failed",
                             description: state.message ?? ""
                           );
                         }
@@ -232,13 +233,13 @@ class _LoginPageState extends State<LoginPage> {
                         alignment: Alignment.center,
                         child: RichText(
                           text: TextSpan(
-                            text: "Don't Have Account? ",
+                            text: AppLocalizations.of(context)?.noAccount ?? "Don't Have Account? ",
                             style: TextStyleConfig.body1.copyWith(
                               color: ColorConfig.blackColor
                             ),
                             children: [
                               TextSpan(
-                                text: "Register Here",
+                                text: AppLocalizations.of(context)?.registerHere ?? "Register Here",
                                 style: TextStyleConfig.body1bold.copyWith(
                                   color: ColorConfig.mainColor
                                 )

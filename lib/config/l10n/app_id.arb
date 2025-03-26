@@ -115,6 +115,8 @@
     "registerFailed": "Daftar Gagal",
     "registerAccount": "Daftar Akun",
     "registerSuccess": "Daftar Berhasil",
+    "registerLabel": "Daftar",
+    "selectClassLabel": "Daftar Kelas",
     "alreadyHaveAccount" : "Sudah Punya Akun? ",
     "loginHere": "Masuk di sini",
     "loginEmpty": "Silakan masukkan kredensial Anda",
@@ -213,5 +215,22 @@
     "titleHint": "Masukkan Judul Acara",
     "titleEmpty": "Silakan masukkan Judul Acara",
     "createEventSuccess": "Berhasil Membuat Jadwal Acara",
-    "createEventFailed": "Pembuatan Acara Gagal"
+    "createEventFailed": "Pembuatan Acara Gagal",
+    "actionFeatureSuccess": "{action} Berhasil",
+    "@actionFeatureSuccess":{
+        "description": "Action Success Title",
+        "action":{
+            "type": "String",
+            "example": "Login"
+        }
+    },
+    "actionFeatureFailed": "{action} Gagal",
+    "@actionFeatureFailed": {
+        "description": "Action Failed Title",
+        "action": {
+            "type": "String",
+            "example": "Login"
+        }
+    },
+    "to": "Sampai"
 }

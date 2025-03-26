@@ -3,6 +3,7 @@ import 'package:college_scheduler/components/primary_button.dart';
 import 'package:college_scheduler/components/quote_widget.dart';
 import 'package:college_scheduler/components/text_form_field.dart';
 import 'package:college_scheduler/config/color_config.dart';
+import 'package:college_scheduler/config/generated/app_localizations.dart';
 import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:college_scheduler/cubit/class/list_data_class_cubit.dart';
@@ -158,8 +159,8 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
           CustomTextFormField(
             controller: _dateEventController,
             isRequired: true,
-            label: "Date Of Event",
-            hint: "Please input Date Of Event",
+            label: AppLocalizations.of(context)?.dateOfEventsLabel ?? "Date Of Event",
+            hint: AppLocalizations.of(context)?.dateOfEventsHint ?? "Please input Date Of Event",
             readonly: true,
             onTap: () async{
               final dateByUsers = await showDatePicker(
@@ -181,7 +182,7 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
             },
             validator: (value){
               if (value?.isEmpty ?? false){
-                return "Please input date of the event";
+                return AppLocalizations.of(context)?.dateOfEventsHint ?? "Please input date of the event";
               }
 
               return null;
@@ -190,11 +191,11 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
           CustomTextFormField(
             isRequired: true,
             controller: _titleEventController,
-            label: "Title Event",
-            hint: "Please input Title Event",
+            label: AppLocalizations.of(context)?.titleLabel ?? "Title Event",
+            hint: AppLocalizations.of(context)?.titleHint ?? "Please input Title Event",
             validator: (value){
               if (value?.isEmpty ?? false){
-                return "Please input the title event";
+                return AppLocalizations.of(context)?.titleHint ?? "Please input the title event";
               }
 
               return null;
@@ -205,7 +206,7 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
               Expanded(
                 child: CustomTextFormField(
                   controller: _startHourController,
-                  label: "Start Hour",
+                  label: AppLocalizations.of(context)?.startHourLabel ?? "Start Hour",
                   hint: "",
                   readonly: true,
                   onTap: () async{
@@ -222,7 +223,7 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
               Expanded(
                 child: CustomTextFormField(
                   controller: _endHourController,
-                  label: "End Hour",
+                  label: AppLocalizations.of(context)?.endHourLabel ?? "End Hour",
                   hint: "",
                   readonly: true,
                   onTap: () async{
@@ -243,21 +244,21 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
               if (state.state is ListDataClassLoadedState){
                 _itemLecturer = List.from([
                   ClassModel(
-                    name: "Select Class"
+                    name: AppLocalizations.of(context)?.selectClassLabel ?? "Select Class"
                   )
                 ]);
                 if (state.data.isNotEmpty){
                   _itemLecturer.addAll(List.from(state.data));
                 }
                 return DropdownMenuComponent(
-                  label: "Lecturer",
+                  label: AppLocalizations.of(context)?.lecturerLabel ?? "Lecturer",
                   controller: _classController,
                   value: _selectedClass,
                   menu: _itemLecturer.map((data){
                     return DropdownMenuEntry(
                       label: data?.name ?? "",
                       value: data,
-                      enabled: !(data?.name == "Select Class")
+                      enabled: !(data?.name == (AppLocalizations.of(context)?.lecturerLabel ?? "Select Class"))
                     );
                   }).toList(),
                   onSelected: (value){
@@ -272,7 +273,7 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Text(
-                        "Lecturer",
+                        AppLocalizations.of(context)?.lecturerLabel ?? "Lecturer",
                         style: TextStyleConfig.body1
                       ),
                       Shimmer.fromColors(
@@ -292,30 +293,30 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
           ),
           CustomTextFormField(
             controller: _locationController,
-            label: "Location",
+            label: AppLocalizations.of(context)?.locationLabel ?? "Location",
             hint: "",
           ),
           CustomTextFormField(
             controller: _descriptionController,
-            label: "Description",
+            label: AppLocalizations.of(context)?.descriptionLabel ?? "Description",
             hint: "",
             maxLines: 5,
           ),
           DropdownMenuComponent(
             controller: _priorityController,
-            label: "Priority",
+            label: AppLocalizations.of(context)?.dataPriorityTitle ?? "Priority",
             menu: [
               DropdownMenuEntry(
                 value: PRIORITY.low,
-                label: "LOW",
+                label: AppLocalizations.of(context)?.lowPriority ?? "LOW",
               ),
               DropdownMenuEntry(
                 value: PRIORITY.medium,
-                label: "MEDIUM",
+                label: AppLocalizations.of(context)?.mediumPriority ?? "MEDIUM",
               ),
               DropdownMenuEntry(
                 value: PRIORITY.high,
-                label: "HIGH",
+                label: AppLocalizations.of(context)?.highPriority ?? "HIGH",
               ),
             ],
             value: _priority, 
@@ -325,19 +326,19 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
           ),
           DropdownMenuComponent(
             controller: _statusController,
-            label: "Status",
+            label: AppLocalizations.of(context)?.dataStatusTitle ?? "Status",
             menu: [
               DropdownMenuEntry(
                 value: STATUS.idle,
-                label: "IDLE",
+                label: AppLocalizations.of(context)?.idleStatus ?? "IDLE",
               ),
               DropdownMenuEntry(
                 value: STATUS.progress,
-                label: "PROGRESS",
+                label: AppLocalizations.of(context)?.progressStatus ?? "PROGRESS",
               ),
               DropdownMenuEntry(
                 value: STATUS.done,
-                label: "DONE",
+                label: AppLocalizations.of(context)?.doneStatus ?? "DONE",
               ),
             ],
             value: _status, 
@@ -351,7 +352,7 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
             children: [
               Expanded(
                 child: PrimaryButtonComponent(
-                  label: "Clear",
+                  label: AppLocalizations.of(context)?.clearButton ?? "Clear",
                   width: MediaQuery.sizeOf(context).width * 0.25,
                   color: ColorConfig.greyColor,
                   onTap: (){
@@ -369,9 +370,9 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
                     _priorityController.text = _priority.name.toUpperCase();
                     _statusController.text = _status.name.toUpperCase();
                     _locationController.clear();
-                    _classController.text = "Select Class";
+                    _classController.text = AppLocalizations.of(context)?.selectClassLabel ?? "Select Class";
                     _selectedClass = ClassModel(
-                      name: "Select Class"
+                      name: AppLocalizations.of(context)?.selectClassLabel ?? "Select Class"
                     );
                 
                     _cubit.clearTempDataEvent();
@@ -391,7 +392,7 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
                             startHour: _startHour ?? TimeOfDay(hour: 0, minute: 0),
                             endHour: _endHour ?? TimeOfDay(hour: 0, minute: 0),
                             location: _locationController.text,
-                            className: _classController.text == "Select Class" ? "" : _classController.text,
+                            className: _classController.text == (AppLocalizations.of(context)?.selectClassLabel ?? "Select Class") ? "" : _classController.text,
                             description: _descriptionController.text,
                             priority: _priority,
                             status: _status,
@@ -402,12 +403,12 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
                         } else {
                           ToastNotifUtils.showError(
                             context: context,
-                            title: "Create Event Schedule Failed",
-                            description: "Please fill the required data"
+                            title: AppLocalizations.of(context)?.actionFeatureFailed(AppLocalizations.of(context)?.createEventSchedule ?? "") ?? "Create Event Schedule Failed",
+                            description: AppLocalizations.of(context)?.emptyFieldError ?? "Please fill the required data"
                           );
                         }
                       },
-                      label: "Submit",
+                      label: AppLocalizations.of(context)?.submitButton ?? "Submit",
                       width: MediaQuery.sizeOf(context).width * 0.25,
                     );
                   }, 
@@ -415,7 +416,7 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
                     if (state.state is CreateAndUpdateEventSuccessState){
                       ToastNotifUtils.showSuccess(
                         context: context,
-                        title: "Create Event Schedule Successfully",
+                        title: AppLocalizations.of(context)?.actionFeatureSuccess(AppLocalizations.of(context)?.createEventSchedule ?? "") ?? "Create Event Schedule Successfully",
                         description: state.message ?? ""
                       );
                 
@@ -432,15 +433,15 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
                       _statusController.text = _status.name.toUpperCase();
                 
                       _locationController.clear();
-                      _classController.text = "Select Class";
+                      _classController.text = (AppLocalizations.of(context)?.selectClassLabel ?? "Select Class");
                       _selectedClass = ClassModel(
-                        name: "Select Class"
+                        name: (AppLocalizations.of(context)?.selectClassLabel ?? "Select Class")
                       );
                       
                     } else if (state.state is CreateAndUpdateEventFailedState){
                       ToastNotifUtils.showError(
                         context: context,
-                        title: "Create Event Schedule Failed",
+                        title: AppLocalizations.of(context)?.actionFeatureFailed(AppLocalizations.of(context)?.createEventSchedule ?? "") ?? "Create Event Schedule Failed",
                         description: state.message ?? ""
                       );
                     }

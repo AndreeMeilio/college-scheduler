@@ -2,6 +2,7 @@ import 'package:college_scheduler/components/dropdown_menu_component.dart';
 import 'package:college_scheduler/components/primary_button.dart';
 import 'package:college_scheduler/components/text_form_field.dart';
 import 'package:college_scheduler/config/color_config.dart';
+import 'package:college_scheduler/config/generated/app_localizations.dart';
 import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:college_scheduler/cubit/class/create_and_update_data_class_cubit.dart';
@@ -100,7 +101,7 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
       appBar: AppBar(
         surfaceTintColor: ColorConfig.backgroundColor,
         backgroundColor: ColorConfig.backgroundColor,
-        title: Text("Input Data Class", style: TextStyleConfig.body1,),
+        title: Text(AppLocalizations.of(context)?.inputDataClassTitle ?? "Input Data Class", style: TextStyleConfig.body1,),
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -123,11 +124,11 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
                     children: [
                       CustomTextFormField(
                         controller: _nameController,
-                        label: "Class Name",
-                        hint: "Input class name",
+                        label: AppLocalizations.of(context)?.classNameLabel ?? "Class Name",
+                        hint: AppLocalizations.of(context)?.classNameHint ?? "Input class name",
                         validator: (value){
                           if (_nameController.text.isEmpty){
-                            return "Please input the name of the class";
+                            return AppLocalizations.of(context)?.classNameEmpty ?? "Please input the name of the class";
                           }
                 
                           return null;
@@ -140,7 +141,7 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
                             _itemLecturer = List.from([
                               LecturerModel(
                                 id: 0,
-                                name: "Select Lecturer",
+                                name: AppLocalizations.of(context)?.lecturerSelect ?? "Select Lecturer",
                                 userId: 0
                               )
                             ]);
@@ -148,14 +149,14 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
                               _itemLecturer.addAll(List.from(state.data));
                             }
                             return DropdownMenuComponent(
-                              label: "Lecturer",
+                              label: AppLocalizations.of(context)?.lecturerLabel ?? "Lecturer",
                               controller: _lectureController,
                               value: _selectedLecturer,
                               menu: _itemLecturer.map((data){
                                 return DropdownMenuEntry(
                                   label: data?.name ?? "",
                                   value: data,
-                                  enabled: !(data?.name == "Select Lecturer")
+                                  enabled: !(data?.name == (AppLocalizations.of(context)?.lecturerSelect ?? "Select Lecturer"))
                                 );
                               }).toList(),
                               onSelected: (value){
@@ -170,7 +171,7 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
                                   Text(
-                                    "Lecturer",
+                                    AppLocalizations.of(context)?.lecturerLabel ?? "Lecturer",
                                     style: TextStyleConfig.body1
                                   ),
                                   Shimmer.fromColors(
@@ -190,40 +191,40 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
                       ),
                       DropdownMenuComponent(
                         controller: _dayofweekController,
-                        label: "Day",
+                        label: AppLocalizations.of(context)?.dayLabel ?? "Day",
                         menu: [
                           DropdownMenuEntry(
                             value: DAYOFWEEK.selectDay,
-                            label: "Select Day",
+                            label: AppLocalizations.of(context)?.daySelect ?? "Select Day",
                             enabled: false
                           ),
                           DropdownMenuEntry(
                             value: DAYOFWEEK.monday,
-                            label: "Monday",
+                            label: AppLocalizations.of(context)?.dayMonday ?? "Monday",
                           ),
                           DropdownMenuEntry(
                             value: DAYOFWEEK.tuesday,
-                            label: "Tuesday",
+                            label: AppLocalizations.of(context)?.dayTuesday ?? "Tuesday",
                           ),
                           DropdownMenuEntry(
                             value: DAYOFWEEK.wednesday,
-                            label: "Wednesday",
+                            label: AppLocalizations.of(context)?.dayWednesday ?? "Wednesday",
                           ),
                           DropdownMenuEntry(
                             value: DAYOFWEEK.thursday,
-                            label: "Thursday",
+                            label: AppLocalizations.of(context)?.dayThursday ?? "Thursday",
                           ),
                           DropdownMenuEntry(
                             value: DAYOFWEEK.friday,
-                            label: "Friday",
+                            label: AppLocalizations.of(context)?.dayFriday ?? "Friday",
                           ),
                           DropdownMenuEntry(
                             value: DAYOFWEEK.saturday,
-                            label: "Saturday",
+                            label: AppLocalizations.of(context)?.daySaturday ?? "Saturday",
                           ),
                           DropdownMenuEntry(
                             value: DAYOFWEEK.sunday,
-                            label: "Sunday",
+                            label: AppLocalizations.of(context)?.daySunday ?? "Sunday",
                           ),
                         ],
                         value: _dayofweek, 
@@ -236,7 +237,7 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
                           Expanded(
                             child: CustomTextFormField(
                               controller: _startHourController,
-                              label: "Start Hour",
+                              label: AppLocalizations.of(context)?.startHourLabel ?? "Start Hour",
                               hint: "",
                               readonly: true,
                               onTap: () async{
@@ -251,7 +252,7 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
                               isRequired: true,
                               validator: (value){
                                 if (value?.isEmpty ?? false){
-                                  return "Please input starting time of the class";
+                                  return AppLocalizations.of(context)?.startHourEmpty ?? "Please input starting time of the class";
                                 }
                 
                                 return null;
@@ -261,7 +262,7 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
                           Expanded(
                             child: CustomTextFormField(
                               controller: _endHourController,
-                              label: "End Hour",
+                              label: AppLocalizations.of(context)?.endHourLabel ?? "End Hour",
                               hint: "",
                               readonly: true,
                               onTap: () async{
@@ -276,7 +277,7 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
                               isRequired: true,
                               validator: (value){
                                 if (value?.isEmpty ?? false){
-                                  return "Please input ending time of the class";
+                                  return AppLocalizations.of(context)?.endHourEmpty ?? "Please input ending time of the class";
                                 }
                 
                                 return null;
@@ -297,7 +298,7 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
                       if (_formKey.currentState?.validate() ?? false){
                         await _cubit.createAndUpdateClass(
                           name: _nameController.text,
-                          lecturerName: _lectureController.text.toString() == "Select Lecturer" ? "" : _lectureController.text,
+                          lecturerName: _lectureController.text.toString() == (AppLocalizations.of(context)?.lecturerSelect ?? "Select Lecturer") ? "" : _lectureController.text,
                           dayofweek: _dayofweek,
                           startHour: _startHour ?? TimeOfDay.fromDateTime(DateTime.parse("0001-01-01 00:00:00")),
                           endHour: _endHour ?? TimeOfDay.fromDateTime(DateTime.parse("0001-01-01 00:00:00")),
@@ -307,12 +308,12 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
                       } else {
                         ToastNotifUtils.showError(
                           context: context,
-                          title: "Create Data Class Failed",
-                          description: "Please fill the required data"
+                          title: AppLocalizations.of(context)?.actionFeatureFailed(AppLocalizations.of(context)?.createDataClass ?? "") ?? "Create Data Class Failed",
+                          description: AppLocalizations.of(context)?.emptyFieldError ?? "Please fill the required data"
                         );
                       }
                     },
-                    label: "Submit",
+                    label: AppLocalizations.of(context)?.submitButton ?? "Submit",
                     width: MediaQuery.sizeOf(context).width * 0.25,
                   );
                 },
@@ -320,18 +321,18 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
                   if (state.state is CreateAndUpdateDataClassSuccessState){
                     ToastNotifUtils.showSuccess(
                       context: context,
-                      title: "Create Data Class Success",
+                      title: AppLocalizations.of(context)?.actionFeatureSuccess(AppLocalizations.of(context)?.createDataClass ?? "") ?? "Create Data Class Success",
                       description: state.message ?? ""
                     );
                     
                     _nameController.clear();
-                    _lectureController.text = "Select Lecturer";
+                    _lectureController.text = AppLocalizations.of(context)?.lecturerSelect ?? "Select Lecturer";
                     _selectedLecturer = LecturerModel(
                       id: 0,
-                      name: "Select Lecturer",
+                      name: AppLocalizations.of(context)?.lecturerSelect ?? "Select Lecturer",
                       userId: 0
                     );
-                    _dayofweekController.text = "Select Day";
+                    _dayofweekController.text = AppLocalizations.of(context)?.daySelect ?? "Select Day";
                     _dayofweek = DAYOFWEEK.selectDay;
                     _startHour = TimeOfDay.now();
                     _endHour = TimeOfDay.now();
@@ -340,7 +341,7 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
                   } else if (state.state is CreateAndUpdateDataClassFailedState){
                     ToastNotifUtils.showError(
                       context: context,
-                      title: "Create Data Class Failed",
+                      title: AppLocalizations.of(context)?.actionFeatureFailed(AppLocalizations.of(context)?.createDataClass ?? "") ?? "Create Data Class Failed",
                       description: state.message ?? ""
                     );
                   }

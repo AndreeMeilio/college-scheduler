@@ -2,6 +2,7 @@ import 'package:college_scheduler/components/delete_confirmation_component.dart'
 import 'package:college_scheduler/components/primary_button.dart';
 import 'package:college_scheduler/config/color_config.dart';
 import 'package:college_scheduler/config/constants_route_value.dart';
+import 'package:college_scheduler/config/generated/app_localizations.dart';
 import 'package:college_scheduler/config/state_general.dart';
 import 'package:college_scheduler/config/text_style_config.dart';
 import 'package:college_scheduler/cubit/class/list_data_class_cubit.dart';
@@ -47,7 +48,7 @@ class _DataLecturerPageState extends State<DataLecturerPage> {
       appBar: AppBar(
         surfaceTintColor: ColorConfig.backgroundColor,
         backgroundColor: ColorConfig.backgroundColor,
-        title: Text("Data Lecturer", style: TextStyleConfig.body1,),
+        title: Text(AppLocalizations.of(context)?.dataLecturerTitle ?? "Data Lecturer", style: TextStyleConfig.body1,),
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -82,7 +83,7 @@ class _DataLecturerPageState extends State<DataLecturerPage> {
                         alignment: Alignment.center,
                         margin: const EdgeInsets.symmetric(vertical: 24.0),
                         child: Text(
-                          "You Don't Have Any Data On Lecturer",
+                          AppLocalizations.of(context)?.gettingDataEmpty(AppLocalizations.of(context)?.dataLecturerTitle ?? "") ?? "You Don't Have Any Data On Lecturer",
                           style: TextStyleConfig.body1bold,
                         ),
                       );
@@ -114,7 +115,7 @@ class _DataLecturerPageState extends State<DataLecturerPage> {
               margin: const EdgeInsets.symmetric(vertical: 24.0),
               alignment: Alignment.center,
               child: PrimaryButtonComponent(
-                label: "Create Data Lecturer",
+                label: AppLocalizations.of(context)?.createDataLecturer ?? "Create Data Lecturer",
                 onTap: (){
                   context.push("${ConstantsRouteValue.lecturer}/${ConstantsRouteValue.actionLecturer}");
                 },
@@ -150,7 +151,7 @@ class DataClassItemWidget extends StatelessWidget {
             onPressed: (context) {
               context.push("${ConstantsRouteValue.lecturer}/${ConstantsRouteValue.actionLecturer}", extra: _data);
             },
-            label: "Edit",
+            label: AppLocalizations.of(context)?.editButton ?? "Edit",
             backgroundColor: ColorConfig.mainColor,
             icon: Icons.edit,
           ),
@@ -175,7 +176,7 @@ class DataClassItemWidget extends StatelessWidget {
                 }
               );
             },
-            label: "Delete",
+            label: AppLocalizations.of(context)?.deleteButton ?? "Delete",
             backgroundColor: ColorConfig.redColor,
             icon: Icons.edit,
           ),

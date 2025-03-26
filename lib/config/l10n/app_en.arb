@@ -110,7 +110,7 @@
     "passwordContainerSymbol": "Password Must Contain Symbol",
     "confirmationPasswordTitle": "Confirmation Password",
     "confirmationPasswordHint": "Input Your Confirmation Password",
-    "confirmationPasswordEmpty": "Please input your password",
+    "confirmationPasswordEmpty": "Please input your confirmation password",
     "passwordAndConfirmationDontMatch": "Your password and confirmation password doesn't match",
     "registerFailed": "Register Failed",
     "registerAccount": "Register Account",
@@ -173,6 +173,7 @@
     "clearButton": "Clear",
     "submitButton": "Submit",
     "deadlineLabel": "Deadline",
+    "selectClassLabel": "Select Class",
 
     "createDataLecturer": "Create Data Lecturer",
 
@@ -214,6 +215,23 @@
     "titleHint": "Input Title Event",
     "titleEmpty": "Please input the title event",
     "createEventSuccess": "Successfully Create Event Schedule",
-    "createEventFailed": "Create Event Failed"
-    
+    "createEventFailed": "Create Event Failed",
+
+    "actionFeatureSuccess": "{action} Success",
+    "@actionFeatureSuccess":{
+        "description": "Action Success Title",
+        "action":{
+            "type": "String",
+            "example": "Login"
+        }
+    },
+    "actionFeatureFailed": "{action} Failed",
+    "@actionFeatureFailed": {
+        "description": "Action Failed Title",
+        "action": {
+            "type": "String",
+            "example": "Login"
+        }
+    },
+    "to": "To"
 }

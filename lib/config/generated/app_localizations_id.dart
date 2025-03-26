@@ -293,6 +293,9 @@ class AppLocalizationsId extends AppLocalizations {
   String get deadlineLabel => 'Tenggat Waktu';
 
   @override
+  String get selectClassLabel => 'Daftar Kelas';
+
+  @override
   String get createDataLecturer => 'Buat Data Dosen';
 
   @override
@@ -405,4 +408,17 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get createEventFailed => 'Pembuatan Acara Gagal';
+
+  @override
+  String actionFeatureSuccess(Object action) {
+    return '$action Berhasil';
+  }
+
+  @override
+  String actionFeatureFailed(Object action) {
+    return '$action Gagal';
+  }
+
+  @override
+  String get to => 'Sampai';
 }
