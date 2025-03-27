@@ -70,7 +70,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    print("does it refresh");
     return MultiBlocProvider(
       providers: CubitConfig.getProviders(),
       child: BlocBuilder<LanguageLocaleCubit, Locale>(

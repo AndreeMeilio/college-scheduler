@@ -1,4 +1,4 @@
-package com.example.college_scheduler
+package com.andreemeilioc.college_scheduler
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 
