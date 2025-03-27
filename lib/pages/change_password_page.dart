@@ -159,7 +159,13 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                           });
                         },
                         validator: (value){
-        
+                          if (!(value?.isNotEmpty ?? false)){
+                            return AppLocalizations.of(context)?.confirmationPasswordEmpty ?? "Please input your confirmation password";
+                          } else if (value != _newPasswordController.text){
+                            return AppLocalizations.of(context)?.passwordAndConfirmationDontMatch ?? "Your password and confirmation password doesn't match";
+                          }
+
+                          return null;
                         },
                       )
                     ],
@@ -182,7 +188,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       ToastNotifUtils.showError(
                         context: context,
                         title: AppLocalizations.of(context)?.actionFeatureFailed(AppLocalizations.of(context)?.changePasswordTitle ?? "") ?? "Change Password Failed",
-                        description: "Please fill the required field"
+                        description: AppLocalizations.of(context)?.emptyFieldError ?? "Please fill the required field"
                       );
                     }
                   },

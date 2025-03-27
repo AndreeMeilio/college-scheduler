@@ -50,16 +50,26 @@ class _EventHistoryPageState extends State<EventHistoryPage> {
         child: BlocBuilder<EventsLogsCubit, StateGeneral<EventsLogsState, List<LogsModel?>?>>(
           builder: (context, state){
             if (state.state is EventsLogsLoadedState){
-              return ListView.builder(
-                itemCount: state.data?.length,
-                itemBuilder: (context, index){
-                  return LogsItemComponent(
-                    name: state.data?[index]?.actionName ?? "",
-                    description: state.data?[index]?.description ?? "",
-                    createdAt: state.data?[index]?.createdAt ?? DateTime.parse("0000-00-00"),
-                  );
-                },
-              );
+
+              if (state.data?.isNotEmpty ?? false){
+                return ListView.builder(
+                  itemCount: state.data?.length,
+                  itemBuilder: (context, index){
+                    return LogsItemComponent(
+                      name: state.data?[index]?.actionName ?? "",
+                      description: state.data?[index]?.description ?? "",
+                      createdAt: state.data?[index]?.createdAt ?? DateTime.parse("0000-00-00"),
+                    );
+                  },
+                );
+              } else {
+                return Center(
+                  child: Text(
+                    AppLocalizations.of(context)?.gettingDataEmpty(AppLocalizations.of(context)?.eventHistory ?? "") ?? "You don't have data on Event History",
+                    style: TextStyleConfig.body1bold,
+                  ),
+                );
+              }
             } else if (state.state is EventsLogsFailedState){
               return Center(
                 child: Text(

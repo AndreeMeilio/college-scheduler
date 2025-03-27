@@ -153,7 +153,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get confirmationPasswordHint => 'Masukkan Kata Sandi Konfirmasi Anda';
 
   @override
-  String get confirmationPasswordEmpty => 'Silakan masukkan kata sandi Anda';
+  String get confirmationPasswordEmpty => 'Harap masukkan konfirmasi kata sandi';
 
   @override
   String get passwordAndConfirmationDontMatch => 'Kata sandi dan kata sandi konfirmasi Anda tidak cocok';
@@ -338,7 +338,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get lecturerSelect => 'Pilih Dosen';
 
   @override
-  String get dayLabel => 'Pilih';
+  String get dayLabel => 'Hari';
 
   @override
   String get daySelect => 'Pilih Hari';

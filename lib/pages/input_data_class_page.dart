@@ -68,7 +68,6 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
     _lecturerCubit = BlocProvider.of<ListLecturerCubit>(context, listen: false);
 
     _lecturerCubit.getAllData();
-    _lectureController.text = "Select Lecturer";
 
     if (widget.dataClassFromEdit != null){
       final dataClassEdit = widget.dataClassFromEdit;
@@ -138,6 +137,7 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
                       BlocBuilder<ListLecturerCubit, StateGeneral>(
                         builder: (context, state){
                           if (state.state is ListLecturerLoadedState){
+                            _lectureController.text = AppLocalizations.of(context)?.lecturerSelect ?? "Select Lecturer";
                             _selectedLecturer = LecturerModel(
                               id: 0,
                               name: AppLocalizations.of(context)?.lecturerSelect ?? "Select Lecturer",
@@ -249,6 +249,7 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
                                 final startHourByUsers = await showTimePicker(
                                   context: context,
                                   initialTime: _startHour ?? TimeOfDay.now(),
+                                  initialEntryMode: TimePickerEntryMode.input
                                 );
                 
                                 _startHourController.text = startHourByUsers != null ? "${startHourByUsers.hour}:${startHourByUsers.minute}:00" : "";
@@ -274,6 +275,7 @@ class _InputDataClassPageState extends State<InputDataClassPage> {
                                 final endHourByUsers = await showTimePicker(
                                   context: context,
                                   initialTime: _endHour ?? TimeOfDay.now(),
+                                  initialEntryMode: TimePickerEntryMode.input
                                 );
                 
                                 _endHourController.text = endHourByUsers != null ? "${endHourByUsers.hour}:${endHourByUsers.minute}:00" : "";

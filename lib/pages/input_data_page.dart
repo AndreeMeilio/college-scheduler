@@ -212,6 +212,7 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
                     final startHourByUsers = await showTimePicker(
                       context: context,
                       initialTime: TimeOfDay.now(),
+                      initialEntryMode: TimePickerEntryMode.input
                     );
 
                     _startHourController.text = startHourByUsers != null ? "${startHourByUsers.hour}:${startHourByUsers.minute}:00" : "";
@@ -229,6 +230,7 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
                     final endHourByUsers = await showTimePicker(
                       context: context,
                       initialTime: TimeOfDay.now(),
+                      initialEntryMode: TimePickerEntryMode.input
                     );
 
                     _endHourController.text = endHourByUsers != null ? "${endHourByUsers.hour}:${endHourByUsers.minute}:00" : "";
@@ -241,6 +243,7 @@ class _FormInputDataWidgetState extends State<FormInputDataWidget> {
           BlocBuilder<ListDataClassCubit, StateGeneral>(
             builder: (context, state){
               if (state.state is ListDataClassLoadedState){
+                _classController.text = AppLocalizations.of(context)?.selectClassLabel ?? "Select Class";
                 _selectedClass = ClassModel(
                   name: AppLocalizations.of(context)?.selectClassLabel ?? "Select Class"
                 );
